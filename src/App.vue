@@ -1,19 +1,24 @@
 <template>
   <div id="app">
-    <nav>
+    <Header></Header>
+    <!--     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </nav>
+    </nav> -->
     <router-view /> <!-- Aquí se mostrará la vista correspondiente -->
   </div>
+
 </template>
 
 <script>
 
+import Header from './components/Header.vue'
+
+
 export default {
   name: 'App',
   components: {
-
+    Header
   }
 };
 </script>
@@ -26,6 +31,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0px;
 }
 </style>
