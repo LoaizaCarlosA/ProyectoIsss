@@ -1,4 +1,5 @@
 // router.js
+document.title = "Nuevo Nombre del Proyecto";
 import { createRouter, createWebHistory } from 'vue-router';
 
 // Usar rutas relativas correctas

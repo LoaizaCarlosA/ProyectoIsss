@@ -16,7 +16,7 @@
                         <label for="terms">By signing up you agree <a href="#">Terms & Conditions</a></label>
                     </div> -->
                 </form>
-                <button type="submit">Sign Up</button>
+                <button type="submit">Iniciar sesión</button>
             </div>
 
             <!-- Imagen y mensaje (Derecha) -->
@@ -30,30 +30,35 @@
 <style scoped>
 /* Fondo general */
 .container {
-    width: 100vw;
+    width: 100vw; 
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background: white;
+    padding: 50px; /* Borde blanco alrededor */
+    box-sizing: border-box;
 }
 
 /* Contenedor principal */
 .form-container {
     display: flex;
-    width: 1200px;
-    height: 800px;
+    flex-direction: row;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 1200px; /* No crece más de este tamaño */
+    height: 100%;
+    max-height: 800px; /* No crece más de este tamaño */
     border-radius: 15px;
     overflow: hidden;
     background: white;
     box-shadow: 0px 15px 30px rgb(0 0 0 / 39%);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
 }
 
-/* .form-container:hover {
+/*  .form-container:hover {
   transform: translateY(-5px);
   box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.25);
-} */
+}  */
 
 /* Sección izquierda (Formulario) */
 .left {
@@ -89,7 +94,7 @@
     border: none;
     border-radius: 5px;
     font-size: 14px;
-    background:white;
+    background: white;
     /* background: #2a2a3a; */
     color: black;
     height: 30px;
@@ -150,5 +155,23 @@ button:hover {
 
 .logoRight {
     width: 70%;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column; /* Se apila en dispositivos pequeños */
+        width: 100%;
+        height: auto;
+    }
+
+    .left, .right {
+        width: 100%;
+        height: auto;
+    }
+
+    .right {
+        order: -1; /* Mueve la imagen arriba */
+    }
 }
 </style>
