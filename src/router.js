@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // Usar rutas relativas correctas
 import Home from './views/Home.vue';
 import About from './views/About.vue';
+import LandingPage from "./views/LogIn.vue";
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About,
+  },
+  {
+    path: '/Login',
+    name: 'LogIn',
+    component: LogIn,
   },
 ];
 

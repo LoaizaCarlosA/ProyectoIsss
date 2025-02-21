@@ -1,7 +1,7 @@
 <template>
     <section class="contenedorPrincipal">
         <div class="contenedorLogo">
-            <img class="imagenLogo" src="@/assets/images/IsssteesinLogo.png" alt="LogoIsssteesin">
+            <img class="imagenLogo" src="@/assets/images/IsssteesinLogoBlanco.png" alt="LogoIsssteesin">
         </div>
         <div class="contenedorPrincipalRedes">
             <section class="contenedorRedes">
