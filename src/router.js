@@ -1,33 +1,50 @@
-// router.js
-document.title = "Nuevo Nombre del Proyecto";
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
 
-// Usar rutas relativas correctas
-import Home from './views/Home.vue';
-import About from './views/About.vue';
-import LandingPage from "./views/LogIn.vue";
+import Home from "./views/Home.vue";
+import About from "./views/About.vue";
+import LogIn from "./views/LogIn.vue";
+import Prueba from "./views/Prueba.vue";
+import Perfil from "./views/Perfil.vue";
+import Dashboard from "./views/DashBoard.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
+    path: "/Dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+  },
+  {
+    path: "/about",
+    name: "About",
     component: About,
   },
   {
-    path: '/Login',
-    name: 'LogIn',
+    path: "/login",
+    name: "LogIn",
     component: LogIn,
+  },
+  {
+    path: "/prueba",
+    name: "Prueba",
+    component: Prueba,
+  },
+  {
+    path: "/Perfil",
+    name: "Perfil",
+    component: Perfil,
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
 });
 
 export default router;
+
+console.log(router.getRoutes());

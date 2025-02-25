@@ -1,11 +1,11 @@
 <template>
     <button class="btn">
-        <slot />
+      <slot />
     </button>
-</template>
-
-<script>
-export default {
+  </template>
+  
+  <script>
+  export default {
     name: "Button",
     //   props: {
     //     isDiasable: {
@@ -35,11 +35,11 @@ export default {
     //       }
     //     },
     //   },
-};
-</script>
-
-<style scoped>
-.btn-continuar {
+  };
+  </script>
+  
+  <style scoped>
+  .btn-continuar {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid #000000;
     border-radius: 18px;
@@ -49,14 +49,12 @@ export default {
     cursor: pointer;
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
-}
-
-.btn-continuar:hover {
+  }
+  .btn-continuar:hover {
     background: black 0% 0% no-repeat padding-box;
     color: white;
-}
-
-.btn-agregar {
+  }
+  .btn-agregar {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid #ef7b14;
     color: #ef7b14;
@@ -67,14 +65,12 @@ export default {
     cursor: pointer;
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
-}
-
-.btn-agregar:hover {
+  }
+  .btn-agregar:hover {
     background: #ef7b14 0% 0% no-repeat padding-box;
     color: white;
-}
-
-.btn-buscar {
+  }
+  .btn-buscar {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid black;
     color: black;
@@ -86,14 +82,12 @@ export default {
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
     margin: 0px 5px;
-}
-
-.btn-buscar:hover {
+  }
+  .btn-buscar:hover {
     background: black 0% 0% no-repeat padding-box;
     color: white;
-}
-
-.btn-editar {
+  }
+  .btn-editar {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid #000000;
     border-radius: 18px;
@@ -104,14 +98,12 @@ export default {
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
     margin: 0px 5px;
-}
-
-.btn-editar:hover {
+  }
+  .btn-editar:hover {
     background: black 0% 0% no-repeat padding-box;
     color: white;
-}
-
-.btn-eliminar {
+  }
+  .btn-eliminar {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid red;
     color: red;
@@ -123,14 +115,12 @@ export default {
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
     margin: 0px 5px;
-}
-
-.btn-eliminar:hover {
+  }
+  .btn-eliminar:hover {
     background: red 0% 0% no-repeat padding-box;
     color: white;
-}
-
-.btn-regresar {
+  }
+  .btn-regresar {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid #000000;
     border-radius: 18px;
@@ -140,14 +130,12 @@ export default {
     cursor: pointer;
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
-}
-
-.btn-regresar:hover {
+  }
+  .btn-regresar:hover {
     background: black 0% 0% no-repeat padding-box;
     color: white;
-}
-
-.btn-guardar {
+  }
+  .btn-guardar {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid #237a1b;
     color: #237a1b;
@@ -158,14 +146,12 @@ export default {
     cursor: pointer;
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
-}
-
-.btn-guardar:hover {
+  }
+  .btn-guardar:hover {
     background: #237a1b 0% 0% no-repeat padding-box;
     color: white;
-}
-
-.btn-guardar-cotizacion {
+  }
+  .btn-guardar-cotizacion {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid #237a1b;
     color: #237a1b;
@@ -176,9 +162,8 @@ export default {
     cursor: pointer;
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
-}
-
-.btn-cancelar-cotizacion {
+  }
+  .btn-cancelar-cotizacion {
     background: white 0% 0% no-repeat padding-box;
     border: 1px solid #b40000;
     color: #b40000;
@@ -189,10 +174,10 @@ export default {
     cursor: pointer;
     box-shadow: 0px 3px 6px #00000029;
     font-weight: 700;
-}
-
-.btn-guardar-cotizacion:hover {
+  }
+  .btn-guardar-cotizacion:hover {
     background: #237a1b 0% 0% no-repeat padding-box;
     color: white;
-}
-</style>
+  }
+  </style>
+  
