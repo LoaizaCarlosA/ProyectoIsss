@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <section class="contenedorInformacion">
-            <img class="imagenLogo" src="../assets/images/IsssteesinLogoGuinda.png" alt="" />
+            <img class="imagenLogo" src="../assets/images/IsssteesinLogoBlanco.png" alt="" />
             <div class="infoContainer">
                 <button class="burgerMenu mostrar-movil">
                     <!-- <img src="@assets/img/menu-movil.svg" alt="" /> -->
@@ -50,7 +50,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0 35px;
-    background-color: #000000;
+    background-color: #691c32;
     transition: padding 0.2s;
 }
 

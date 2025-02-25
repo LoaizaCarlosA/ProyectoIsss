@@ -2,9 +2,7 @@
     <Header></Header>
 
     <body>
-        <router-link to="/Dashboard">
-            <Button class="btn-regresar" id="return-to-top">← Regresar</Button>
-        </router-link>
+
         <main>
             <div class="profile-info">
                 <section class="perfil">
@@ -57,8 +55,14 @@
                                 placeholder="Ingrese un correo electrónico" />
                         </div>
 
-                        <div class="buttons">
-                            <Button class="btn-guardar" @click="actualizarUsuario">Guardar</Button>
+                        <div class="contendorBotones">
+                            <router-link to="/Dashboard">
+                                <Button class="btn-regresar" id="return-to-top">← Regresar</Button>
+                            </router-link>
+
+                            <div class="buttons">
+                                <Button class="btn-guardar" @click="actualizarUsuario">Guardar</Button>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -69,7 +73,7 @@
                     <section class="sombraInputNoti">
                         <div class="contenedorNotificaciones">
                             <div class="contenedorImgNoti">
-                                <img class="imgNoti" src="../assets/svg/icono-usuario.svg" alt="" />
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
                             </div>
                             <div class="infoNotificacion">
                                 <div class="tituloNoti">Notificación</div>
@@ -84,7 +88,7 @@
                     <section class="sombraInputNoti">
                         <div class="contenedorNotificaciones">
                             <div class="contenedorImgNoti">
-                                <img class="imgNoti" src="../assets/svg/icono-usuario.svg" alt="" />
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
                             </div>
                             <div class="infoNotificacion">
                                 <div class="tituloNoti">Notificación</div>
@@ -99,7 +103,7 @@
                     <section class="sombraInputNoti">
                         <div class="contenedorNotificaciones">
                             <div class="contenedorImgNoti">
-                                <img class="imgNoti" src="../assets/svg/icono-usuario.svg" alt="" />
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
                             </div>
                             <div class="infoNotificacion">
                                 <div class="tituloNoti">Notificación</div>
@@ -114,7 +118,52 @@
                     <section class="sombraInputNoti">
                         <div class="contenedorNotificaciones">
                             <div class="contenedorImgNoti">
-                                <img class="imgNoti" src="../assets/svg/icono-usuario.svg" alt="" />
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
+                            </div>
+                            <div class="infoNotificacion">
+                                <div class="tituloNoti">Notificación</div>
+                                <div>Esta es una prueba de notificación</div>
+                            </div>
+                            <div class="tachitaNoti">
+                                <div>X</div>
+                            </div>
+                        </div>
+                    </section>
+                    <br />
+                    <section class="sombraInputNoti">
+                        <div class="contenedorNotificaciones">
+                            <div class="contenedorImgNoti">
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
+                            </div>
+                            <div class="infoNotificacion">
+                                <div class="tituloNoti">Notificación</div>
+                                <div>Esta es una prueba de notificación</div>
+                            </div>
+                            <div class="tachitaNoti">
+                                <div>X</div>
+                            </div>
+                        </div>
+                    </section>
+                    <br />
+                    <section class="sombraInputNoti">
+                        <div class="contenedorNotificaciones">
+                            <div class="contenedorImgNoti">
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
+                            </div>
+                            <div class="infoNotificacion">
+                                <div class="tituloNoti">Notificación</div>
+                                <div>Esta es una prueba de notificación</div>
+                            </div>
+                            <div class="tachitaNoti">
+                                <div>X</div>
+                            </div>
+                        </div>
+                    </section>
+                    <br />
+                    <section class="sombraInputNoti">
+                        <div class="contenedorNotificaciones">
+                            <div class="contenedorImgNoti">
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
                             </div>
                             <div class="infoNotificacion">
                                 <div class="tituloNoti">Notificación</div>
@@ -131,7 +180,6 @@
     </body>
 </template>
 
-
 <script>
 
 import Header from '@/layouts/Header.vue';
@@ -142,31 +190,10 @@ export default {
         Header,
         Button,
     },
-
-
 }
-
-
 </script>
 
-
 <style scoped>
-#return-to-top {
-    /* bottom: 20px;
-    right: 30px; */
-    /* font-size: 15px;
-    border: none;
-    outline: none;
-    color: solid black;
-    cursor: pointer;
-    padding: 15px;
-    border-radius: 4px;
-    background: #fafafa; */
-    position: absolute;
-    top: 100px;
-    left: 30px;
-}
-
 body {
     font-family: Arial, sans-serif;
     margin: 70px 0px 0px;
@@ -174,13 +201,11 @@ body {
     background: #fafafa;
 }
 
-/* Contenido principal */
 main {
     padding: 42px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    /*     margin-top: 110px; */
 }
 
 .perfil {
@@ -188,16 +213,10 @@ main {
     background-color: #ffffff;
     padding: 40px;
     border-radius: 10px;
-    /* background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    padding: 20px; */
-    /* padding-bottom: 50px; */
 }
 
 .profile-info {
     flex-basis: 15%;
-    /* margin-left: 30px; */
     justify-content: center;
     display: flex;
     align-items: center;
@@ -205,7 +224,6 @@ main {
 
 .profile-info h1 {
     margin-top: 0;
-    /* margin-left: 15px; */
 }
 
 .profile-info img {
@@ -214,7 +232,6 @@ main {
 
 .edit-form {
     flex-basis: 45%;
-    /* padding-left: 50px; */
 }
 
 .contenedorInputs {
@@ -222,17 +239,18 @@ main {
     flex-direction: column;
 }
 
+.contendorBotones {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 18px;
+}
+
 .informacion {
     box-shadow: 0px 3px 6px #00000029;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    /* border: 1px solid #ccc;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); */
-    /* margin-left: 30px; */
     height: 525px;
 }
 
@@ -243,13 +261,6 @@ main {
     border-radius: 10px;
     height: 525px;
     margin-left: 30px;
-    /* border: 1px solid #ccc;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    margin-left: 30px;
-    height: 525px; */
 }
 
 .notititulo {
@@ -259,14 +270,13 @@ main {
 .sombraInputNoti {
     box-shadow: 0px 3px 6px #00000029;
     background-color: #ffffff;
-    /* padding: 20px; */
     border-radius: 10px;
 }
 
 .contenedorNotificaciones {
     width: 100%;
     height: 50px;
-    background: #ffa5006e;
+    background: #e3e3e3;
     display: flex;
     justify-content: space-between;
 }
@@ -284,7 +294,6 @@ main {
 
 .infoNotificacion {
     width: 100%;
-    /* align-items: center; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -305,8 +314,7 @@ main {
 }
 
 .informacion label {
-    /* display: block; */
-    margin-bottom: 5px;
+    margin-bottom: 7px;
     font-weight: bold;
 }
 
@@ -318,35 +326,6 @@ main {
     color: #000000;
     padding: 0px 7px;
     border-radius: 10px;
-    margin-bottom: 15px;
-    /* display: block; */
-    /* width: 100%; */
-    /* padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); */
+    margin-bottom: 27px;
 }
-
-.buttons {
-    margin-top: 95px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-/* .buttons button {
-    background-color: #0077ff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-  
-  .buttons button:first-child {
-    background-color: green;
-  } */
 </style>
