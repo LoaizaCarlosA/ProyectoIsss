@@ -2,7 +2,7 @@
   <div class="wrapper-global">
     <Header />
     <MenuLateral />
-    <section class="page-container">
+    <section :class="['page-container', { 'collapsed': collapsedMenu }]">
       <div class="module-container">
         <slot />
       </div>
@@ -13,15 +13,21 @@
 <script>
 import Header from "../layouts/Header.vue";
 import MenuLateral from "./MenuLateral.vue";
+
 export default {
   components: {
     Header,
     MenuLateral,
   },
+  computed: {
+    collapsedMenu() {
+      return this.$store.state.collapsedMenu;
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .wrapper-global {
   width: 100%;
   min-height: 100%;
@@ -31,28 +37,21 @@ export default {
 
 .page-container {
   position: relative;
-  padding-left: 75px;
+  padding-left: 90px; /* Menú desplegado */
   padding-top: 70px;
+  transition: padding-left 0.3s ease;
+  /* Transición suave cuando el menú se abre/cierra */
+}
+
+.page-container.collapsed {
+  padding-left: 215px; /* Menú colapsado, reducimos el espacio */
 }
 
 .module-container {
   padding: 30px 20px 0px 40px;
-  /* padding: 30px 20px; */
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
   background-color: #fafafa;
-  position: relative;
   min-height: calc(90vh - 70px);
-}
-
-@media (max-width: 767px) {
-  .module-container {
-    padding: 30px 15px;
-  }
-
-  .page-container {
-    padding-left: 0;
-  }
 }
 </style>

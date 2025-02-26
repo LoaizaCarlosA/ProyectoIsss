@@ -6,6 +6,7 @@ import LogIn from "./views/LogIn.vue";
 import Prueba from "./views/Prueba.vue";
 import Perfil from "./views/Perfil.vue";
 import Dashboard from "./views/DashBoard.vue";
+import Empleado from "./views/Empleado.vue";
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     path: "/Perfil",
     name: "Perfil",
     component: Perfil,
+  },
+  {
+    path: "/Empleado",
+    name: "Empleado",
+    component: Empleado,
   },
 ];
 

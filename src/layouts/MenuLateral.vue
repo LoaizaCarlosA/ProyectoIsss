@@ -1,19 +1,16 @@
 <template>
-  <div v-bind:class="'lateral-menu ' + (!collapsedMenu ? 'collapsed-menu ' : '')"></div>
+  <div :class="'lateral-menu ' + (!collapsedMenu ? 'collapsed-menu ' : '')"></div>
   <aside class="sidebar" :class="collapsedMenu ? 'active' : ''">
     <div class="container-menu" :class="collapsedMenu ? 'active' : ''">
       <div class="cerrarMenuMovil" @click="collapseMenu">X</div>
       <div class="module-list">
-        <!-- Ícono y nombre solo cuando el menú está desplegado -->
         <router-link v-if="isAllowed('/Dashboard')" to="/Dashboard" class="menu-item" active-class="active">
-          <i class="fa fa-tachometer" aria-hidden="true"></i>
-          <span v-if="collapsedMenu">Dashboard</span> <!-- Mostrar solo cuando el menú está colapsado -->
+          <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
+          <span v-if="collapsedMenu">Dashboard</span>
         </router-link>
-
-        <!-- Ícono y nombre solo cuando el menú está desplegado -->
-        <router-link v-if="isAllowed('/Empleados')" to="/Empleados" class="menu-item" active-class="active">
+        <router-link v-if="isAllowed('/Empleados')" to="/Empleado" class="menu-item" active-class="active">
           <i class="fa fa-users" aria-hidden="true"></i>
-          <span v-if="collapsedMenu">Empleados</span> <!-- Mostrar solo cuando el menú está colapsado -->
+          <span v-if="collapsedMenu">Empleados</span>
         </router-link>
       </div>
       <a class="cerrar-sesion" @click="cerrarSesion">
@@ -28,35 +25,27 @@
   </aside>
 </template>
 
-
-
 <script>
-
 export default {
   name: 'MenuLateral',
-  data() {
-    return {
-      collapsedMenu: false,
-    };
+  computed: {
+    collapsedMenu() {
+      return this.$store.state.collapsedMenu;
+    },
   },
   methods: {
-    // Definir la función isAllowed
     isAllowed(route) {
-      // Aquí iría tu lógica de autorización para las rutas
-      // Esto es solo un ejemplo
-      const allowedRoutes = ['/Dashboard', '/Empleados']; // Rutas permitidas
+      const allowedRoutes = ['/Dashboard', '/Empleados'];
       return allowedRoutes.includes(route);
     },
     collapseMenu() {
-      this.collapsedMenu = !this.collapsedMenu;
+      this.$store.commit('toggleMenu');
     },
     cerrarSesion() {
       this.$router.push('/Login');
     },
   },
 };
-
-
 </script>
 
 <style scoped>
@@ -95,7 +84,7 @@ export default {
   align-items: center;
   /* Centrado horizontal */
   width: 100%;
-  padding-top: 27px;
+  /* padding-top: 27px; */
   box-sizing: border-box;
 }
 
@@ -103,7 +92,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 0px;
+  padding: 20px 0px;
   font-size: 13px;
   font-weight: bold;
   color: #333;
@@ -115,12 +104,12 @@ export default {
 }
 
 .menu-item i {
-  font-size: 24px;
+  font-size: 30px;
   margin-right: 10px;
 }
 
 .menu-item span {
-  font-size: 14px;
+  font-size: 15px;
   opacity: 1;
   transition: opacity 0.2s ease-in-out;
 }
@@ -244,21 +233,5 @@ export default {
   width: 18px;
   /* Asegurar que el ícono sea visible */
   height: 18px;
-}
-
-@media (max-width: 1279px) {
-  .container-menu {
-    position: absolute;
-  }
-}
-
-@media (max-width: 767px) {
-  .sidebar {
-    width: 0;
-  }
-
-  .sidebar.mobile-menu {
-    width: 100vw;
-  }
 }
 </style>

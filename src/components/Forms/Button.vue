@@ -56,8 +56,8 @@
   }
   .btn-agregar {
     background: white 0% 0% no-repeat padding-box;
-    border: 1px solid #ef7b14;
-    color: #ef7b14;
+    border: 1px solid #691c32;
+    color: #691c32;
     border-radius: 18px;
     opacity: 1;
     width: 100px;
@@ -67,7 +67,7 @@
     font-weight: 700;
   }
   .btn-agregar:hover {
-    background: #ef7b14 0% 0% no-repeat padding-box;
+    background: #691c32 0% 0% no-repeat padding-box;
     color: white;
   }
   .btn-buscar {
