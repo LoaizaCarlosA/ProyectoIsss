@@ -6,7 +6,7 @@ import LogIn from "./views/LogIn.vue";
 import Prueba from "./views/Prueba.vue";
 import Perfil from "./views/Perfil.vue";
 import Dashboard from "./views/DashBoard.vue";
-import Empleado from "./views/Empleado.vue";
+import Empleados from "./views/Empleados.vue";
 
 const routes = [
   {
@@ -40,9 +40,9 @@ const routes = [
     component: Perfil,
   },
   {
-    path: "/Empleado",
-    name: "Empleado",
-    component: Empleado,
+    path: "/Empleados",
+    name: "Empleados",
+    component: Empleados,
   },
 ];
 

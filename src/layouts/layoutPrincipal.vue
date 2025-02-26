@@ -38,7 +38,7 @@ export default {
 .page-container {
   position: relative;
   padding-left: 90px; /* Menú desplegado */
-  padding-top: 70px;
+  padding-top: 85px;
   transition: padding-left 0.3s ease;
   /* Transición suave cuando el menú se abre/cierra */
 }
@@ -48,9 +48,9 @@ export default {
 }
 
 .module-container {
-  padding: 30px 20px 0px 40px;
+  padding: 20px 20px 0px 35px;
   flex: 1;
-  overflow-y: auto;
+/*   overflow-y: auto; */
   background-color: #fafafa;
   min-height: calc(90vh - 70px);
 }

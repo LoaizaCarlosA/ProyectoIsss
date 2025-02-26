@@ -8,13 +8,13 @@
           <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
           <span v-if="collapsedMenu">Dashboard</span>
         </router-link>
-        <router-link v-if="isAllowed('/Empleados')" to="/Empleado" class="menu-item" active-class="active">
+        <router-link v-if="isAllowed('/Empleados')" to="/Empleados" class="menu-item" active-class="active">
           <i class="fa fa-users" aria-hidden="true"></i>
           <span v-if="collapsedMenu">Empleados</span>
         </router-link>
       </div>
-      <a class="cerrar-sesion" @click="cerrarSesion">
-        <img src="../assets/svg/cerrarSesion.svg" alt="icon" />
+      <a class="cerrar-sesion" @click="cerrarSesion" active-class="active">
+        <i class="fa-solid fa-right-from-bracket" aria-hidden="true" style="transform: scaleX(-1);"></i>
         <div class="cerrar-txt" :class="!collapsedMenu ? 'off' : ''" v-if="collapsedMenu">Cerrar sesión</div>
       </a>
       <div class="collapse-menu-lateral" @click="collapseMenu">
@@ -59,9 +59,7 @@ export default {
   z-index: 1050;
   width: 90px;
   transition: width 0.3s ease-in-out;
-  /* Solo animar width para evitar saltos */
   overflow: hidden;
-  /* Evita el "salto" de contenido */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -80,11 +78,8 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Centrado vertical */
   align-items: center;
-  /* Centrado horizontal */
   width: 100%;
-  /* padding-top: 27px; */
   box-sizing: border-box;
 }
 
@@ -100,21 +95,19 @@ export default {
   width: 100%;
   text-decoration: none;
   transition: background-color 0.3s ease-in-out, padding 0.3s ease-in-out;
-  /* Suaviza el efecto */
 }
 
 .menu-item i {
   font-size: 30px;
-  margin-right: 10px;
 }
 
 .menu-item span {
   font-size: 15px;
   opacity: 1;
   transition: opacity 0.2s ease-in-out;
+  margin-left: 15px;
 }
 
-/* Ocultar texto cuando está colapsado */
 .sidebar:not(.active) .menu-item span {
   opacity: 0;
   width: 0;
@@ -128,7 +121,8 @@ export default {
 
 .menu-item.active {
   background-color: #d2d2d2;
-  /* Esto cubre todo el ancho ahora */
+/*   transform: scale(0.9);
+  border-radius: 6px; */
 }
 
 .container-menu {
@@ -138,11 +132,8 @@ export default {
   background-color: #ffffff;
   box-shadow: 0px 3px 6px #00000029;
   transition: width 0.3s ease-in-out;
-  /* Transición suave */
   min-width: 90px;
-  /* Evita que se colapse demasiado */
   max-width: 215px;
-  /* Evita expansión irregular */
   width: 90px;
   height: 100%;
   overflow: hidden;
@@ -163,7 +154,7 @@ export default {
   border-radius: 50%;
   background-color: black;
   width: 30px;
-  height: 30px;
+  height: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,9 +168,16 @@ export default {
 
 .cerrar-sesion {
   display: flex;
-  padding: 15px 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0px;
+  font-size: 20px;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.4s;
+  width: 100%;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out, padding 0.3s ease-in-out;
+  color: #af0000c4;
 }
 
 .cerrar-sesion:hover {
@@ -188,8 +186,8 @@ export default {
 
 .cerrar-sesion:active {
   background-color: #d2d2d2;
-  transform: scale(0.9);
-  border-radius: 6px;
+/*   transform: scale(0.9);
+  border-radius: 6px; */
 }
 
 .cerrar-sesion img {
@@ -199,8 +197,7 @@ export default {
 
 .cerrar-txt {
   transition: all 0.4s;
-  font-size: 12px;
-  color: #616161;
+  font-size: 14px;
   font-family: Roboto;
   display: flex;
   align-items: center;
@@ -208,6 +205,10 @@ export default {
   overflow: hidden;
   width: max-content;
   white-space: nowrap;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #af0000c4;
+  margin-left: 15px;
 }
 
 .cerrar-sesion:active .cerrar-txt {
@@ -225,13 +226,11 @@ export default {
 .sidebar,
 .container-menu {
   overflow: visible;
-  /* Evita que recorte el botón */
 }
 
 .chevron {
   transition: transform 0.3s ease-in-out;
   width: 18px;
-  /* Asegurar que el ícono sea visible */
   height: 18px;
 }
 </style>

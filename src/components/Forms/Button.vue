@@ -92,7 +92,7 @@
     border: 1px solid #000000;
     border-radius: 18px;
     opacity: 1;
-    width: 80px;
+    width: 28px;
     height: 28px;
     cursor: pointer;
     box-shadow: 0px 3px 6px #00000029;
@@ -109,7 +109,7 @@
     color: red;
     border-radius: 18px;
     opacity: 1;
-    width: 80px;
+    width: 28px;
     height: 28px;
     cursor: pointer;
     box-shadow: 0px 3px 6px #00000029;
