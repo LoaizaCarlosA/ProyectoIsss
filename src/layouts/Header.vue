@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <section class="contenedorInformacion">
-            <img class="imagenLogo" src="../assets/images/IsssteesinLogoBlanco.png" alt="" />
+            <img class="imagenLogo" src="../assets/images/ISSSTEESIN_HORIZONTAL_UNA_TINTA.png" alt="" />
             <div class="infoContainer">
                 <button class="burgerMenu mostrar-movil">
                     <!-- <img src="@assets/img/menu-movil.svg" alt="" /> -->
