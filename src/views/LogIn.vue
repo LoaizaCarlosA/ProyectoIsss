@@ -1,25 +1,16 @@
 <template>
     <div class="container">
         <div class="form-container">
-            <!-- Formulario (Izquierda) -->
             <div class="left">
                 <div class="texto">Bienvenido/a</div>
                 <form>
                     <label>Correo Institucional</label>
                     <input type="email" placeholder="Ingresa tu correo institucional" />
-
                     <label>Contraseña</label>
                     <input type="password" placeholder="********" />
-
-                    <!-- <div class="checkbox-container">
-                        <input type="checkbox" id="terms" />
-                        <label for="terms">By signing up you agree <a href="#">Terms & Conditions</a></label>
-                    </div> -->
                 </form>
                 <button type="submit">Iniciar sesión</button>
             </div>
-
-            <!-- Imagen y mensaje (Derecha) -->
             <div class="right">
                 <img class="logoRight" src="../assets/images/IsssteesinLogoVerticalBlanco.png" alt="">
             </div>
@@ -28,26 +19,24 @@
 </template>
 
 <style scoped>
-/* Fondo general */
 .container {
-    width: 100vw; 
+    width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background: white;
-    padding: 50px; /* Borde blanco alrededor */
+    padding: 50px;
     box-sizing: border-box;
 }
 
-/* Contenedor principal */
 .form-container {
     display: flex;
     flex-direction: row;
-    width: 100%; /* Ocupa todo el ancho disponible */
-    max-width: 1200px; /* No crece más de este tamaño */
+    width: 100%;
+    max-width: 1200px;
     height: 100%;
-    max-height: 800px; /* No crece más de este tamaño */
+    max-height: 800px;
     border-radius: 15px;
     overflow: hidden;
     background: white;
@@ -55,12 +44,6 @@
     user-select: none;
 }
 
-/*  .form-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.25);
-}  */
-
-/* Sección izquierda (Formulario) */
 .left {
     width: 50%;
     background: #b9b9b969;
@@ -95,7 +78,6 @@
     border-radius: 5px;
     font-size: 14px;
     background: white;
-    /* background: #2a2a3a; */
     color: black;
     height: 30px;
 }
@@ -134,7 +116,6 @@ button:hover {
     background: #e55050;
 }
 
-/* Sección derecha (Imagen y texto) */
 .right {
     width: 50%;
     background: #691c32;
@@ -157,21 +138,21 @@ button:hover {
     width: 70%;
 }
 
-/* Adaptación para pantallas pequeñas */
 @media (max-width: 768px) {
     .form-container {
-        flex-direction: column; /* Se apila en dispositivos pequeños */
+        flex-direction: column;
         width: 100%;
         height: auto;
     }
 
-    .left, .right {
+    .left,
+    .right {
         width: 100%;
         height: auto;
     }
 
     .right {
-        order: -1; /* Mueve la imagen arriba */
+        order: -1;
     }
 }
 </style>
