@@ -51,7 +51,6 @@
             </section>
             <Paginacion></Paginacion>
         </ContainerWhite>
-        <!-- Modal de agregar empleado -->
         <AgregarEmpleados v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarEmpleados>
     </LayoutPrincipal>
 </template>
@@ -167,7 +166,8 @@ export default {
 .default td,
 .default th {
     border: none;
-    padding: 12px 15px;
+    padding: 15px 12px;
+/*     padding: 12px 15px; */
     text-align: center;
 }
 
@@ -180,5 +180,40 @@ export default {
     color: #fff;
     font-size: 16px;
     letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+    .menu-item span {
+        font-size: 13px;
+    }
+
+    .container-menu.active {
+        width: 135px;
+    }
+
+    .filtrosEmpleados {
+        padding: 20px;
+    }
+
+    .inputBuscador {
+        width: 180px;
+    }
+
+    .tablaPrincipal {
+        justify-content: normal;
+    }
+
+    .tituloModulo {
+        font-size: 20px;
+    }
+
+    .inputBuscador {
+        width: 145px;
+        margin-right: 12px;
+    }
+
+    .btn-agregar {
+        width: 90px;
+    }
 }
 </style>

@@ -7,7 +7,7 @@
                     <!-- <img src="@assets/img/menu-movil.svg" alt="" /> -->
                 </button>
                 <div class="infoUsuario ocultar-movil">
-                    <div class="nombreUsuario">Carlos Andrés</div>
+                    <div class="nombreUsuario">Carlos Andrés Loaiza López</div>
                     <div class="locacionSistema">Administrador</div>
                 </div>
                 <router-link to="/Perfil">

@@ -37,21 +37,29 @@ export default {
 
 .page-container {
   position: relative;
-  padding-left: 90px; /* Menú desplegado */
+  padding-left: 90px;
+  /* Menú desplegado */
   padding-top: 85px;
   transition: padding-left 0.3s ease;
   /* Transición suave cuando el menú se abre/cierra */
 }
 
 .page-container.collapsed {
-  padding-left: 215px; /* Menú colapsado, reducimos el espacio */
+  padding-left: 215px;
+  /* Menú colapsado, reducimos el espacio */
 }
 
 .module-container {
   padding: 20px 20px 0px 35px;
   flex: 1;
-/*   overflow-y: auto; */
+  /*   overflow-y: auto; */
   background-color: #fafafa;
   min-height: calc(90vh - 70px);
+}
+
+@media (max-width: 768px) {
+  .page-container.collapsed {
+    padding-left: 135px;
+  }
 }
 </style>

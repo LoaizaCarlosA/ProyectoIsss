@@ -121,7 +121,7 @@ export default {
 
 .menu-item.active {
   background-color: #d2d2d2;
-/*   transform: scale(0.9);
+  /*   transform: scale(0.9);
   border-radius: 6px; */
 }
 
@@ -186,7 +186,7 @@ export default {
 
 .cerrar-sesion:active {
   background-color: #d2d2d2;
-/*   transform: scale(0.9);
+  /*   transform: scale(0.9);
   border-radius: 6px; */
 }
 
@@ -232,5 +232,22 @@ export default {
   transition: transform 0.3s ease-in-out;
   width: 18px;
   height: 18px;
+}
+
+@media (max-width: 768px) {
+  .sidebar.active {
+    width: 135px;
+  }
+
+  .menu-item span {
+    font-size: 13px;
+  }
+
+  .container-menu.active {
+    width: 135px;
+  }
+  .menu-item i{
+    font-size: 22px;
+  }
 }
 </style>
