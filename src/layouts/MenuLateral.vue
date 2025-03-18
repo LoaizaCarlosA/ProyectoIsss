@@ -12,6 +12,10 @@
           <i class="fa fa-users" aria-hidden="true"></i>
           <span v-if="collapsedMenu">Empleados</span>
         </router-link>
+        <router-link v-if="isAllowed('/Cobaes')" to="/Cobaes" class="menu-item" active-class="active">
+          <i class="fa fa-users" aria-hidden="true"></i>
+          <span v-if="collapsedMenu">COBAES</span>
+        </router-link>
       </div>
       <a class="cerrar-sesion" @click="cerrarSesion" active-class="active">
         <i class="fa-solid fa-right-from-bracket" aria-hidden="true" style="transform: scaleX(-1);"></i>
@@ -35,7 +39,7 @@ export default {
   },
   methods: {
     isAllowed(route) {
-      const allowedRoutes = ['/Dashboard', '/Empleados'];
+      const allowedRoutes = ['/Dashboard', '/Empleados', '/Cobaes',];
       return allowedRoutes.includes(route);
     },
     collapseMenu() {
@@ -246,7 +250,8 @@ export default {
   .container-menu.active {
     width: 135px;
   }
-  .menu-item i{
+
+  .menu-item i {
     font-size: 22px;
   }
 }

@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "./views/Home.vue";
 import About from "./views/About.vue";
 import LogIn from "./views/LogIn.vue";
-import Prueba from "./views/Prueba.vue";
+import Cobaes from "./views/Cobaes.vue";
 import Perfil from "./views/Perfil.vue";
 import Dashboard from "./views/DashBoard.vue";
 import Empleados from "./views/Empleados.vue";
@@ -30,9 +30,9 @@ const routes = [
     component: LogIn,
   },
   {
-    path: "/prueba",
-    name: "Prueba",
-    component: Prueba,
+    path: "/Cobaes",
+    name: "Cobaes",
+    component: Cobaes,
   },
   {
     path: "/Perfil",
