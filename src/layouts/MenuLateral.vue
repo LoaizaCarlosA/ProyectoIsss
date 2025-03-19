@@ -13,7 +13,7 @@
           <span v-if="collapsedMenu">Empleados</span>
         </router-link>
         <router-link v-if="isAllowed('/Cobaes')" to="/Cobaes" class="menu-item" active-class="active">
-          <i class="fa fa-users" aria-hidden="true"></i>
+          <i class="fa fa-c" aria-hidden="true"></i>
           <span v-if="collapsedMenu">COBAES</span>
         </router-link>
       </div>

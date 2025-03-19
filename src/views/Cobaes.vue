@@ -5,7 +5,8 @@
         <section class="filtrosEmpleados">
           <div class="tituloModulo">Lista de empleados COBAES</div>
           <div>
-            <input class="inputBuscador" type="text" v-model="searchText" placeholder="Inserte nombre o ID" />
+            <input class="inputBuscador" type="text" v-model="searchText"
+              placeholder="Inserte nombre o número de empleado" />
             <Button class="btn-agregar" @click="mostrarAddService">Agregar</Button>
           </div>
         </section>
@@ -16,8 +17,6 @@
                 <tr class="cabecera">
                   <th>No. Empleado</th>
                   <th>Nombre Completo</th>
-                  <!--                   <th>Apellido Paterno</th>
-                  <th>Apellido Materno</th> -->
                   <th>RFC</th>
                   <th>CURP</th>
                   <th>Plaza</th>
@@ -26,15 +25,15 @@
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="empleado in filteredList" :key="empleado.idUsuario">
-                  <td>{{ empleado.idUsuario }}</td>
-                  <td>{{ empleado.nombre }}</td>
-                  <td>{{ empleado.RFC }}</td>
-                  <td>{{ empleado.CURP }}</td>
-                  <td>{{ empleado.Plaza }}</td>
-                  <td>{{ empleado.Municipio }}</td>
-                  <td>{{ empleado.Banco }}</td>
+              <tbody class="tbody">
+                <tr v-for="(item, index) in filteredList" :key="index">
+                  <td>{{ item.Numemp }}</td>
+                  <td>{{ item.Nombre_Completo }}</td>
+                  <td>{{ item.RFC }}</td>
+                  <td>{{ item.CURP }}</td>
+                  <td>{{ item.Plaza }}</td>
+                  <td>{{ item.Municipio }}</td>
+                  <td>{{ item.Banco }}</td>
                   <td>
                     <div class="botonesTabla">
                       <Button class="btn-agregar-cobaes" @click="mostrarEditar(empleado.idUsuario)"
@@ -44,8 +43,7 @@
                       <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)" title="Editar empleado">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </Button>
-                      <Button class="btn-eliminar" @click="eliminarEmpleado(empleado.idUsuario)"
-                        title="Eliminar empleado">
+                      <Button class="btn-eliminar" @click="eliminarEmpleado(item.Numemp)" title="Eliminar empleado">
                         <i class="fa-solid fa-trash"></i>
                       </Button>
                     </div>
@@ -56,42 +54,67 @@
           </section>
         </section>
         <ExcelEditor />
+        <Paginacion></Paginacion>
       </ContainerWhite>
+      <AgregarEmpleadosCobaes v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarEmpleadosCobaes>
     </LayoutPrincipal>
 
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import ContainerWhite from "@/layouts/ContainerWhite.vue";
 import ExcelEditor from '../views/ExcelEditor.vue';
 import LayoutPrincipal from "../layouts/layoutPrincipal.vue";
 import Button from "../components/Forms/Button.vue";
+import Paginacion from "../components/Forms/Paginacion.vue";
+import AgregarEmpleadosCobaes from "../components/Empleados/AgregarEmpleadosCobaes.vue";
 
 export default {
   components: {
     ContainerWhite,
     ExcelEditor,
+    Paginacion,
     LayoutPrincipal,
     Button,
+    AgregarEmpleadosCobaes,
   },
   data() {
     return {
+      data: [], // Inicializamos el estado donde almacenaremos los datos
       searchText: "",
-      empleados: [
-        { idUsuario: 10000, nombre: "BURGOS LASTRA SOLEDAD", RFC: "BULS530917TX3", CURP: "BULS530917MSLRSL09", Plaza: "24581", Municipio: "MAZATLAN", Banco: "BANCOMER" },
-      ],
       mostrarModal: false
     };
+  },
+  mounted() {
+    // Cuando el componente se monta, hacemos la solicitud para obtener los datos
+    axios.get('http://localhost:5000/empleados')
+      .then(response => {
+        this.data = response.data; // Almacenamos los datos en el estado
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos:', error);
+      });
   },
   computed: {
     filteredList() {
       const searchTerm = this.searchText.toLowerCase();
-      return this.empleados.filter((empleado) =>
-        empleado.nombre.toLowerCase().includes(searchTerm) || empleado.idUsuario.toString().includes(searchTerm)
+      return this.data.filter((item) =>
+        item.Nombre_Completo.toLowerCase().includes(searchTerm) ||
+        item.Numemp.toString().includes(searchTerm) // Aseguramos que el número de empleado sea tratado como texto
       );
     }
   },
+  methods: {
+    mostrarAddService() {
+      this.mostrarModal = true;
+    },
+    eliminarEmpleado(id) {
+      this.data = this.data.filter((item) => item.Numemp !== id);
+      console.log("Empleado eliminado con ID: ", id);
+    }
+  }
 };
 </script>
 
@@ -114,7 +137,7 @@ export default {
   border: 0px solid #000000;
   box-shadow: 0px 3px 6px #00000029;
   outline: none;
-  padding: 0px 7px;
+  padding: 0px 10px;
   border-radius: 10px;
   margin-right: 20px;
 }
@@ -154,6 +177,10 @@ export default {
   color: #fff;
   font-size: 16px;
   letter-spacing: 1px;
+}
+
+.tbody {
+  font-size: 14.5px;
 }
 </style>
 
