@@ -36,8 +36,7 @@
                   <td>{{ item.Banco }}</td>
                   <td>
                     <div class="botonesTabla">
-                      <Button class="btn-agregar-cobaes" @click="mostrarEditar(empleado.idUsuario)"
-                        title="Agregar empleado">
+                      <Button class="btn-agregar-cobaes" @click="; mostrarEmpleado(item.Numemp)" title="Ver detalles">
                         <i class="fa-solid fa-magnifying-glass"></i>
                       </Button>
                       <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)" title="Editar empleado">
@@ -57,6 +56,9 @@
         <Paginacion></Paginacion>
       </ContainerWhite>
       <AgregarEmpleadosCobaes v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarEmpleadosCobaes>
+      <TablaAgregarEmpleadosCobaes v-show="mostrarModalTabla" @cancelar="mostrarModalTabla = false"
+      :empleado="empleado">
+      </TablaAgregarEmpleadosCobaes>
     </LayoutPrincipal>
 
   </div>
@@ -70,6 +72,8 @@ import LayoutPrincipal from "../layouts/layoutPrincipal.vue";
 import Button from "../components/Forms/Button.vue";
 import Paginacion from "../components/Forms/Paginacion.vue";
 import AgregarEmpleadosCobaes from "../components/Empleados/AgregarEmpleadosCobaes.vue";
+import TablaAgregarEmpleadosCobaes from '../components/Empleados/TablaAgregarEmpleadosCobaes.vue';
+
 
 export default {
   components: {
@@ -79,19 +83,23 @@ export default {
     LayoutPrincipal,
     Button,
     AgregarEmpleadosCobaes,
+    TablaAgregarEmpleadosCobaes,
   },
   data() {
     return {
       data: [], // Inicializamos el estado donde almacenaremos los datos
       searchText: "",
-      mostrarModal: false
+      mostrarModal: false,
+      mostrarModalTabla: false,
+      empleado: null,
+      empleadoSeleccionado: null,
     };
   },
   mounted() {
-    // Cuando el componente se monta, hacemos la solicitud para obtener los datos
     axios.get('http://localhost:5000/empleados')
       .then(response => {
-        this.data = response.data; // Almacenamos los datos en el estado
+        this.data = response.data;
+        console.log("Datos recibidos del backend:", this.data); // 👈 Verifica si hay datos
       })
       .catch(error => {
         console.error('Error al obtener los datos:', error);
@@ -102,7 +110,9 @@ export default {
       const searchTerm = this.searchText.toLowerCase();
       return this.data.filter((item) =>
         item.Nombre_Completo.toLowerCase().includes(searchTerm) ||
-        item.Numemp.toString().includes(searchTerm) // Aseguramos que el número de empleado sea tratado como texto
+        item.Numemp.toString().includes(searchTerm) ||
+        item.RFC.toLowerCase().includes(searchTerm) ||
+        item.CURP.toLowerCase().includes(searchTerm)
       );
     }
   },
@@ -113,7 +123,45 @@ export default {
     eliminarEmpleado(id) {
       this.data = this.data.filter((item) => item.Numemp !== id);
       console.log("Empleado eliminado con ID: ", id);
+    },
+    mostrarTablaService() {
+      this.mostrarModalTabla = true;
+    },
+    /*     mostrarEmpleado(Numemp) {
+          this.mostrarModalTabla = true;
+          this.$emit('mostrar-empleado', Numemp); // Emite el evento al componente padre
+        }, */
+/*     mostrarEmpleado(Numemp) {
+      console.log("Clic en lupa", Numemp);
+
+      // Encontrar el empleado
+      const empleadoSeleccionado = this.data.find(item => item.Numemp.toString() === Numemp.toString());
+      console.log("Empleado seleccionado:", empleadoSeleccionado);
+
+      if (empleadoSeleccionado) {
+        // Usar $set para asegurarse de que la reactividad se mantenga
+        this.empleado = { ...empleadoSeleccionado }; // Crea una copia nueva para asegurar la reactividad
+        this.mostrarModalTabla = true;
+      } else {
+        console.error("Empleado no encontrado");
+      }
+    }, */
+    seleccionarEmpleado(empleado) {
+      console.log("Empleado seleccionado:", empleado);
+      this.empleadoSeleccionado = JSON.parse(JSON.stringify(empleado)); // 🔥 Convierte el Proxy en objeto normal
+    },
+    mostrarEmpleado(Numemp) {
+    console.log("Clic en lupa", Numemp);
+    this.empleado = this.data.find(item => item.Numemp.toString() === Numemp.toString());
+    console.log("Empleado seleccionado:", this.empleado);
+
+    if (this.empleado) {
+      this.mostrarModalTabla = true;
+      this.empleado = JSON.parse(JSON.stringify(this.empleado)); // 🔥 Forzar reactividad
+    } else {
+      console.error("Empleado no encontrado");
     }
+  },
   }
 };
 </script>
