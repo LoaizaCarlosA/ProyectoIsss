@@ -11,22 +11,31 @@
                         <thead>
                             <tr class="cabecera">
                                 <th>Plaza</th>
-                                <th>RFC</th>
-                                <th>CURP</th>
-                                <th>Plaza</th>
-                                <th>Municipio</th>
-                                <th>Banco</th>
+                                <th>Nombre Completo</th>
+                                <th>Fecha Ingreso</th>
+                                <th>Sueldo Neto Quincenal</th>
+                                <th>Sueldo Base</th>
+                                <th>Aportación ISSSTEESIN</th>
+                                <th>Aportación Vivienda</th>
                             </tr>
                         </thead>
                         <tbody class="tbody">
-                            <tr v-if="empleadoLocal">
-                                <td>{{ empleadoLocal.Plaza || 'No disponible' }}</td>
-                                <td>{{ empleadoLocal.Sueldo_Neto_Quincenal || 'No disponible' }}</td>
-                                <td>{{ empleadoLocal.CURP || 'No disponible' }}</td>
-                                <td>{{ empleadoLocal.Plaza || 'No disponible' }}</td>
-                                <td>{{ empleadoLocal.Municipio || 'No disponible' }}</td>
-                                <td>{{ empleadoLocal.Banco }}</td>
-                            </tr>
+                            <template v-if="empleadoLocal && empleadoLocal.Plazas.length">
+                                <tr v-for="(plaza, index) in empleadoLocal.Plazas" :key="index">
+                                    <td>{{ plaza.Plaza || 'No disponible' }}</td>
+                                    <td>{{ empleadoLocal.Nombre_Completo || 'No disponible' }}</td>
+                                    <td>{{ formatearFecha(plaza.Fecha_Ingreso) || 'No disponible' }}</td>
+                                    <td>$ {{ formatearNumero(plaza.Sueldo_Neto_Quincenal) || 'No disponible' }}</td>
+                                    <td>$ {{ formatearNumero(plaza.Sueldo_Base) || 'No disponible' }}</td>
+                                    <td>$ {{ formatearNumero(plaza.Aportación_ISSSTEESIN) || 'No disponible' }}</td>
+                                    <td>$ {{ formatearNumero(plaza.Aportación_Vivienda) || 'No disponible' }}</td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <td colspan="7">No hay plazas disponibles para este empleado.</td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </section>
@@ -37,8 +46,6 @@
         </section>
     </ModalBase>
 </template>
-
-
 
 <script>
 import Button from "../Forms/Button.vue";
@@ -70,17 +77,25 @@ export default {
     },
     data() {
         return {
-            data: [], // Lista completa de empleados
-            empleadoLocal: null, // Copia reactiva del empleado seleccionado
-            mostrarModalTabla: false, // Estado del modal
+            data: [],
+            empleadoLocal: {
+                Nombre_Completo: '',
+                Numemp: '',
+                Plazas: []
+            },
+            mostrarModalTabla: false,
         };
     },
     watch: {
         empleado: {
-            immediate: true, // Se ejecuta al montar el componente
+            immediate: true,
             handler(nuevoValor) {
                 console.log("Empleado recibido en el modal:", nuevoValor);
-                this.empleadoLocal = nuevoValor ? JSON.parse(JSON.stringify(nuevoValor)) : null;
+                if (nuevoValor && nuevoValor.Numemp) {
+                    this.mostrarEmpleado(nuevoValor.Numemp);
+                } else {
+                    this.empleadoLocal = null;
+                }
             }
         }
     },
@@ -88,7 +103,6 @@ export default {
         axios.get('http://localhost:5000/empleados')
             .then(response => {
                 this.data = response.data;
-                console.log("Datos recibidos del backend:", this.data); // Verifica si hay datos
             })
             .catch(error => {
                 console.error('Error al obtener los datos:', error);
@@ -96,29 +110,43 @@ export default {
     },
     methods: {
         mostrarEmpleado(Numemp) {
-            console.log("Clic en lupa", Numemp);
-
-            // Encontrar el empleado
-            const empleadoSeleccionado = this.data.find(item => item.Numemp.toString() === Numemp.toString());
-            if (empleadoSeleccionado) {
-                this.empleadoLocal = JSON.parse(JSON.stringify(empleadoSeleccionado)); // Crear copia reactiva
+            if (!this.data || this.data.length === 0) {
+                console.warn("Los datos aún no están cargados.");
+                return;
+            }
+            const plazasEmpleado = this.data.filter(item => item.Numemp.toString() === Numemp.toString());
+            if (plazasEmpleado.length > 0) {
+                this.empleadoLocal = {
+                    Nombre_Completo: plazasEmpleado[0].Nombre_Completo,
+                    Numemp: plazasEmpleado[0].Numemp,
+                    Plazas: plazasEmpleado
+                };
                 this.mostrarModalTabla = true;
             } else {
-                console.error("Empleado no encontrado");
+                console.warn("No se encontraron plazas para ese número de empleado.");
+                this.empleadoLocal = { Nombre_Completo: '', Numemp: Numemp, Plazas: [] };
             }
         },
         cancelar() {
-            console.log("Cerrando modal...");
             this.mostrarModalTabla = false;
-            this.$forceUpdate(); // 👈 Fuerza la actualización del componente
+            this.$forceUpdate();
+        },
+        formatearNumero(valor) {
+            if (!valor && valor !== 0) return 'No disponible';
+            return Number(valor).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        },
+        formatearFecha(fecha) {
+            if (!fecha) return 'No disponible';
+            const fechaObj = new Date(fecha);
+            if (isNaN(fechaObj)) return 'No disponible';
+            const dia = String(fechaObj.getDate()).padStart(2, '0');
+            const mes = String(fechaObj.getMonth() + 1).padStart(2, '0');
+            const anio = fechaObj.getFullYear();
+            return `${dia}/${mes}/${anio}`;
         }
     }
 };
 </script>
-
-
-
-
 
 <style scoped>
 .titulo {

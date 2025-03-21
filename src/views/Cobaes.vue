@@ -57,7 +57,7 @@
       </ContainerWhite>
       <AgregarEmpleadosCobaes v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarEmpleadosCobaes>
       <TablaAgregarEmpleadosCobaes v-show="mostrarModalTabla" @cancelar="mostrarModalTabla = false"
-      :empleado="empleado">
+        :empleado="empleado">
       </TablaAgregarEmpleadosCobaes>
     </LayoutPrincipal>
 
@@ -74,7 +74,6 @@ import Paginacion from "../components/Forms/Paginacion.vue";
 import AgregarEmpleadosCobaes from "../components/Empleados/AgregarEmpleadosCobaes.vue";
 import TablaAgregarEmpleadosCobaes from '../components/Empleados/TablaAgregarEmpleadosCobaes.vue';
 
-
 export default {
   components: {
     ContainerWhite,
@@ -87,7 +86,7 @@ export default {
   },
   data() {
     return {
-      data: [], // Inicializamos el estado donde almacenaremos los datos
+      data: [],
       searchText: "",
       mostrarModal: false,
       mostrarModalTabla: false,
@@ -99,7 +98,7 @@ export default {
     axios.get('http://localhost:5000/empleados')
       .then(response => {
         this.data = response.data;
-        console.log("Datos recibidos del backend:", this.data); // 👈 Verifica si hay datos
+        console.log("Datos recibidos del backend:", this.data);
       })
       .catch(error => {
         console.error('Error al obtener los datos:', error);
@@ -108,7 +107,15 @@ export default {
   computed: {
     filteredList() {
       const searchTerm = this.searchText.toLowerCase();
-      return this.data.filter((item) =>
+      const mapaUnico = new Map();
+      this.data.forEach((item) => {
+        const clave = item.Numemp.toString();
+        if (!mapaUnico.has(clave)) {
+          mapaUnico.set(clave, item);
+        }
+      });
+
+      return Array.from(mapaUnico.values()).filter((item) =>
         item.Nombre_Completo.toLowerCase().includes(searchTerm) ||
         item.Numemp.toString().includes(searchTerm) ||
         item.RFC.toLowerCase().includes(searchTerm) ||
@@ -127,41 +134,18 @@ export default {
     mostrarTablaService() {
       this.mostrarModalTabla = true;
     },
-    /*     mostrarEmpleado(Numemp) {
-          this.mostrarModalTabla = true;
-          this.$emit('mostrar-empleado', Numemp); // Emite el evento al componente padre
-        }, */
-/*     mostrarEmpleado(Numemp) {
-      console.log("Clic en lupa", Numemp);
-
-      // Encontrar el empleado
-      const empleadoSeleccionado = this.data.find(item => item.Numemp.toString() === Numemp.toString());
-      console.log("Empleado seleccionado:", empleadoSeleccionado);
-
-      if (empleadoSeleccionado) {
-        // Usar $set para asegurarse de que la reactividad se mantenga
-        this.empleado = { ...empleadoSeleccionado }; // Crea una copia nueva para asegurar la reactividad
+    seleccionarEmpleado(empleado) {
+      this.empleadoSeleccionado = JSON.parse(JSON.stringify(empleado));
+    },
+    mostrarEmpleado(Numemp) {
+      this.empleado = this.data.find(item => item.Numemp.toString() === Numemp.toString());
+      if (this.empleado) {
         this.mostrarModalTabla = true;
+        this.empleado = JSON.parse(JSON.stringify(this.empleado));
       } else {
         console.error("Empleado no encontrado");
       }
-    }, */
-    seleccionarEmpleado(empleado) {
-      console.log("Empleado seleccionado:", empleado);
-      this.empleadoSeleccionado = JSON.parse(JSON.stringify(empleado)); // 🔥 Convierte el Proxy en objeto normal
     },
-    mostrarEmpleado(Numemp) {
-    console.log("Clic en lupa", Numemp);
-    this.empleado = this.data.find(item => item.Numemp.toString() === Numemp.toString());
-    console.log("Empleado seleccionado:", this.empleado);
-
-    if (this.empleado) {
-      this.mostrarModalTabla = true;
-      this.empleado = JSON.parse(JSON.stringify(this.empleado)); // 🔥 Forzar reactividad
-    } else {
-      console.error("Empleado no encontrado");
-    }
-  },
   }
 };
 </script>
@@ -212,7 +196,6 @@ export default {
 .default th {
   border: none;
   padding: 15px 12px;
-  /*     padding: 12px 15px; */
   text-align: center;
 }
 
@@ -231,40 +214,3 @@ export default {
   font-size: 14.5px;
 }
 </style>
-
-
-
-<!-- <template>
-  <div>
-    <h1>Prueba de conexión con el backend</h1>
-    <ul>
-      <li v-for="usuario in usuarios" :key="usuario.id">{{ usuario.nombre }}</li>
-    </ul>
-  </div>
-</template>
-
-<script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-
-const usuarios = ref([]);
-
-onMounted(async () => {
-  try {
-    const response = await axios.get('http://localhost:5000/api/usuarios');
-    usuarios.value = response.data;
-  } catch (error) {
-    console.error('Error al obtener usuarios:', error);
-  }
-});
-</script>
-
-<style>
-.filtrosEmpleados {
-    justify-content: space-between;
-    display: flex;
-    padding: 20px 20px 20px 50px;
-    align-items: center;
-}
-</style>
- -->
