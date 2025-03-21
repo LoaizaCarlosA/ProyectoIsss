@@ -132,8 +132,8 @@ export default {
 
 .btn-eliminar {
   background: white 0% 0% no-repeat padding-box;
-  border: 1px solid red;
-  color: red;
+  border: 1px solid #CB0809;
+  color: #CB0809;
   border-radius: 18px;
   opacity: 1;
   width: 28px;
@@ -145,7 +145,7 @@ export default {
 }
 
 .btn-eliminar:hover {
-  background: red 0% 0% no-repeat padding-box;
+  background: #CB0809 0% 0% no-repeat padding-box;
   color: white;
 }
 
@@ -166,6 +166,41 @@ export default {
   color: white;
 }
 
+.btn-atras {
+  background: white 0% 0% no-repeat padding-box;
+  border: 1px solid #CB0809;
+  color: #CB0809;
+  border-radius: 18px;
+  opacity: 1;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  box-shadow: 0px 3px 6px #00000029;
+  font-weight: 700;
+  margin: 0px 5px;
+}
+
+.btn-atras:hover {
+  background: #CB0809 0% 0% no-repeat padding-box;
+  color: white;
+}
+.btn-descargar-excel{
+  background: white 0% 0% no-repeat padding-box;
+  border: 1px solid #0f7d21;
+  color: #0f7d21;
+  border-radius: 18px;
+  opacity: 1;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  box-shadow: 0px 3px 6px #00000029;
+  font-weight: 700;
+  margin: 0px 5px;
+}
+.btn-descargar-excel:hover {
+  background: #0f7d21 0% 0% no-repeat padding-box;
+  color: white;
+}
 .btn-guardar {
   background: white 0% 0% no-repeat padding-box;
   border: 1px solid #237a1b;

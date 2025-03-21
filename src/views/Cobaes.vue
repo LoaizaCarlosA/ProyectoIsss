@@ -19,35 +19,41 @@
                   <th>Nombre Completo</th>
                   <th>RFC</th>
                   <th>CURP</th>
-                  <th>Plaza</th>
+                  <!--                   <th>Plaza</th> -->
                   <th>Municipio</th>
                   <th>Banco</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody class="tbody">
-                <tr v-for="(item, index) in filteredList" :key="index">
-                  <td>{{ item.Numemp }}</td>
-                  <td>{{ item.Nombre_Completo }}</td>
-                  <td>{{ item.RFC }}</td>
-                  <td>{{ item.CURP }}</td>
-                  <td>{{ item.Plaza }}</td>
-                  <td>{{ item.Municipio }}</td>
-                  <td>{{ item.Banco }}</td>
-                  <td>
-                    <div class="botonesTabla">
-                      <Button class="btn-agregar-cobaes" @click="; mostrarEmpleado(item.Numemp)" title="Ver detalles">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                      </Button>
-                      <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)" title="Editar empleado">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                      </Button>
-                      <Button class="btn-eliminar" @click="eliminarEmpleado(item.Numemp)" title="Eliminar empleado">
-                        <i class="fa-solid fa-trash"></i>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
+                <template v-if="filteredList.length > 0">
+                  <tr v-for="(item, index) in filteredList" :key="index">
+                    <td>{{ item.Numemp }}</td>
+                    <td>{{ item.Nombre_Completo }}</td>
+                    <td>{{ item.RFC }}</td>
+                    <td>{{ item.CURP }}</td>
+                    <td>{{ item.Municipio }}</td>
+                    <td>{{ item.Banco }}</td>
+                    <td>
+                      <div class="botonesTabla">
+                        <Button class="btn-agregar-cobaes" @click="mostrarEmpleado(item.Numemp)" title="Ver detalles">
+                          <i class="fa-solid fa-magnifying-glass"></i>
+                        </Button>
+                        <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)" title="Editar empleado">
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </Button>
+                        <Button class="btn-eliminar" @click="eliminarEmpleado(item.Numemp)" title="Eliminar empleado">
+                          <i class="fa-solid fa-trash"></i>
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+                <template v-else>
+                  <tr>
+                    <td colspan="7" class="mensajeNoResultados">No se encontraron empleados.</td>
+                  </tr>
+                </template>
               </tbody>
             </table>
           </section>
@@ -212,5 +218,13 @@ export default {
 
 .tbody {
   font-size: 14.5px;
+}
+
+.mensajeNoResultados {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #691c32;
+  padding: 20px 0;
 }
 </style>

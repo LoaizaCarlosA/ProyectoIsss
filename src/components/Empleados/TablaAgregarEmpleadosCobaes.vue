@@ -1,9 +1,31 @@
 <template>
-    <ModalBase v-show="mostrarModalTabla" @onCancelar="cancelar">
+    <ModalBase v-show="mostrarModalTabla">
         <section class="contenedorPrincipal">
             <section>
-                <div class="titulo">{{ tituloHeader }} {{ empleado ? empleado.Nombre_Completo : '' }}</div>
+                <section class="contenedorTituloNombre">
+                    <div class="titulo">
+                        {{ tituloHeader }} <span class="tituloNombre">{{ empleado ? empleado.Nombre_Completo : ''
+                            }}</span>
+                    </div>
+                    <section class="botonesTitulo">
+                        <Button class="btn-descargar-excel">
+                            <i class="fa-solid fa-file-excel"></i>
+                        </Button>
+                        <Button class="btn-atras" @click="cancelar">
+                            <i class="fa-solid fa-xmark"></i>
+                        </Button>
+                    </section>
+                </section>
                 <div class="separador"></div>
+            </section>
+            <section class="SeccionInfoGeneral" v-if="empleadoLocal">
+                <div class="separacion">Numero de empleado: <span class="fuenteSep">{{ empleadoLocal.Numemp }}</span>
+                </div>
+                <div class="separacion">Género: <span class="fuenteSep">{{ formatearSexo(empleadoLocal.Sexo) }}</span>
+                </div>
+                <div class="separacion">RFC: <span class="fuenteSep">{{ empleadoLocal.RFC }}</span></div>
+                <div class="separacion">CURP: <span class="fuenteSep">{{ empleadoLocal.CURP }}</span></div>
+                <div class="separacion">Municipio: <span class="fuenteSep">{{ empleadoLocal.Municipio }}</span></div>
             </section>
             <section>
                 <section class="tablaPrincipal">
@@ -11,7 +33,6 @@
                         <thead>
                             <tr class="cabecera">
                                 <th>Plaza</th>
-                                <th>Nombre Completo</th>
                                 <th>Fecha Ingreso</th>
                                 <th>Sueldo Neto Quincenal</th>
                                 <th>Sueldo Base</th>
@@ -23,7 +44,6 @@
                             <template v-if="empleadoLocal && empleadoLocal.Plazas.length">
                                 <tr v-for="(plaza, index) in empleadoLocal.Plazas" :key="index">
                                     <td>{{ plaza.Plaza || 'No disponible' }}</td>
-                                    <td>{{ empleadoLocal.Nombre_Completo || 'No disponible' }}</td>
                                     <td>{{ formatearFecha(plaza.Fecha_Ingreso) || 'No disponible' }}</td>
                                     <td>$ {{ formatearNumero(plaza.Sueldo_Neto_Quincenal) || 'No disponible' }}</td>
                                     <td>$ {{ formatearNumero(plaza.Sueldo_Base) || 'No disponible' }}</td>
@@ -37,11 +57,21 @@
                                 </tr>
                             </template>
                         </tbody>
+                        <tfoot>
+                            <tr class="totales">
+                                <td><strong>Totales:</strong></td>
+                                <td></td>
+                                <td><strong>$ {{ formatearNumero(totalSueldoNeto) }}</strong></td>
+                                <td><strong>$ {{ formatearNumero(totalSueldoBase) }}</strong></td>
+                                <td><strong>$ {{ formatearNumero(totalAportacionISSSTEESIN) }}</strong></td>
+                                <td><strong>$ {{ formatearNumero(totalAportacionVivienda) }}</strong></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </section>
             </section>
             <section class="contenedorBotones">
-                <Button class="btn-regresar" @click="$emit('onCancelar')">Regresar</Button>
+
             </section>
         </section>
     </ModalBase>
@@ -66,10 +96,6 @@ export default {
             type: String,
             default: "Detalle de",
         },
-        nombreUsuario: {
-            type: String,
-            default: "Carlos Andrés Loaiza López",
-        },
         newStyle: {
             type: String,
             default: ''
@@ -81,10 +107,37 @@ export default {
             empleadoLocal: {
                 Nombre_Completo: '',
                 Numemp: '',
+                RFC: '',
                 Plazas: []
             },
             mostrarModalTabla: false,
         };
+    },
+    computed: {
+        totalSueldoNeto() {
+            if (!this.empleadoLocal || !this.empleadoLocal.Plazas) return 0;  // Validar que 'empleadoLocal' y 'Plazas' existan
+            return this.empleadoLocal.Plazas.reduce((total, plaza) => {
+                return total + (parseFloat(plaza.Sueldo_Neto_Quincenal) || 0);
+            }, 0);
+        },
+        totalSueldoBase() {
+            if (!this.empleadoLocal || !this.empleadoLocal.Plazas) return 0;
+            return this.empleadoLocal.Plazas.reduce((total, plaza) => {
+                return total + (parseFloat(plaza.Sueldo_Base) || 0);
+            }, 0);
+        },
+        totalAportacionISSSTEESIN() {
+            if (!this.empleadoLocal || !this.empleadoLocal.Plazas) return 0;
+            return this.empleadoLocal.Plazas.reduce((total, plaza) => {
+                return total + (parseFloat(plaza.Aportación_ISSSTEESIN) || 0);
+            }, 0);
+        },
+        totalAportacionVivienda() {
+            if (!this.empleadoLocal || !this.empleadoLocal.Plazas) return 0;
+            return this.empleadoLocal.Plazas.reduce((total, plaza) => {
+                return total + (parseFloat(plaza.Aportación_Vivienda) || 0);
+            }, 0);
+        }
     },
     watch: {
         empleado: {
@@ -99,6 +152,7 @@ export default {
             }
         }
     },
+
     mounted() {
         axios.get('http://localhost:5000/empleados')
             .then(response => {
@@ -108,6 +162,7 @@ export default {
                 console.error('Error al obtener los datos:', error);
             });
     },
+    emits: ["cancelar"],
     methods: {
         mostrarEmpleado(Numemp) {
             if (!this.data || this.data.length === 0) {
@@ -117,8 +172,12 @@ export default {
             const plazasEmpleado = this.data.filter(item => item.Numemp.toString() === Numemp.toString());
             if (plazasEmpleado.length > 0) {
                 this.empleadoLocal = {
-                    Nombre_Completo: plazasEmpleado[0].Nombre_Completo,
+                    Nombre_Completo: plazasEmpleado[0].Nombre_Completo || 'No disponible',
                     Numemp: plazasEmpleado[0].Numemp,
+                    RFC: plazasEmpleado[0].RFC || 'No disponible',
+                    CURP: plazasEmpleado[0].CURP || 'No disponible',
+                    Municipio: plazasEmpleado[0].Municipio || 'No disponible',
+                    Sexo: plazasEmpleado[0].Sexo || 'No disponible',
                     Plazas: plazasEmpleado
                 };
                 this.mostrarModalTabla = true;
@@ -129,7 +188,6 @@ export default {
         },
         cancelar() {
             this.mostrarModalTabla = false;
-            this.$forceUpdate();
         },
         formatearNumero(valor) {
             if (!valor && valor !== 0) return 'No disponible';
@@ -143,6 +201,18 @@ export default {
             const mes = String(fechaObj.getMonth() + 1).padStart(2, '0');
             const anio = fechaObj.getFullYear();
             return `${dia}/${mes}/${anio}`;
+        },
+        formatearSexo(sexo) {
+            if (sexo === 'F') {
+                return 'FEMENINO';
+            } else if (sexo === 'M') {
+                return 'MASCULINO';
+            } else {
+                return 'No disponible'; // Para manejar valores no definidos
+            }
+        },
+        cerrarModal() {
+            this.mostrarModalTabla = false; // Aquí cerramos el modal al recibir el evento
         }
     }
 };
@@ -150,8 +220,19 @@ export default {
 
 <style scoped>
 .titulo {
-    padding: 30px 10px 0px 10px;
+    padding: 30px 0px 0px 0px;
     font-size: 30px;
+}
+
+.tituloNombre {
+    font-style: italic;
+    font-size: 27px;
+    color: #691c32;
+    font-weight: 600;
+}
+
+.botonesTitulo {
+    padding-top: 30px;
 }
 
 .separador {
@@ -160,11 +241,31 @@ export default {
     max-width: 100%;
     padding: 0;
     margin-top: 5px;
-    margin: 5px 10px 20px;
+    margin: 5px 0px 20px;
+}
+
+.SeccionInfoGeneral {
+    padding-bottom: 20px;
+}
+
+.separacion {
+    padding: 2.5px 0px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.fuenteSep {
+    font-size: 15px;
+    font-weight: normal;
 }
 
 .contenedorPrincipal {
-    margin: 0px 20px;
+    margin: 0px 30px;
+}
+
+.contenedorTituloNombre {
+    display: flex;
+    justify-content: space-between;
 }
 
 .label {
@@ -200,4 +301,9 @@ export default {
     margin: auto;
     padding: 30px 0px 20px;
 }
+.totales {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
 </style>

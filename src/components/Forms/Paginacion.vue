@@ -95,9 +95,8 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 10px;
-  /*     width: 100%; */
   gap: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 
 
 }
