@@ -1,4 +1,7 @@
 <template>
+  <LoadScreen v-if="mostrarLoader"></LoadScreen>
+  <ModalExito v-if="mostrarExito"></ModalExito>
+  <ModalConfirmacion v-if="mostrarConfir"></ModalConfirmacion>
   <div id="app">
     <LayoutPrincipal>
       <ContainerWhite>
@@ -79,6 +82,9 @@ import Button from "../components/Forms/Button.vue";
 import Paginacion from "../components/Forms/Paginacion.vue";
 import AgregarEmpleadosCobaes from "../components/Empleados/AgregarEmpleadosCobaes.vue";
 import TablaAgregarEmpleadosCobaes from '../components/Empleados/TablaAgregarEmpleadosCobaes.vue';
+import LoadScreen from '../components/Forms/LoadScreen.vue';
+import ModalExito from '../components/Modales/ModalExito.vue';
+import ModalConfirmacion from '../components/Modales/ModalConfirmacion.vue';
 
 export default {
   components: {
@@ -89,6 +95,10 @@ export default {
     Button,
     AgregarEmpleadosCobaes,
     TablaAgregarEmpleadosCobaes,
+    ModalExito,
+    ModalConfirmacion,
+    LoadScreen,
+
   },
   data() {
     return {

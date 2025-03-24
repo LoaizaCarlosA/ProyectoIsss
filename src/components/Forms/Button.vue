@@ -159,6 +159,7 @@ export default {
   cursor: pointer;
   box-shadow: 0px 3px 6px #00000029;
   font-weight: 700;
+  user-select: none;
 }
 
 .btn-regresar:hover {
@@ -184,7 +185,8 @@ export default {
   background: #CB0809 0% 0% no-repeat padding-box;
   color: white;
 }
-.btn-descargar-excel{
+
+.btn-descargar-excel {
   background: white 0% 0% no-repeat padding-box;
   border: 1px solid #0f7d21;
   color: #0f7d21;
@@ -197,10 +199,12 @@ export default {
   font-weight: 700;
   margin: 0px 5px;
 }
+
 .btn-descargar-excel:hover {
   background: #0f7d21 0% 0% no-repeat padding-box;
   color: white;
 }
+
 .btn-guardar {
   background: white 0% 0% no-repeat padding-box;
   border: 1px solid #237a1b;
@@ -247,6 +251,27 @@ export default {
 
 .btn-guardar-cotizacion:hover {
   background: #237a1b 0% 0% no-repeat padding-box;
+  color: white;
+}
+
+
+.btn-confirmar-eliminar {
+  background: white 0% 0% no-repeat padding-box;
+  border: 1px solid #CB0809;
+  color: #CB0809;
+  border-radius: 18px;
+  opacity: 1;
+  width: 110px;
+  height: 32px;
+  cursor: pointer;
+  box-shadow: 0px 3px 6px #00000029;
+  font-weight: 700;
+  margin: 0px 5px;
+  user-select: none;
+}
+
+.btn-confirmar-eliminar:hover {
+  background: #CB0809 0% 0% no-repeat padding-box;
   color: white;
 }
 </style>
