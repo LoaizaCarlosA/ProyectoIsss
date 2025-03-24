@@ -44,6 +44,7 @@ export default {
 }
 
 .contenedorInformacion {
+    user-select: none;
     height: 85px;
     display: flex;
     flex-direction: row;

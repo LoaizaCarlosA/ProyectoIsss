@@ -5,7 +5,7 @@
                 <section class="contenedorTituloNombre">
                     <div class="titulo">
                         {{ tituloHeader }} <span class="tituloNombre">{{ empleado ? empleado.Nombre_Completo : ''
-                            }}</span>
+                        }}</span>
                     </div>
                     <section class="botonesTitulo">
                         <Button class="btn-descargar-excel">
@@ -81,6 +81,10 @@
 import Button from "../Forms/Button.vue";
 import ModalBase from "../Modales/ModalBase.vue";
 import axios from 'axios';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 export default {
     components: {
@@ -115,7 +119,7 @@ export default {
     },
     computed: {
         totalSueldoNeto() {
-            if (!this.empleadoLocal || !this.empleadoLocal.Plazas) return 0;  // Validar que 'empleadoLocal' y 'Plazas' existan
+            if (!this.empleadoLocal || !this.empleadoLocal.Plazas) return 0;
             return this.empleadoLocal.Plazas.reduce((total, plaza) => {
                 return total + (parseFloat(plaza.Sueldo_Neto_Quincenal) || 0);
             }, 0);
@@ -193,14 +197,16 @@ export default {
             if (!valor && valor !== 0) return 'No disponible';
             return Number(valor).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
+        convertirFechaExcel(serialDate) {
+            const fecha = new Date(1900, 0, serialDate - 1);
+            return fecha;
+        },
         formatearFecha(fecha) {
             if (!fecha) return 'No disponible';
-            const fechaObj = new Date(fecha);
-            if (isNaN(fechaObj)) return 'No disponible';
-            const dia = String(fechaObj.getDate()).padStart(2, '0');
-            const mes = String(fechaObj.getMonth() + 1).padStart(2, '0');
-            const anio = fechaObj.getFullYear();
-            return `${dia}/${mes}/${anio}`;
+            if (typeof fecha === 'number') {
+                fecha = this.convertirFechaExcel(fecha);
+            }
+            return dayjs(fecha).format('DD/MM/YYYY');
         },
         formatearSexo(sexo) {
             if (sexo === 'F') {
@@ -208,11 +214,11 @@ export default {
             } else if (sexo === 'M') {
                 return 'MASCULINO';
             } else {
-                return 'No disponible'; // Para manejar valores no definidos
+                return 'No disponible';
             }
         },
         cerrarModal() {
-            this.mostrarModalTabla = false; // Aquí cerramos el modal al recibir el evento
+            this.mostrarModalTabla = false;
         }
     }
 };
@@ -301,9 +307,9 @@ export default {
     margin: auto;
     padding: 30px 0px 20px;
 }
-.totales {
-  background-color: #f1f1f1;
-  font-weight: bold;
-}
 
+.totales {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
 </style>

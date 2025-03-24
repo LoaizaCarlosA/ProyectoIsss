@@ -97,8 +97,7 @@ export default {
   padding: 10px;
   gap: 40px;
   margin-bottom: 12px;
-
-
+  user-select: none;
 }
 
 .paginacion .anterior,
