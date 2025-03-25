@@ -56,7 +56,7 @@ export default {
 .circulo-load {
     height: 80px;
     width: 80px;
-    border: 5px solid #ef7b14;
+    border: 5px solid #691c32;
     border-radius: 50%;
     border-top: #fff;
     animation: circular-loader 1s linear infinite;

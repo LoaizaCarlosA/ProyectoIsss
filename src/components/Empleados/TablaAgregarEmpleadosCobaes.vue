@@ -312,4 +312,42 @@ export default {
     background-color: #f1f1f1;
     font-weight: bold;
 }
+
+.cabecera {
+    background: black;
+    color: white;
+}
+
+.tablaPrincipal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.default {
+    border-collapse: collapse;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0px 3px 6px #00000029;
+}
+.default th {
+    background-color: black;
+    color: #fff;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+.default td, .default th {
+    border: none;
+    padding: 15px 12px;
+    text-align: center;
+}
+.tbody {
+    font-size: 14.5px;
+}
+.totales[data-v-850ffab6] {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+.default tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
 </style>

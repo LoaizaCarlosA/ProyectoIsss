@@ -1,7 +1,10 @@
 <template>
   <LoadScreen v-if="mostrarLoader"></LoadScreen>
-  <ModalExito v-if="mostrarExito"></ModalExito>
-  <ModalConfirmacion v-if="mostrarConfir"></ModalConfirmacion>
+  <ModalExito v-show="mostrarExito" :mostrarExito="mostrarExito"></ModalExito>
+  <ModalConfirmacion v-if="mostrarModalConfirmacion" @confirmar="confirmarEliminacion" @cancelar="cancelarEliminacion"
+    :nombreUsuario="empleadoSeleccionado ? empleadoSeleccionado.Nombre_Completo : ''">
+  </ModalConfirmacion>
+  <LoadScreen v-if="mostrandoLoader" />
   <div id="app">
     <LayoutPrincipal>
       <ContainerWhite>
@@ -108,6 +111,12 @@ export default {
       mostrarModalTabla: false,
       empleado: null,
       empleadoSeleccionado: null,
+      mostrarModalConfirmacion: false,
+      empleadoAEliminar: null,
+      mostrarModalEliminar: false,
+      mostrandoLoader: false,
+      usuarioSeleccionado: "",
+      mostrarExito: false,
     };
   },
   mounted() {
@@ -143,10 +152,6 @@ export default {
     mostrarAddService() {
       this.mostrarModal = true;
     },
-    eliminarEmpleado(id) {
-      this.data = this.data.filter((item) => item.Numemp !== id);
-      console.log("Empleado eliminado con ID: ", id);
-    },
     mostrarTablaService() {
       this.mostrarModalTabla = true;
     },
@@ -162,11 +167,45 @@ export default {
         console.error("Empleado no encontrado");
       }
     },
+    eliminarEmpleado(id) {
+      this.empleadoSeleccionado = this.data.find(empleado => empleado.Numemp === id);
+      this.mostrarModalConfirmacion = true;
+    },
+    confirmarEliminacion() {
+      this.mostrarModalConfirmacion = false;
+      this.$nextTick(() => {
+        this.mostrandoLoader = true;
+        setTimeout(() => {
+          this.data = this.data.filter((item) => item.Numemp !== this.empleadoSeleccionado.Numemp);
+          this.empleadoSeleccionado = null;
+          this.mostrandoLoader = false;
+          this.mostrarExito = true;
+          console.log("Modal de éxito mostrado");
+          setTimeout(() => {
+            console.log("Ocultando el modal de éxito");
+            this.mostrarExito = false;
+          }, 2300);
+        }, 1500);  // Simula el tiempo de la operación
+      });
+    },
+    cancelarEliminacion() {
+      this.empleadoSeleccionado = null;
+      this.mostrarModalConfirmacion = false;
+    },
+    eliminarUsuario() {
+      this.mostrandoLoader = true;
+      // Simula una espera, o realiza llamada API real
+      setTimeout(() => {
+        // Aquí va la lógica para eliminar el usuario
+        this.mostrandoLoader = false;
+        // Opcional: mostrar notificación de éxito
+      }, 1500);
+    },
   }
 };
 </script>
 
-<style>
+<style scoped>
 .filtrosEmpleados {
   justify-content: space-between;
   display: flex;

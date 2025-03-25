@@ -93,6 +93,7 @@ export default {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+
 .mask {
   background-color: transparent;
   height: 100%;
@@ -101,6 +102,7 @@ export default {
   top: 0;
   left: 0;
 }
+
 .contenido-modal {
   position: relative;
   background-color: #ffffff;
@@ -117,6 +119,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
 .modal-header {
   width: 100%;
   display: flex;
@@ -129,10 +132,12 @@ export default {
   flex-wrap: wrap;
   position: relative;
 }
+
 .cerrar-header {
   width: 100%;
   display: flex;
 }
+
 .btn-close {
   box-sizing: content-box;
   width: 28px;
@@ -153,11 +158,13 @@ export default {
   /* z-index: 100; */
   margin-left: auto;
 }
+
 .btn-close:hover {
   background-size: 14px;
   background-color: #efefef;
   cursor: pointer;
 }
+
 .modal-header .logo-ipx {
   width: 48px;
   height: 48px;
@@ -176,36 +183,43 @@ export default {
     top: -500px;
     opacity: 0;
   }
+
   to {
     top: 0;
     opacity: 1;
   }
 }
+
 @keyframes animatetop {
   from {
     top: -500px;
     opacity: 0;
   }
+
   to {
     top: 0;
     opacity: 1;
   }
 }
+
 .contenido-modal .cuerpo-modal {
   overflow-y: auto;
   width: 100%;
 }
+
 /* MODAL FIN */
 .icon-tachita-negra {
   color: #bababa;
   cursor: pointer;
 }
+
 .contenedor-titular {
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 0px 17px;
 }
+
 .modal-header .titulo-header {
   width: 300px;
   font-size: 22px;
@@ -213,37 +227,45 @@ export default {
   text-align: left;
   font-weight: bold;
 }
+
 .modal-header .separadorGrueso {
   width: 212px;
   height: 6px;
   margin-top: 9px;
   background: #000000 0% 0% no-repeat padding-box;
 }
+
 .text-and-close {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
 }
+
 .cuerpo-modal.overflow-hidden {
   overflow-x: hidden;
 }
+
 .modal-categoria-precio .modal-header .titulo-header {
   width: unset;
 }
+
 @media (max-width: 767px) {
   .modal {
     padding: 0 !important;
   }
+
   .contenido-modal {
     width: 100vw;
     height: 100vh;
     border-radius: 0px;
   }
+
   .cuerpo-modal {
     flex: 1;
     border-radius: 0;
     padding: 0;
   }
+
   .modal-header {
     padding: 0px;
   }
@@ -251,6 +273,7 @@ export default {
   .modal-header .titulo-header {
     font-size: 16px;
   }
+
   .cerrar-header {
     height: 70px;
     display: flex;
@@ -263,6 +286,7 @@ export default {
     -moz-box-shadow: 0px 3px 6px #00000029;
     margin-bottom: 34px;
   }
+
   .btn-close {
     position: initial;
     right: initial;
@@ -273,9 +297,11 @@ export default {
     background-size: 14px;
     background-color: transparent;
   }
+
   .contenedor-titular {
     padding: 0px 29px;
   }
+
   .modal-header .titulo-header {
     text-align: left;
     font-size: 16px;
@@ -283,6 +309,7 @@ export default {
     color: #020101;
     opacity: 1;
   }
+
   .icon-tachita-negra {
     justify-content: flex-end;
     margin-right: 32px;
@@ -290,6 +317,7 @@ export default {
     display: flex;
     color: #ffffff;
   }
+
   .modal-header .separadorGrueso {
     width: 89px;
   }

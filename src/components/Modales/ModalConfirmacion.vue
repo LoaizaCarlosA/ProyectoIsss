@@ -1,5 +1,5 @@
 <template>
-  <ModalBaseConfirmacion>
+  <ModalBaseConfirmacion >
     <section class="contenedorPrincipal">
       <section>
         <div class="contenedorLogo">
@@ -7,10 +7,18 @@
         </div>
         <div class="separador"></div>
       </section>
-      <div class="titulo">{{ mensajeExito }}</div>
+      <div class="titulo">
+        <div class="mensajeEliminar">
+          {{ mensajeExito }}
+        </div>
+        <div class="NombreUsuario">
+          <strong v-if="nombreUsuario"> {{ nombreUsuario }}<span class="signoInt">?</span></strong>
+        </div>
+
+      </div>
       <section class="contenedorBotones">
         <Button class="btn-regresar" @click="cancelar">Cancelar</Button>
-        <Button class="btn-confirmar-eliminar" @click="registrarEmpleado">Confirmar</Button>
+        <Button class="btn-confirmar-eliminar" @click="eliminarUsuario">Confirmar</Button>
       </section>
     </section>
     <LoadScreen v-if="showAddProducto" @cerrar="ocultarAddProd"></LoadScreen>
@@ -31,11 +39,17 @@ export default {
   props: {
     mensajeExito: {
       type: String,
-      default: "¿Está seguro que desea eliminar al usuario?",
+      default: "¿Está seguro que desea eliminar a: ",
+    },
+    nombreUsuario: {
+      type: String,
+      default: "",
     },
   },
   data() {
     return {
+      data: [],
+
       showAddProducto: false,
     };
   },
@@ -50,6 +64,11 @@ export default {
     cancelar() {
       this.$emit("cancelar");
     },
+    eliminarUsuario() {
+      // Solo emite el evento para que el padre lo controle TODO
+      this.$emit("cerrarModal");
+      this.$emit("confirmar");
+    },
   },
 };
 </script>
@@ -61,18 +80,20 @@ export default {
 
 .titulo {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  font-size: 25px;
+  font-size: 23px;
+  align-items: center;
 }
 
 .contenedorLogo {
   justify-content: center;
   display: flex;
-  padding: 15px 0px 10px;
+  padding: 30px 0px 10px;
 }
 
 .imgLogo {
-  height: 55px;
+  height: 40px;
 }
 
 .separador {
@@ -131,6 +152,17 @@ export default {
   justify-content: space-evenly;
   max-width: 80%;
   margin: auto;
-  padding: 30px 0px 20px;
+  padding: 30px 0px 30px;
+}
+
+.NombreUsuario {
+  font-style: italic;
+  color: #691c32;
+}
+
+.signoInt {
+  color: #000000;
+  font-style: normal;
+  font-weight: 100;
 }
 </style>

@@ -1,18 +1,18 @@
 <template>
-  <ModalBaseConfirmacion>
+  <ModalBaseConfirmacion v-if="mostrarExito">
     <section class="contenedorPrincipal">
       <section>
         <div class="contenedorLogo">
-          <img class="imgLogo" src="@/assets/images/ISSSTEESIN_HORIZONTAL_UNA_TINTA.png" alt="" />
+          <img class="imgLogo" src="@/assets/images/ISSSTEESIN_HORIZONTAL.png" alt="" />
         </div>
         <div class="separador"></div>
       </section>
       <section class="contenedorImg">
-        <img class="imgE" src="@/assets/images/notificacion.png" alt="" />
+        <img class="imgE" src="@/assets/images/palomita-icon.svg" alt="" />
       </section>
       <div class="titulo">{{ mensajeExito }}</div>
-      <section class="contenedorBotones">
-      </section>
+      <!--       <section class="contenedorBotones">
+      </section> -->
     </section>
     <LoadScreen v-if="showAddProducto" @cerrar="ocultarAddProd"></LoadScreen>
   </ModalBaseConfirmacion>
@@ -25,7 +25,7 @@ import LoadScreen from "../Forms/LoadScreen.vue";
 export default {
   components: {
     ModalBaseConfirmacion,
-   
+
     LoadScreen,
   },
   props: {
@@ -33,6 +33,15 @@ export default {
       type: String,
       default: "¡Proceso concluido de manera exitosa!",
     },
+    mostrarExito: {
+      type: Boolean,
+      default: false
+    },
+    watch: {
+      mostrarExito(newVal) {
+        console.log("Modal de éxito: ", newVal ? "Abierto" : "Cerrado");
+      }
+    }
   },
   data() {
     return {
@@ -58,22 +67,26 @@ export default {
 .contenido-modal {
   min-width: 500px !important;
 }
+
 .titulo {
   display: flex;
   justify-content: center;
-  padding: 30px 0px 0px 0px;
-  font-size: 30px;
+  padding: 30px 0px 30px 0px;
+  font-size: 23px;
 }
+
 .contenedorLogo {
   justify-content: center;
   display: flex;
-  padding: 15px 0px 10px;
+  padding: 30px 0px 10px;
 }
-.imgLogo{
-  height: 90px;
+
+.imgLogo {
+  height: 40px;
 }
+
 .separador {
-  border-top: 3px solid #ef7b14;
+  border-top: 3px solid #691c32;
   height: 2px;
   max-width: 100%;
   padding: 0;
@@ -81,22 +94,25 @@ export default {
   margin-top: 5px;
   margin-bottom: 30px;
 }
+
 .contenedorImg {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px 0px 5px;
 }
+
 .contenedorPrincipal {
   margin: 0px 30px;
 }
+
 .imgE {
-  height: 200px;
+  height: 120px;
 }
+
 .label {
-  /* font-weight: 500; */
   margin: 17px 0px 5px;
 }
+
 .inputEditar {
   width: 300px;
   height: 32px;
@@ -107,6 +123,7 @@ export default {
   padding: 0px 7px;
   border-radius: 10px;
 }
+
 .buscadorSelect {
   width: 100%;
   height: 32px;
@@ -116,6 +133,7 @@ export default {
   padding: 0px 7px;
   border-radius: 10px;
 }
+
 .contenedorBotones {
   display: flex;
   justify-content: center;
