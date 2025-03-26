@@ -10,11 +10,16 @@
                     <div class="label">Número de empleado:</div>
                     <input class="inputEditar" inputmode="numeric" maxlength="7" name="" id="" v-model="nombre"
                         @input="validateNumber" placeholder="Ingrese el número de empleado" />
+                    <div class="errorInputs" v-if="errorNumeroEmpleado">Este campo
+                        es obligatorio.
+                    </div>
                 </div>
                 <div>
                     <div class="label">RFC:</div>
                     <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="RFC"
                         placeholder="Ingrese el RFC" />
+                    <div class="errorInputs" v-if="errorRFC">Este campo es
+                        obligatorio.</div>
                 </div>
             </section>
             <section class="seccionDos">
@@ -22,11 +27,15 @@
                     <div class="label">Nombre:</div>
                     <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="Nombre"
                         placeholder="Ingrese el nombre" />
+                    <div class="errorInputs" v-if="errorNombre">Este campo es
+                        obligatorio.</div>
                 </div>
                 <div>
                     <div class="label">CURP:</div>
                     <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="CURP"
                         placeholder="Ingrese el CURP" />
+                    <div class="errorInputs" v-if="errorCURP">Este campo es
+                        obligatorio.</div>
                 </div>
             </section>
             <section class="seccionTres">
@@ -34,11 +43,16 @@
                     <div class="label">Apellido Paterno:</div>
                     <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="apellidoPaterno"
                         placeholder="Ingrese el apellido paterno" />
+                    <div class="errorInputs" v-if="errorApellidoPaterno">Este campo
+                        es obligatorio.
+                    </div>
                 </div>
                 <div>
                     <div class="label">Plaza:</div>
                     <input class="inputEditar" inputmode="numeric" maxlength="12" name="" id="" v-model="Plaza"
                         @input="validateNumber" placeholder="Ingrese el número de plaza" />
+                    <div class="errorInputs" v-if="errorPlaza">Este campo es
+                        obligatorio.</div>
                 </div>
             </section>
             <section class="seccionCuatro">
@@ -46,11 +60,17 @@
                     <div class="label">Apellido Materno:</div>
                     <input class="inputEditar" type="text" maxlength="7" name="" id="" v-model="apellidoMaterno"
                         placeholder="Ingrese el apellido materno" />
+                    <div class="errorInputs" v-if="errorApellidoMaterno">Este campo
+                        es obligatorio.
+                    </div>
                 </div>
                 <div>
                     <div class="label">Sueldo Neto Quincenal:</div>
                     <input class="inputEditar" type="text" name="" id="clave" v-model="formattedSalaryNeto"
                         @input="formatSalaryNeto" placeholder="Ingrese el sueldo neto quincenal" />
+                    <div class="errorInputs" v-if="errorSueldoNetoQuincenal">Este
+                        campo es obligatorio.
+                    </div>
                 </div>
             </section>
             <section class="seccionCinco">
@@ -58,11 +78,15 @@
                     <div class="label">Municipio:</div>
                     <input class="inputEditar" type="text" name="" id="clave" v-model="municipio"
                         placeholder="Ingrese el municipio" />
+                    <div class="errorInputs" v-if="errorMunicipio">Este campo es
+                        obligatorio.</div>
                 </div>
                 <div>
                     <div class="label">Sueldo Base:</div>
                     <input class="inputEditar" type="text" name="" id="clave" v-model="formattedSalaryBase"
                         @input="formatSalaryBase" placeholder="Ingrese el sueldo base" />
+                    <div class="errorInputs" v-if="errorSueldoBase">Este campo es
+                        obligatorio.</div>
                 </div>
             </section>
             <section class="seccionSeis">
@@ -70,11 +94,16 @@
                     <div class="label">Fecha Ingreso:</div>
                     <input class="inputEditar" type="date" name="" id="clave" v-model="fechaIngreso"
                         placeholder="Ingrese la fecha de ingreso" />
+                    <div class="errorInputs" v-if="errorFechaIngreso">Este campo es
+                        obligatorio.</div>
                 </div>
                 <div>
                     <div class="label">Aportación ISSSTEESIN:</div>
                     <input class="inputEditar" type="text" name="" id="clave" v-model="formattedAportacionIsssteesin"
                         @input="formatAportacionIsssteesin" placeholder="Ingrese la aportación de ISSSTEESIN" />
+                    <div class="errorInputs" v-if="errorAportacionIsssteesin">Este
+                        campo es
+                        obligatorio.</div>
                 </div>
             </section>
             <section class="seccionSeis">
@@ -82,11 +111,16 @@
                     <div class="label">Banco:</div>
                     <input class="inputEditar" type="text" name="" id="clave" v-model="Banco"
                         placeholder="Ingrese el banco" />
+                    <div class="errorInputs" v-if="errorBanco">Este campo es
+                        obligatorio.</div>
                 </div>
                 <div>
                     <div class="label">Aportación Vivienda:</div>
                     <input class="inputEditar" type="text" name="" id="clave" v-model="formattedAportacionVivienda"
                         @input="formatAportacionVivienda" placeholder="Ingrese la aportación de vivienda" />
+                    <div class="errorInputs" v-if="errorAportacionVivienda">Este
+                        campo es obligatorio.
+                    </div>
                 </div>
             </section>
             <section class="contenedorBotones">
@@ -138,6 +172,22 @@ export default {
             formattedAportacionVivienda: "", // Aportación Vivienda con formato
             AportacionIsssteesin: "", // Valor numérico de la aportación ISSSTEESIN
             AportacionVivienda: "", // Valor numérico de la aportación Vivienda
+
+            errorNombre: false,
+            errorRFC: false,
+            errorApellidoPaterno: false,
+            errorApellidoMaterno: false,
+            errorPlaza: false,
+            errorSueldoBase: false,
+            errorSueldoNeto: false,
+            errorMunicipio: false,
+            errorFechaIngreso: false,
+            errorAportacionIsssteesin: false,
+            errorAportacionVivienda: false,
+            errorBanco: false,
+            errorNumeroEmpleado: false,
+            errorCURP: false,
+            errorSueldoNetoQuincenal: false,
         };
     },
     emits: ["cancelar"],
@@ -211,6 +261,33 @@ export default {
             this.formattedAportacionVivienda = value;
             this.AportacionVivienda = value.replace(/[^0-9.]/g, "");
         },
+        registrarEmpleado() {
+            this.errorNumeroEmpleado = !this.nombre;
+            this.errorRFC = !this.RFC;
+            this.errorNombre = !this.Nombre;
+            this.errorCURP = !this.CURP;
+            this.errorApellidoPaterno = !this.apellidoPaterno;
+            this.errorApellidoMaterno = !this.apellidoMaterno;
+            this.errorPlaza = !this.Plaza;
+            this.errorSueldoBase = !this.formattedSalaryBase;
+            this.errorSueldoNeto = !this.formattedSalaryNeto;
+            this.errorMunicipio = !this.municipio;
+            this.errorFechaIngreso = !this.fechaIngreso;
+            this.errorAportacionIsssteesin = !this.formattedAportacionIsssteesin;
+            this.errorAportacionVivienda = !this.formattedAportacionVivienda;
+            this.errorBanco = !this.Banco;
+            this.errorSueldoNetoQuincenal = !this.SueldoNetoQuincenal;
+
+            if (this.errorNumeroEmpleado || this.errorRFC || this.errorNombre || this.errorCURP ||
+                this.errorApellidoPaterno || this.errorApellidoMaterno || this.errorPlaza ||
+                this.errorSueldoBase || this.errorSueldoNeto || this.errorMunicipio ||
+                this.errorFechaIngreso || this.errorAportacionIsssteesin || this.errorAportacionVivienda ||
+                this.errorBanco || this.errorSueldoNetoQuincenal) {
+                return;
+            }
+
+            // Aquí va el código para registrar el empleado
+        },
     },
 };
 </script>
@@ -227,7 +304,7 @@ export default {
     max-width: 100%;
     padding: 0;
     margin-top: 5px;
-    margin: 5px 10px 20px;
+    margin: 5px 10px 10px;
 }
 
 .contenedorPrincipal {
@@ -290,5 +367,11 @@ export default {
 
 .seccionSeis {
     display: flex;
+}
+
+.errorInputs {
+    color: red;
+    font-size: 12px;
+    padding: 5px 20px 0px;
 }
 </style>

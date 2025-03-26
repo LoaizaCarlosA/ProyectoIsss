@@ -54,7 +54,7 @@ export default {
   flex: 1;
   /*   overflow-y: auto; */
   background-color: #fafafa;
-  min-height: calc(90vh - 70px);
+  min-height: calc(96vh - 70px);
 }
 
 @media (max-width: 768px) {

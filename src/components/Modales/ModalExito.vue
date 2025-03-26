@@ -8,7 +8,7 @@
         <div class="separador"></div>
       </section>
       <section class="contenedorImg">
-        <img class="imgE" src="@/assets/images/palomita-icon.svg" alt="" />
+        <img class="imgE" src="@/assets/images/exito.png" alt="" />
       </section>
       <div class="titulo">{{ mensajeExito }}</div>
       <!--       <section class="contenedorBotones">

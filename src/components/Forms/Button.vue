@@ -1,5 +1,5 @@
 <template>
-  <button class="btn">
+  <button class="btn" style="  user-select: none;">
     <slot />
   </button>
 </template>
@@ -7,34 +7,6 @@
 <script>
 export default {
   name: "Button",
-  //   props: {
-  //     isDiasable: {
-  //       type: Boolean,
-  //       default: false,
-  //     },
-  //     sombras: {
-  //       type: Boolean,
-  //       default: false,
-  //     },
-  //     descarga: {
-  //       type: Boolean,
-  //       default: false,
-  //     },
-  //   },
-  //   computed: {
-  //     getClass() {
-  //       return {
-  //         'btn-sombra': this.sombras,
-  //       }
-  //     },
-  //   },
-  //   methods: {
-  //     action() {
-  //       if (this.descarga != false) {
-  //         this.$emit('descargar')
-  //       }
-  //     },
-  //   },
 };
 </script>
 
@@ -113,8 +85,8 @@ export default {
 
 .btn-agregar-cobaes {
   background: white 0% 0% no-repeat padding-box;
-  border: 1px solid #29a2f7;
-  color: #29a2f7;
+  border: 1px solid black;
+  color: black;
   border-radius: 18px;
   opacity: 1;
   width: 28px;
@@ -126,7 +98,7 @@ export default {
 }
 
 .btn-agregar-cobaes:hover {
-  background: #29a2f7 0% 0% no-repeat padding-box;
+  background: black 0% 0% no-repeat padding-box;
   color: white;
 }
 
@@ -159,7 +131,6 @@ export default {
   cursor: pointer;
   box-shadow: 0px 3px 6px #00000029;
   font-weight: 700;
-  user-select: none;
 }
 
 .btn-regresar:hover {
@@ -267,7 +238,6 @@ export default {
   box-shadow: 0px 3px 6px #00000029;
   font-weight: 700;
   margin: 0px 5px;
-  user-select: none;
 }
 
 .btn-confirmar-eliminar:hover {

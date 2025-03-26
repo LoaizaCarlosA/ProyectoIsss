@@ -22,4 +22,9 @@ export default {
   font-family: Arial, sans-serif;
   margin: 0px;
 }
+.no-scroll {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+}
 </style>

@@ -196,7 +196,7 @@ export default {
 <style scoped>
 body {
     font-family: Arial, sans-serif;
-    margin: 70px 0px 0px;
+    margin: 85px 0px 0px;
     padding: 0;
     background: #fafafa;
 }
@@ -206,6 +206,7 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    min-height: calc(89.5vh - 70px);
 }
 
 .perfil {

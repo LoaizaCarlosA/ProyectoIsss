@@ -56,6 +56,7 @@
         };
       },
     },
+
     // mounted() {
     //   // agregar la clase modal_NUMERO al levantar un modal para evitar el
     //   // scroll de la seccion debajo del modal, (cada modal crea su propio

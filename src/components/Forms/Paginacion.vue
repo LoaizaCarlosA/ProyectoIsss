@@ -96,7 +96,7 @@ export default {
   justify-content: center;
   padding: 10px;
   gap: 40px;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   user-select: none;
 }
 
