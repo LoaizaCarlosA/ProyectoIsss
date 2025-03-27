@@ -264,5 +264,9 @@ export default {
   .menu-item i {
     font-size: 22px;
   }
+  .cerrar-txt{
+    margin-left: 6px;
+    font-size: 13px;
+  }
 }
 </style>

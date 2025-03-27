@@ -28,7 +28,9 @@
                   <!--                   <th>Plaza</th> -->
                   <th>Municipio</th>
                   <th>Banco</th>
-                  <th>Acciones</th>
+                  <th>
+                    <i class="fa-solid fa-list"></i>
+                  </th>
                 </tr>
               </thead>
               <tbody class="tbody">
@@ -234,9 +236,10 @@ export default {
 }
 
 .tablaPrincipal {
-  display: flex;
+  width: 100%;
+  /*   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .default {
@@ -244,6 +247,7 @@ export default {
   border-radius: 10px;
   width: 100%;
   box-shadow: 0px 3px 6px #00000029;
+
 }
 
 .cabecera {
@@ -282,12 +286,30 @@ export default {
 }
 
 @media (max-width: 810px) {
+  .default {
+    border-collapse: collapse;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0px 3px 6px #00000029;
+    table-layout: auto;
+    /* o 'fixed' si quieres uniformidad */
+    max-width: 100%;
+    word-wrap: break-word;
+  }
+
+/*   .default td,
+  .default th {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  } */
+
   .default td {
     padding: 10px 5px;
   }
 
   .default th {
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 0px;
   }
 
