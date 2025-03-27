@@ -3,9 +3,11 @@
         <section class="contenedorInformacion">
             <img class="imagenLogo" src="../assets/images/ISSSTEESIN_HORIZONTAL_UNA_TINTA.png" alt="" />
             <div class="infoContainer">
+                <router-link to="/Perfil">
                 <button class="burgerMenu mostrar-movil">
-                    <!-- <img src="@assets/img/menu-movil.svg" alt="" /> -->
+                     <img src="../assets/svg/icono-usuario.svg" alt="" /> 
                 </button>
+            </router-link>
                 <div class="infoUsuario ocultar-movil">
                     <div class="nombreUsuario">Carlos Andrés Loaiza López</div>
                     <div class="locacionSistema">Administrador</div>
@@ -106,12 +108,11 @@ export default {
 }
 
 .burgerMenu {
-    width: 55px;
-    height: 50px;
-    background-color: #000000;
+    border-radius: 100%;
     border: 0;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
-    border-radius: 5px;
     justify-content: center;
     align-items: center;
     -webkit-tap-highlight-color: transparent;
@@ -140,7 +141,10 @@ export default {
     display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 810px) {
+    .imagenLogo{
+        height: 45px;
+    }
     .contenedorInformacion {
         padding: 0 20px;
     }

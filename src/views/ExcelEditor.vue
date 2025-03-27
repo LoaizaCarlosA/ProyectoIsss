@@ -18,7 +18,7 @@
     },
     mounted() {
       // Hacemos la llamada fetch para obtener los datos del backend
-      fetch('http://localhost:5000/api/excel-data')  // Asegúrate de que la URL sea correcta
+      fetch('http://192.168.21.18:5000/api/excel-data')  // Asegúrate de que la URL sea correcta
         .then(response => response.json())  // Convertimos la respuesta a JSON
         .then(data => {
           this.data = data;  // Asignamos los datos obtenidos a la variable 'data'
@@ -37,7 +37,7 @@
               const updatedData = hot.getData();  // Obtener los datos modificados
   
               // Enviar los datos modificados al backend
-              fetch('http://localhost:5000/api/save-excel-data', {
+              fetch('http://192.168.21.18:5000/api/save-excel-data', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

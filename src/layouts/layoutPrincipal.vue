@@ -44,10 +44,9 @@ export default {
   /* Transición suave cuando el menú se abre/cierra */
 }
 
-.page-container.collapsed {
-  padding-left: 215px;
-  /* Menú colapsado, reducimos el espacio */
-}
+.page-container.collapsed{
+    padding-left: 215px;
+  }
 
 .module-container {
   padding: 20px 20px 0px 35px;
@@ -57,9 +56,13 @@ export default {
   min-height: calc(96vh - 70px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 820px) {
   .page-container.collapsed {
-    padding-left: 135px;
+    padding-left: 130px;
   }
+  .page-container {
+    padding-left: 60px;
+  }
+  
 }
 </style>

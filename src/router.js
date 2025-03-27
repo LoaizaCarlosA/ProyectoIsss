@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "./views/Home.vue";
 import About from "./views/About.vue";
-import LogIn from "./views/LogIn.vue";
+/* import LogIn from "./views/LogIn.vue"; */
 import Cobaes from "./views/Cobaes.vue";
 import Perfil from "./views/Perfil.vue";
 import Dashboard from "./views/DashBoard.vue";
@@ -24,11 +24,11 @@ const routes = [
     name: "About",
     component: About,
   },
-  {
+/*   {
     path: "/login",
     name: "LogIn",
     component: LogIn,
-  },
+  }, */
   {
     path: "/Cobaes",
     name: "Cobaes",

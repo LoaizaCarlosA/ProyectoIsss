@@ -46,7 +46,7 @@ export default {
       this.$store.commit('toggleMenu');
     },
     cerrarSesion() {
-      this.$router.push('/Login');
+      this.$router.push('/');
     },
   },
 };
@@ -238,13 +238,23 @@ export default {
   height: 18px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 810px) {
+
+  .sidebar{
+    min-width: 60px;
+    width: 60px;
+  }
   .sidebar.active {
-    width: 135px;
+    width: 125px;
   }
 
   .menu-item span {
     font-size: 13px;
+  }
+
+  .container-menu{
+    min-width: 60px;
+    width: 60px;
   }
 
   .container-menu.active {

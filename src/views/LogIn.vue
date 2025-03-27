@@ -138,7 +138,23 @@ button:hover {
     width: 70%;
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 810px){
+    .container{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        padding: 50px;
+        box-sizing: border-box;
+    }
+} */
+
+@media (max-width: 820px) {
+    .container{
+
+    }
     .form-container {
         flex-direction: column;
         width: 100%;
@@ -153,6 +169,7 @@ button:hover {
 
     .right {
         order: -1;
+        padding: 60px 0px;
     }
 }
 </style>

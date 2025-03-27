@@ -10,7 +10,7 @@
       <ContainerWhite>
         <section class="filtrosEmpleados">
           <div class="tituloModulo">Lista de empleados COBAES</div>
-          <div>
+          <div class="inputMovil">
             <input class="inputBuscador" type="text" v-model="searchText"
               placeholder="Inserte nombre o número de empleado" />
             <Button class="btn-agregar" @click="mostrarAddService">Agregar</Button>
@@ -120,7 +120,7 @@ export default {
     };
   },
   mounted() {
-    axios.get('http://localhost:5000/empleados')
+    axios.get('http://192.168.21.18:5000/empleados')
       .then(response => {
         this.data = response.data;
         console.log("Datos recibidos del backend:", this.data);
@@ -227,6 +227,10 @@ export default {
   padding: 0px 10px;
   border-radius: 10px;
   margin-right: 20px;
+  position: relative;
+  /* Asegura que el shadow se vea correctamente */
+  z-index: 10;
+  /* Coloca el input por encima de otros elementos si es necesario */
 }
 
 .tablaPrincipal {
@@ -275,5 +279,89 @@ export default {
   font-weight: bold;
   color: #691c32;
   padding: 20px 0;
+}
+
+@media (max-width: 810px) {
+  .default td {
+    padding: 10px 5px;
+  }
+
+  .default th {
+    font-size: 11px;
+    letter-spacing: 0px;
+  }
+
+  .tbody {
+    font-size: 11px;
+  }
+
+  .tituloModulo {
+    font-size: 20px;
+  }
+
+  .filtrosEmpleados {
+    padding: 20px 20px 20px 20px;
+  }
+
+  .inputBuscador {
+    width: 150px;
+    margin-right: 10px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+    /* Sombra más visible */
+    z-index: 10;
+    /* Asegura que el shadow esté visible */
+    border: 0.5px solid #000000;
+    border-radius: 18px;
+
+    /*     border: 1px solid #000000;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 10px; */
+  }
+
+  .btn-agregar-cobaes {
+    width: 23px;
+    height: 23px;
+    font-size: 10px;
+    color: black;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-editar {
+    width: 23px;
+    height: 23px;
+    font-size: 10px;
+    color: black;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-eliminar {
+    width: 23px;
+    height: 23px;
+    font-size: 10px;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+  }
+
+  .botonesTabla {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .inputMovil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

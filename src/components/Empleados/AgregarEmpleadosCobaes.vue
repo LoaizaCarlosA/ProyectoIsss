@@ -374,4 +374,27 @@ export default {
     font-size: 12px;
     padding: 5px 20px 0px;
 }
+
+
+
+@media (max-width: 810px){
+    .inputEditar {
+    width: 300px;
+    height: 32px;
+    box-shadow: 0px 3px 6px #00000029;
+    outline: none;
+    color: #000000;
+    padding: 0px 7px;
+    border-radius: 10px;
+    margin: 0px 10px;
+    border: 0.5px solid #000000;
+}
+.errorInputs{
+    padding: 5px 18px 0px;
+}
+
+}
+
+
+
 </style>

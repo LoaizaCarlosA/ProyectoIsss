@@ -158,7 +158,7 @@ export default {
     },
 
     mounted() {
-        axios.get('http://localhost:5000/empleados')
+        axios.get('http://192.168.21.18:5000/empleados')
             .then(response => {
                 this.data = response.data;
             })
@@ -349,5 +349,33 @@ export default {
 }
 .default tr:nth-child(even) {
     background-color: #f8f8f8;
+}
+
+@media (max-width: 810px){
+    .titulo{
+        font-size: 25px
+    }
+    .tituloNombre{
+        font-size:24px
+    }
+    .separacion{
+        font-size: 15px
+    }
+    .fuenteSep {
+        font-size:13px
+    }
+    .default td{
+        font-size: 12px;
+        letter-spacing: 0px;
+        padding: 15px 10px;
+    }
+ .default th{
+    padding: 15px 10px;
+        font-size: 14px;
+        letter-spacing: 0px;
+    } 
+    .tbody{
+        font-size: 10px;
+    }
 }
 </style>

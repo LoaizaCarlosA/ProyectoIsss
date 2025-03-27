@@ -35,31 +35,43 @@ export default {
 </script>
 
 <style scoped>
+/* Asegúrate de que el html y body ocupen el 100% de la altura y no se desborden */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* Esto evitará el scroll */
+}
+
+/* Contenedor principal */
 .container {
-    width: 100vw;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
-    padding: 50px;
+    width: 100vw;
+    height: 100vh;
     box-sizing: border-box;
+    background: white;
 }
 
+/* Formulario contenedor */
 .form-container {
     display: flex;
     flex-direction: row;
     width: 100%;
     max-width: 1200px;
     height: 100%;
-    max-height: 800px;
     border-radius: 15px;
-    overflow: hidden;
     background: white;
     box-shadow: 0px 15px 30px rgb(0 0 0 / 39%);
     user-select: none;
+    overflow: hidden;
+    /* Asegura que no haya scroll dentro del formulario */
 }
 
+/* Sección izquierda (formulario) */
 .left {
     width: 50%;
     background: #b9b9b969;
@@ -71,22 +83,26 @@ export default {
     padding: 30px;
 }
 
+/* Estilo de los textos */
 .texto {
     font-size: 36px;
     margin-top: 30px;
 }
 
+/* Formulario de entrada */
 .left form {
     width: 80%;
     display: flex;
     flex-direction: column;
 }
 
+/* Estilo de etiquetas */
 .left form label {
     font-size: 20px;
     margin-top: 20px;
 }
 
+/* Estilo de los inputs */
 .left form input {
     padding: 10px;
     margin-top: 5px;
@@ -98,22 +114,7 @@ export default {
     height: 30px;
 }
 
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    font-size: 12px;
-}
-
-.checkbox-container input {
-    margin-right: 5px;
-}
-
-.checkbox-container a {
-    color: #ff6b6b;
-    text-decoration: none;
-}
-
+/* Botón de login */
 button {
     width: 80%;
     background: #691c32;
@@ -132,6 +133,7 @@ button:hover {
     background: #e55050;
 }
 
+/* Sección derecha (logo) */
 .right {
     width: 50%;
     background: #691c32;
@@ -140,21 +142,19 @@ button:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 30px;
     text-align: center;
-}
-
-.right .icon {
-    font-size: 50px;
-    margin-top: 20px;
-    animation: float 3s infinite ease-in-out;
 }
 
 .logoRight {
     width: 70%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 820px) {
+    .container {
+        padding: 0px 50px;
+        height: 90vh;
+    }
+
     .form-container {
         flex-direction: column;
         width: 100%;
@@ -165,10 +165,24 @@ button:hover {
     .right {
         width: 100%;
         height: auto;
+        padding: 60px 0px;
     }
 
     .right {
         order: -1;
+    }
+
+    .texto {
+        font-size: 30px;
+        margin-top: 0px;
+    }
+
+    .logoRight {
+        width: 40%;
+    }
+
+    .left form label {
+        margin-top: 40px
     }
 }
 </style>
