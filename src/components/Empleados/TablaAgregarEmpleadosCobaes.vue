@@ -8,7 +8,7 @@
                         }}</span>
                     </div>
                     <section class="botonesTitulo">
-                        <Button class="btn-descargar-excel">
+                        <Button class="btn-descargar-excel" @click="exportarExcel">
                             <i class="fa-solid fa-file-excel"></i>
                         </Button>
                         <Button class="btn-atras" @click="cancelar">
@@ -83,6 +83,8 @@ import ModalBase from "../Modales/ModalBase.vue";
 import axios from 'axios';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import * as XLSX from "xlsx";
+
 
 dayjs.extend(customParseFormat);
 
@@ -219,7 +221,85 @@ export default {
         },
         cerrarModal() {
             this.mostrarModalTabla = false;
+        },
+        exportarExcel() {
+    if (!this.empleadoLocal || !this.empleadoLocal.Plazas.length) {
+        console.warn("No hay datos para exportar.");
+        return;
+    }
+
+    // 1. Encabezado con información del empleado
+    const infoEmpleado = [
+        ["Nombre completo:", this.empleadoLocal.Nombre_Completo],
+        ["Número de empleado:", this.empleadoLocal.Numemp],
+        ["RFC:", this.empleadoLocal.RFC],
+        ["CURP:", this.empleadoLocal.CURP],
+        ["Municipio:", this.empleadoLocal.Municipio],
+        ["Sexo:", this.formatearSexo(this.empleadoLocal.Sexo)],
+        [], // Espacio
+        ["PLAZAS:"]
+    ];
+
+    // 2. Encabezados de la tabla de plazas
+    const encabezados = [
+        "Plaza",
+        "Fecha Ingreso",
+        "Sueldo Neto Quincenal",
+        "Sueldo Base",
+        "Aportación ISSSTEESIN",
+        "Aportación Vivienda"
+    ];
+
+    // 3. Datos de plazas
+    const datosPlazas = this.empleadoLocal.Plazas.map(plaza => ([
+        plaza.Plaza || '',
+        this.formatearFecha(plaza.Fecha_Ingreso),
+        parseFloat(plaza.Sueldo_Neto_Quincenal) || 0,
+        parseFloat(plaza.Sueldo_Base) || 0,
+        parseFloat(plaza.Aportación_ISSSTEESIN) || 0,
+        parseFloat(plaza.Aportación_Vivienda) || 0
+    ]));
+
+    // 4. Totales
+    const filaTotales = [
+        "TOTALES", "", this.totalSueldoNeto,
+        this.totalSueldoBase,
+        this.totalAportacionISSSTEESIN,
+        this.totalAportacionVivienda
+    ];
+
+    // 5. Construir hoja
+    const hoja = XLSX.utils.aoa_to_sheet([]);
+
+    XLSX.utils.sheet_add_aoa(hoja, infoEmpleado, { origin: "A1" });
+    XLSX.utils.sheet_add_aoa(hoja, [encabezados], { origin: `A${infoEmpleado.length + 1}` });
+    XLSX.utils.sheet_add_aoa(hoja, datosPlazas, { origin: `A${infoEmpleado.length + 2}` });
+    XLSX.utils.sheet_add_aoa(hoja, [filaTotales], { origin: `A${infoEmpleado.length + 2 + datosPlazas.length}` });
+
+    // 6. Aplicar formato a encabezados y totales (negritas)
+    const boldRows = [
+        infoEmpleado.length, // fila de encabezados
+        infoEmpleado.length + 2 + datosPlazas.length // fila de totales
+    ];
+
+    boldRows.forEach(rowIdx => {
+        for (let col = 0; col < encabezados.length; col++) {
+            const cellRef = XLSX.utils.encode_cell({ c: col, r: rowIdx });
+            if (!hoja[cellRef]) continue;
+            hoja[cellRef].s = {
+                font: { bold: true }
+            };
         }
+    });
+
+    // 7. Crear libro y exportar
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, "Datos del Empleado");
+
+    const nombreArchivo = `Plazas_${this.empleadoLocal.Nombre_Completo.replace(/\s+/g, '_')}.xlsx`;
+    XLSX.writeFile(libro, nombreArchivo, { cellStyles: true });
+}
+
     }
 };
 </script>
@@ -323,58 +403,71 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .default {
     border-collapse: collapse;
     border-radius: 10px;
     width: 100%;
     box-shadow: 0px 3px 6px #00000029;
 }
+
 .default th {
     background-color: black;
     color: #fff;
     font-size: 16px;
     letter-spacing: 1px;
 }
-.default td, .default th {
+
+.default td,
+.default th {
     border: none;
     padding: 15px 12px;
     text-align: center;
 }
+
 .tbody {
     font-size: 14.5px;
 }
+
 .totales[data-v-850ffab6] {
     background-color: #f1f1f1;
     font-weight: bold;
 }
+
 .default tr:nth-child(even) {
     background-color: #f8f8f8;
 }
 
-@media (max-width: 810px){
-    .titulo{
+@media (max-width: 810px) {
+    .titulo {
         font-size: 25px
     }
-    .tituloNombre{
-        font-size:24px
+
+    .tituloNombre {
+        font-size: 24px
     }
-    .separacion{
+
+    .separacion {
         font-size: 15px
     }
+
     .fuenteSep {
-        font-size:13px
+        font-size: 13px
     }
-    .default td{
+
+    .default td {
         font-size: 12px;
         letter-spacing: 0px;
         padding: 15px 10px;
     }
- .default th{
-    padding: 15px 10px;
+
+    .default th {
+        padding: 15px 10px;
         font-size: 14px;
         letter-spacing: 0px;
-    } 
-    .tbody{
+    }
+
+    .tbody {
         font-size: 10px;
     }
 }
