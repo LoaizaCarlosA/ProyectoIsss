@@ -47,9 +47,9 @@
                         <Button class="btn-agregar-cobaes" @click="mostrarEmpleado(item.Numemp)" title="Ver detalles">
                           <i class="fa-solid fa-magnifying-glass"></i>
                         </Button>
-                        <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)" title="Editar empleado">
+<!--                         <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)" title="Editar empleado">
                           <i class="fa-solid fa-pen-to-square"></i>
-                        </Button>
+                        </Button> -->
                         <Button class="btn-eliminar" @click="eliminarEmpleado(item.Numemp)" title="Eliminar empleado">
                           <i class="fa-solid fa-trash"></i>
                         </Button>

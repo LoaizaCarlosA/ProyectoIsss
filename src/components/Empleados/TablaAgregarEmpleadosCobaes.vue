@@ -5,9 +5,12 @@
                 <section class="contenedorTituloNombre">
                     <div class="titulo">
                         {{ tituloHeader }} <span class="tituloNombre">{{ empleado ? empleado.Nombre_Completo : ''
-                        }}</span>
+                            }}</span>
                     </div>
                     <section class="botonesTitulo">
+                        <Button class="btn-editar" @click="editando = !editando">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </Button>
                         <Button class="btn-descargar-excel" @click="exportarExcel">
                             <i class="fa-solid fa-file-excel"></i>
                         </Button>
@@ -19,13 +22,58 @@
                 <div class="separador"></div>
             </section>
             <section class="SeccionInfoGeneral" v-if="empleadoLocal">
-                <div class="separacion">Numero de empleado: <span class="fuenteSep">{{ empleadoLocal.Numemp }}</span>
+                <div class="separacion">
+                    Número de empleado:
+                    <template v-if="editando">
+                        <input class="inputEditar" v-model="empleadoLocal.Numemp" />
+                    </template>
+                    <template v-else>
+                        <span class="fuenteSep">{{ empleadoLocal.Numemp }}</span>
+                    </template>
+                </div>
+                <div class="separacion">
+                    Género:
+                    <template v-if="editando">
+                        <input class="inputEditar" v-model="empleadoLocal.Sexo" />
+                    </template>
+                    <template v-else>
+                        <span class="fuenteSep">{{ formatearSexo(empleadoLocal.Sexo) }}</span>
+                    </template>
+                </div>
+                <div class="separacion">
+                    RFC:
+                    <template v-if="editando">
+                        <input class="inputEditar" v-model="empleadoLocal.RFC" />
+                    </template>
+                    <template v-else>
+                        <span class="fuenteSep">{{ empleadoLocal.RFC }}</span>
+                    </template>
+                </div>
+                <div class="separacion">
+                    CURP:
+                    <template v-if="editando">
+                        <input class="inputEditar" v-model="empleadoLocal.CURP" />
+                    </template>
+                    <template v-else>
+                        <span class="fuenteSep">{{ empleadoLocal.CURP }}</span>
+                    </template>
+                </div>
+                <div class="separacion">
+                    Municipio:
+                    <template v-if="editando">
+                        <input class="inputEditar" v-model="empleadoLocal.Municipio" />
+                    </template>
+                    <template v-else>
+                        <span class="fuenteSep">{{ empleadoLocal.Municipio }}</span>
+                    </template>
+                </div>
+                <!--<div class="separacion">Numero de empleado: <span class="fuenteSep">{{ empleadoLocal.Numemp }}</span>
                 </div>
                 <div class="separacion">Género: <span class="fuenteSep">{{ formatearSexo(empleadoLocal.Sexo) }}</span>
                 </div>
                 <div class="separacion">RFC: <span class="fuenteSep">{{ empleadoLocal.RFC }}</span></div>
                 <div class="separacion">CURP: <span class="fuenteSep">{{ empleadoLocal.CURP }}</span></div>
-                <div class="separacion">Municipio: <span class="fuenteSep">{{ empleadoLocal.Municipio }}</span></div>
+                <div class="separacion">Municipio: <span class="fuenteSep">{{ empleadoLocal.Municipio }}</span></div> -->
             </section>
             <section>
                 <section class="tablaPrincipal">
@@ -43,12 +91,63 @@
                         <tbody class="tbody">
                             <template v-if="empleadoLocal && empleadoLocal.Plazas.length">
                                 <tr v-for="(plaza, index) in empleadoLocal.Plazas" :key="index">
-                                    <td>{{ plaza.Plaza || 'No disponible' }}</td>
+                                    <td>
+                                        <template v-if="editando">
+                                            <input class="inputEditarTabla" v-model="plaza.Plaza" />
+                                        </template>
+                                        <template v-else>
+                                            {{ plaza.Plaza || 'No disponible' }}
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <template v-if="editando">
+                                            <input class="inputEditarTabla" v-model="plaza.Fecha_Ingreso" type="date" />
+                                        </template>
+                                        <template v-else>
+                                            {{ formatearFecha(plaza.Fecha_Ingreso) || 'No disponible' }}
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <template v-if="editando">
+                                            <input class="inputEditarTabla" v-model="plaza.Sueldo_Neto_Quincenal"
+                                                type="number" />
+                                        </template>
+                                        <template v-else>
+                                            $ {{ formatearNumero(plaza.Sueldo_Neto_Quincenal) || 'No disponible' }}
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <template v-if="editando">
+                                            <input class="inputEditarTabla" v-model="plaza.Sueldo_Base" type="number" />
+                                        </template>
+                                        <template v-else>
+                                            $ {{ formatearNumero(plaza.Sueldo_Base) || 'No disponible' }}
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <template v-if="editando">
+                                            <input class="inputEditarTabla" v-model="plaza.Aportación_ISSSTEESIN"
+                                                type="number" />
+                                        </template>
+                                        <template v-else>
+                                            $ {{ formatearNumero(plaza.Aportación_ISSSTEESIN) || 'No disponible' }}
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <template v-if="editando">
+                                            <input class="inputEditarTabla" v-model="plaza.Aportación_Vivienda"
+                                                type="number" />
+                                        </template>
+                                        <template v-else>
+                                            $ {{ formatearNumero(plaza.Aportación_Vivienda) || 'No disponible' }}
+                                        </template>
+                                    </td>
+                                    <!-- <td>{{ plaza.Plaza || 'No disponible' }}</td>
                                     <td>{{ formatearFecha(plaza.Fecha_Ingreso) || 'No disponible' }}</td>
                                     <td>$ {{ formatearNumero(plaza.Sueldo_Neto_Quincenal) || 'No disponible' }}</td>
                                     <td>$ {{ formatearNumero(plaza.Sueldo_Base) || 'No disponible' }}</td>
                                     <td>$ {{ formatearNumero(plaza.Aportación_ISSSTEESIN) || 'No disponible' }}</td>
-                                    <td>$ {{ formatearNumero(plaza.Aportación_Vivienda) || 'No disponible' }}</td>
+                                    <td>$ {{ formatearNumero(plaza.Aportación_Vivienda) || 'No disponible' }}</td> -->
                                 </tr>
                             </template>
                             <template v-else>
@@ -71,7 +170,9 @@
                 </section>
             </section>
             <section class="contenedorBotones">
-
+                <Button class="btn-guardar" @click="guardarCambios" v-if="editando">
+                    <i class="fa-solid fa-floppy-disk"></i> Guardar
+                </Button>
             </section>
         </section>
     </ModalBase>
@@ -117,6 +218,7 @@ export default {
                 Plazas: []
             },
             mostrarModalTabla: false,
+            editando: false,
         };
     },
     computed: {
@@ -223,82 +325,93 @@ export default {
             this.mostrarModalTabla = false;
         },
         exportarExcel() {
-    if (!this.empleadoLocal || !this.empleadoLocal.Plazas.length) {
-        console.warn("No hay datos para exportar.");
-        return;
-    }
+            if (!this.empleadoLocal || !this.empleadoLocal.Plazas.length) {
+                console.warn("No hay datos para exportar.");
+                return;
+            }
 
-    // 1. Encabezado con información del empleado
-    const infoEmpleado = [
-        ["Nombre completo:", this.empleadoLocal.Nombre_Completo],
-        ["Número de empleado:", this.empleadoLocal.Numemp],
-        ["RFC:", this.empleadoLocal.RFC],
-        ["CURP:", this.empleadoLocal.CURP],
-        ["Municipio:", this.empleadoLocal.Municipio],
-        ["Sexo:", this.formatearSexo(this.empleadoLocal.Sexo)],
-        [], // Espacio
-        ["PLAZAS:"]
-    ];
+            // 1. Encabezado con información del empleado
+            const infoEmpleado = [
+                ["Nombre completo:", this.empleadoLocal.Nombre_Completo],
+                ["Número de empleado:", this.empleadoLocal.Numemp],
+                ["RFC:", this.empleadoLocal.RFC],
+                ["CURP:", this.empleadoLocal.CURP],
+                ["Municipio:", this.empleadoLocal.Municipio],
+                ["Sexo:", this.formatearSexo(this.empleadoLocal.Sexo)],
+                [], // Espacio
+                ["PLAZAS:"]
+            ];
 
-    // 2. Encabezados de la tabla de plazas
-    const encabezados = [
-        "Plaza",
-        "Fecha Ingreso",
-        "Sueldo Neto Quincenal",
-        "Sueldo Base",
-        "Aportación ISSSTEESIN",
-        "Aportación Vivienda"
-    ];
+            // 2. Encabezados de la tabla de plazas
+            const encabezados = [
+                "Plaza",
+                "Fecha Ingreso",
+                "Sueldo Neto Quincenal",
+                "Sueldo Base",
+                "Aportación ISSSTEESIN",
+                "Aportación Vivienda"
+            ];
 
-    // 3. Datos de plazas
-    const datosPlazas = this.empleadoLocal.Plazas.map(plaza => ([
-        plaza.Plaza || '',
-        this.formatearFecha(plaza.Fecha_Ingreso),
-        parseFloat(plaza.Sueldo_Neto_Quincenal) || 0,
-        parseFloat(plaza.Sueldo_Base) || 0,
-        parseFloat(plaza.Aportación_ISSSTEESIN) || 0,
-        parseFloat(plaza.Aportación_Vivienda) || 0
-    ]));
+            // 3. Datos de plazas
+            const datosPlazas = this.empleadoLocal.Plazas.map(plaza => ([
+                plaza.Plaza || '',
+                this.formatearFecha(plaza.Fecha_Ingreso),
+                parseFloat(plaza.Sueldo_Neto_Quincenal) || 0,
+                parseFloat(plaza.Sueldo_Base) || 0,
+                parseFloat(plaza.Aportación_ISSSTEESIN) || 0,
+                parseFloat(plaza.Aportación_Vivienda) || 0
+            ]));
 
-    // 4. Totales
-    const filaTotales = [
-        "TOTALES", "", this.totalSueldoNeto,
-        this.totalSueldoBase,
-        this.totalAportacionISSSTEESIN,
-        this.totalAportacionVivienda
-    ];
+            // 4. Totales
+            const filaTotales = [
+                "TOTALES", "", this.totalSueldoNeto,
+                this.totalSueldoBase,
+                this.totalAportacionISSSTEESIN,
+                this.totalAportacionVivienda
+            ];
 
-    // 5. Construir hoja
-    const hoja = XLSX.utils.aoa_to_sheet([]);
+            // 5. Construir hoja
+            const hoja = XLSX.utils.aoa_to_sheet([]);
 
-    XLSX.utils.sheet_add_aoa(hoja, infoEmpleado, { origin: "A1" });
-    XLSX.utils.sheet_add_aoa(hoja, [encabezados], { origin: `A${infoEmpleado.length + 1}` });
-    XLSX.utils.sheet_add_aoa(hoja, datosPlazas, { origin: `A${infoEmpleado.length + 2}` });
-    XLSX.utils.sheet_add_aoa(hoja, [filaTotales], { origin: `A${infoEmpleado.length + 2 + datosPlazas.length}` });
+            XLSX.utils.sheet_add_aoa(hoja, infoEmpleado, { origin: "A1" });
+            XLSX.utils.sheet_add_aoa(hoja, [encabezados], { origin: `A${infoEmpleado.length + 1}` });
+            XLSX.utils.sheet_add_aoa(hoja, datosPlazas, { origin: `A${infoEmpleado.length + 2}` });
+            XLSX.utils.sheet_add_aoa(hoja, [filaTotales], { origin: `A${infoEmpleado.length + 2 + datosPlazas.length}` });
 
-    // 6. Aplicar formato a encabezados y totales (negritas)
-    const boldRows = [
-        infoEmpleado.length, // fila de encabezados
-        infoEmpleado.length + 2 + datosPlazas.length // fila de totales
-    ];
+            // 6. Aplicar formato a encabezados y totales (negritas)
+            const boldRows = [
+                infoEmpleado.length, // fila de encabezados
+                infoEmpleado.length + 2 + datosPlazas.length // fila de totales
+            ];
 
-    boldRows.forEach(rowIdx => {
-        for (let col = 0; col < encabezados.length; col++) {
-            const cellRef = XLSX.utils.encode_cell({ c: col, r: rowIdx });
-            if (!hoja[cellRef]) continue;
-            hoja[cellRef].s = {
-                font: { bold: true }
-            };
-        }
-    });
+            boldRows.forEach(rowIdx => {
+                for (let col = 0; col < encabezados.length; col++) {
+                    const cellRef = XLSX.utils.encode_cell({ c: col, r: rowIdx });
+                    if (!hoja[cellRef]) continue;
+                    hoja[cellRef].s = {
+                        font: { bold: true }
+                    };
+                }
+            });
 
-    // 7. Crear libro y exportar
-    const libro = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(libro, hoja, "Datos del Empleado");
+            // 7. Crear libro y exportar
+            const libro = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(libro, hoja, "Datos del Empleado");
 
-    const nombreArchivo = `Plazas_${this.empleadoLocal.Nombre_Completo.replace(/\s+/g, '_')}.xlsx`;
-    XLSX.writeFile(libro, nombreArchivo, { cellStyles: true });
-}
+            const nombreArchivo = `Plazas_${this.empleadoLocal.Nombre_Completo.replace(/\s+/g, '_')}.xlsx`;
+            XLSX.writeFile(libro, nombreArchivo, { cellStyles: true });
+        },
+        guardarCambios() {
+            // Aquí podrías hacer una llamada a tu API para guardar los cambios.
+            axios.put('http://192.168.21.18:5000/empleados/' + this.empleadoLocal.Numemp, this.empleadoLocal)
+                .then(response => {
+                    console.log('Cambios guardados correctamente:', response.data);
+                    this.editando = false; // Desactiva el modo de edición
+                })
+                .catch(error => {
+                    console.error('Error al guardar los cambios:', error);
+                });
+        },
 
     }
 };
@@ -359,7 +472,7 @@ export default {
 }
 
 .inputEditar {
-    width: 300px;
+    width: 200px;
     height: 32px;
     border: 0px solid #000000;
     box-shadow: 0px 3px 6px #00000029;
@@ -438,6 +551,31 @@ export default {
     background-color: #f8f8f8;
 }
 
+.inputEditarTabla {
+    width: 100px;
+    height: 32px;
+    border: 0px solid #000000;
+    box-shadow: 0px 3px 6px #00000029;
+    outline: none;
+    color: #000000;
+    padding: 0px 7px;
+    border-radius: 10px;
+    margin: 0px 10px;
+}
+
+.inputEditarTabla {
+    width: 120px;
+    height: 32px;
+    border: 0px solid #000000;
+    box-shadow: 0px 3px 6px #00000029;
+    outline: none;
+    color: #000000;
+    padding: 0px 7px;
+    border-radius: 10px;
+    margin: 0px;
+    text-align: center;
+}
+
 @media (max-width: 810px) {
     .titulo {
         font-size: 25px
@@ -469,6 +607,60 @@ export default {
 
     .tbody {
         font-size: 10px;
+    }
+
+    .inputEditarTabla {
+        width: 70px;
+        height: 32px;
+        border: 0.5px solid #000000;
+        box-shadow: 0px 3px 6px #00000029;
+        outline: none;
+        color: #000000;
+        padding: 0px 7px;
+        border-radius: 10px;
+        margin: 0px;
+        text-align: center;
+    }
+
+    .inputEditar {
+        width: 200px;
+        height: 30px;
+        border: 0.5px solid #000000;
+        box-shadow: 0px 3px 6px #00000029;
+        outline: none;
+        color: #000000;
+        padding: 0px 7px;
+        border-radius: 10px;
+        margin: 0px 3px;
+    }
+
+    .botonesTitulo {
+        display: flex;
+    }
+
+    .btn-editar {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: black;
+        font-size: 13px;
+    }
+
+    .btn-descargar-excel {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .btn-atras {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        font-size: 13px;
     }
 }
 </style>
