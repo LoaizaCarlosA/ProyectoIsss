@@ -126,20 +126,20 @@
                                     </td>
                                     <td>
                                         <template v-if="editando">
-                                            <input class="inputEditarTabla" v-model="plaza.Aportación_ISSSTEESIN"
+                                            <input class="inputEditarTabla" v-model="plaza.Aportacion_ISSSTEESIN"
                                                 type="number" />
                                         </template>
                                         <template v-else>
-                                            $ {{ formatearNumero(plaza.Aportación_ISSSTEESIN) || 'No disponible' }}
+                                            $ {{ formatearNumero(plaza.Aportacion_ISSSTEESIN) || 'No disponible' }}
                                         </template>
                                     </td>
                                     <td>
                                         <template v-if="editando">
-                                            <input class="inputEditarTabla" v-model="plaza.Aportación_Vivienda"
+                                            <input class="inputEditarTabla" v-model="plaza.Aportacion_Vivienda"
                                                 type="number" />
                                         </template>
                                         <template v-else>
-                                            $ {{ formatearNumero(plaza.Aportación_Vivienda) || 'No disponible' }}
+                                            $ {{ formatearNumero(plaza.Aportacion_Vivienda) || 'No disponible' }}
                                         </template>
                                     </td>
                                     <!-- <td>{{ plaza.Plaza || 'No disponible' }}</td>
@@ -237,13 +237,13 @@ export default {
         totalAportacionISSSTEESIN() {
             if (!this.empleadoLocal || !this.empleadoLocal.Plazas) return 0;
             return this.empleadoLocal.Plazas.reduce((total, plaza) => {
-                return total + (parseFloat(plaza.Aportación_ISSSTEESIN) || 0);
+                return total + (parseFloat(plaza.Aportacion_ISSSTEESIN) || 0);
             }, 0);
         },
         totalAportacionVivienda() {
             if (!this.empleadoLocal || !this.empleadoLocal.Plazas) return 0;
             return this.empleadoLocal.Plazas.reduce((total, plaza) => {
-                return total + (parseFloat(plaza.Aportación_Vivienda) || 0);
+                return total + (parseFloat(plaza.Aportacion_Vivienda) || 0);
             }, 0);
         }
     },

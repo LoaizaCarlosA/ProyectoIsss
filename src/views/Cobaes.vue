@@ -35,7 +35,7 @@
               </thead>
               <tbody class="tbody">
                 <template v-if="filteredList.length > 0">
-                  <tr v-for="(item, index) in filteredList" :key="index">
+                  <tr v-for="(item, index) in empleadosPaginados" :key="index">
                     <td>{{ item.Numemp }}</td>
                     <td>{{ item.Nombre_Completo }}</td>
                     <td>{{ item.RFC }}</td>
@@ -47,7 +47,7 @@
                         <Button class="btn-agregar-cobaes" @click="mostrarEmpleado(item.Numemp)" title="Ver detalles">
                           <i class="fa-solid fa-magnifying-glass"></i>
                         </Button>
-<!--                         <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)" title="Editar empleado">
+                        <!--                         <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)" title="Editar empleado">
                           <i class="fa-solid fa-pen-to-square"></i>
                         </Button> -->
                         <Button class="btn-eliminar" @click="eliminarEmpleado(item.Numemp)" title="Eliminar empleado">
@@ -67,7 +67,9 @@
           </section>
         </section>
         <ExcelEditor />
-        <Paginacion></Paginacion>
+        <Paginacion :total="totalPaginas" :paginaActualEntrada="paginaActual" @changePagina="cambiarPagina" />
+
+
       </ContainerWhite>
       <AgregarEmpleadosCobaes v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarEmpleadosCobaes>
       <TablaAgregarEmpleadosCobaes v-show="mostrarModalTabla" @cancelar="mostrarModalTabla = false"
@@ -108,6 +110,8 @@ export default {
   data() {
     return {
       data: [],
+      empleadosPorPagina: 50,  // Número de empleados por página
+      paginaActual: 1,  // Página actual
       searchText: "",
       mostrarModal: false,
       mostrarModalTabla: false,
@@ -133,6 +137,7 @@ export default {
   },
   computed: {
     filteredList() {
+      if (!Array.isArray(this.data)) return [];
       const searchTerm = this.searchText.toLowerCase();
       const mapaUnico = new Map();
       this.data.forEach((item) => {
@@ -148,6 +153,19 @@ export default {
         item.RFC.toLowerCase().includes(searchTerm) ||
         item.CURP.toLowerCase().includes(searchTerm)
       );
+    },
+    empleadosPaginados() {
+      if (!this.filteredList || this.filteredList.length === 0) {
+        return []; // Devuelve una lista vacía si no hay datos
+      }
+
+      const start = (this.paginaActual - 1) * this.empleadosPorPagina;
+      const end = start + this.empleadosPorPagina;
+
+      return this.filteredList.slice(start, end);
+    },
+    totalPaginas() {
+      return Math.ceil(this.filteredList.length / this.empleadosPorPagina);
     }
   },
   methods: {
@@ -202,6 +220,11 @@ export default {
         this.mostrandoLoader = false;
         // Opcional: mostrar notificación de éxito
       }, 1500);
+    },
+    cambiarPagina(nuevaPagina) {
+      if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas) {
+        this.paginaActual = nuevaPagina;  // Actualiza la página en la vista principal
+      }
     },
   }
 };
@@ -297,7 +320,7 @@ export default {
     word-wrap: break-word;
   }
 
-/*   .default td,
+  /*   .default td,
   .default th {
     white-space: normal;
     word-break: break-word;

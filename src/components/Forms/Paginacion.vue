@@ -20,7 +20,8 @@ export default {
   props: {
     total: {
       type: Number,
-      default: 0,
+      required: false,  // No es obligatorio
+    default: 1,   
     },
     paginaActualEntrada: {
       type: Number,
@@ -33,21 +34,38 @@ export default {
   },
   data() {
     return {
+      data: [],  // Los datos completos
+      empleadosPorPagina: 50,  // Número de empleados por página
+      paginaActual: this.paginaActualEntrada,  // Página actual
+      mostrarModal: false,
+      mostrarModalTabla: false,
+      empleado: null,
+      empleadoSeleccionado: null,
+      mostrarModalConfirmacion: false,
+      empleadoAEliminar: null,
+      mostrandoLoader: false,
+      usuarioSeleccionado: "",
+      mostrarExito: false,
       ultimaPagina: this.total,
-      paginaActual: this.paginaActualEntrada,
+      /*       paginaActual: this.paginaActualEntrada, */
     }
   },
   emits: ['changePagina'],
   created() { },
   methods: {
     cambiarPagina(tipo) {
-      if (tipo == 1 && this.paginaActual > 1) {
-        this.paginaActual -= 1
-        this.$emit('changePagina', this.paginaActual)
-      } else if (tipo == 2 && this.paginaActual < this.ultimaPagina) {
-        this.paginaActual += 1
-        this.$emit('changePagina', this.paginaActual)
-      }
+    let nuevaPagina = this.paginaActual;
+
+    if (tipo === 1 && this.paginaActual > 1) {
+      nuevaPagina -= 1;
+    } else if (tipo === 2 && this.paginaActual < this.total) { 
+      nuevaPagina += 1;
+    }
+
+    if (nuevaPagina !== this.paginaActual) {
+      this.$emit('changePagina', nuevaPagina);
+    }
+
     },
     reiniciar() {
       this.ultimaPagina = this.total
@@ -65,8 +83,8 @@ export default {
     },
     getClasesSiguiente() {
       return {
-        disabled: this.paginaActual >= this.ultimaPagina,
-      }
+        disabled: this.paginaActual >= this.total,
+      };
     },
     showPagination() {
       //this.ultimaPagina>1
@@ -77,6 +95,14 @@ export default {
         'paginador-general': this.puntoVenta,
       }
     },
+    empleadosPaginados() {
+      const start = (this.paginaActual - 1) * this.empleadosPorPagina;
+      const end = this.paginaActual * this.empleadosPorPagina;
+      return this.filteredList.slice(start, end);  // Devuelve solo los empleados de la página actual
+    },
+    totalPaginas() {
+    return Math.ceil(this.filteredList.length / this.empleadosPorPagina);
+  }
   },
   watch: {
     paginaActualEntrada() {
