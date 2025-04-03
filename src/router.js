@@ -6,7 +6,7 @@ import About from "./views/About.vue";
 import Cobaes from "./views/Cobaes.vue";
 import Perfil from "./views/Perfil.vue";
 import Dashboard from "./views/DashBoard.vue";
-import Empleados from "./views/Empleados.vue";
+import Administrador from "./views/Administrador.vue";
 
 const routes = [
   {
@@ -40,9 +40,9 @@ const routes = [
     component: Perfil,
   },
   {
-    path: "/Empleados",
-    name: "Empleados",
-    component: Empleados,
+    path: "/Administrador",
+    name: "Administrador",
+    component: Administrador,
   },
 ];
 

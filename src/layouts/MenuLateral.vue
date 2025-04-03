@@ -8,9 +8,9 @@
           <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
           <span v-if="collapsedMenu">Dashboard</span>
         </router-link>
-        <router-link v-if="isAllowed('/Empleados')" to="/Empleados" class="menu-item" active-class="active">
+        <router-link v-if="isAllowed('/Administrador')" to="/Administrador" class="menu-item" active-class="active">
           <i class="fa fa-users" aria-hidden="true"></i>
-          <span v-if="collapsedMenu">Empleados</span>
+          <span v-if="collapsedMenu">Administrador</span>
         </router-link>
         <router-link v-if="isAllowed('/Cobaes')" to="/Cobaes" class="menu-item" active-class="active">
           <i class="fa fa-c" aria-hidden="true"></i>
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     isAllowed(route) {
-      const allowedRoutes = ['/Dashboard', '/Empleados', '/Cobaes',];
+      const allowedRoutes = ['/Dashboard', '/Administrador', '/Cobaes',];
       return allowedRoutes.includes(route);
     },
     collapseMenu() {

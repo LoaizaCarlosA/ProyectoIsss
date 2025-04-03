@@ -3,17 +3,16 @@
     <section class="contenedorPrincipal">
       <section>
         <div class="contenedorLogo">
-          <img class="imgLogo" src="@/assets/images/ISSSTEESIN_HORIZONTAL_UNA_TINTA.png" alt="" />
+          <img class="imgLogo" src="@/assets/images/ISSSTEESIN_HORIZONTAL.png" alt="" />
         </div>
         <div class="separador"></div>
       </section>
       <section class="contenedorImg">
-        <img class="imgE" src="@/assets/images/notificacion.png" alt="" />
+        <img class="imgE" src="@/assets/images/error.png" alt="" />
       </section>
       <div class="titulo">{{ mensajeExito }}</div>
-      <section class="contenedorBotones">
-
-      </section>
+      <!--       <section class="contenedorBotones">
+      </section> -->
     </section>
     <LoadScreen v-if="showAddProducto" @cerrar="ocultarAddProd"></LoadScreen>
   </ModalBaseConfirmacion>
@@ -33,6 +32,15 @@ export default {
       type: String,
       default: "¡Ha ocurrido un error, intente de nuevo!",
     },
+    mostrarExito: {
+      type: Boolean,
+      default: false
+    },
+    watch: {
+      mostrarExito(newVal) {
+        console.log("Modal de éxito: ", newVal ? "Abierto" : "Cerrado");
+      }
+    }
   },
   data() {
     return {
@@ -62,22 +70,22 @@ export default {
 .titulo {
   display: flex;
   justify-content: center;
-  padding: 30px 0px 0px 0px;
-  font-size: 30px;
+  padding: 30px 0px 30px 0px;
+  font-size: 23px;
 }
 
 .contenedorLogo {
   justify-content: center;
   display: flex;
-  padding: 15px 0px 10px;
+  padding: 30px 0px 10px;
 }
 
 .imgLogo {
-  height: 90px;
+  height: 40px;
 }
 
 .separador {
-  border-top: 3px solid #ef7b14;
+  border-top: 3px solid #691c32;
   height: 2px;
   max-width: 100%;
   padding: 0;
@@ -90,7 +98,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px 0px 5px;
 }
 
 .contenedorPrincipal {
@@ -98,11 +105,10 @@ export default {
 }
 
 .imgE {
-  height: 200px;
+  height: 120px;
 }
 
 .label {
-  /* font-weight: 500; */
   margin: 17px 0px 5px;
 }
 

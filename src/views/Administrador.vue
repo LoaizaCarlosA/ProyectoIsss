@@ -2,7 +2,7 @@
     <LayoutPrincipal>
         <ContainerWhite>
             <section class="filtrosEmpleados">
-                <div class="tituloModulo">Lista de empleados</div>
+                <div class="tituloModulo">Módulo Administrador</div>
                 <div>
                     <input class="inputBuscador" type="text" v-model="searchText" placeholder="Inserte nombre o ID" />
                     <Button class="btn-agregar" @click="mostrarAddService">Agregar</Button>
@@ -17,29 +17,30 @@
                                 <th>Nombre</th>
                                 <th>Apellido Paterno</th>
                                 <th>Apellido Materno</th>
-                                <th>Puesto</th>
-                                <th>Teléfono</th>
+                                <th>Rol</th>
                                 <th>Correo</th>
+                                <th>Contraseña</th>
                                 <th>Acciones</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="empleado in filteredList" :key="empleado.idUsuario">
-                                <td>{{ empleado.idUsuario }}</td>
-                                <td>{{ empleado.nombre }}</td>
-                                <td>{{ empleado.apellPa }}</td>
-                                <td>{{ empleado.apellMa }}</td>
-                                <td>{{ empleado.rol }}</td>
-                                <td>{{ empleado.telefono }}</td>
-                                <td>{{ empleado.correo }}</td>
+                            <tr v-for="usuario in filteredList" :key="usuario.idUsuario">
+                                <td>{{ usuario.numero_empleado }}</td>
+                                <td>{{ usuario.nombre }}</td>
+                                <td>{{ usuario.apellido_paterno }}</td>
+                                <td>{{ usuario.apellido_materno }}</td>
+                                <td>{{ usuario.rol }}</td>
+                                <td>{{ usuario.correo }}</td>
+                                <td>{{ usuario.contrasena.slice(0, 2) + " ● ● ● ● ● " + usuario.contrasena.slice(-2) }}</td>
                                 <td>
                                     <div class="botonesTabla">
-                                        <Button class="btn-editar" @click="mostrarEditar(empleado.idUsuario)"
-                                            title="Editar empleado">
+                                        <Button class="btn-editar" @click="mostrarEditar(usuario.idUsuario)"
+                                            title="Editar usuario">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </Button>
-                                        <Button class="btn-eliminar" @click="eliminarEmpleado(empleado.idUsuario)"
-                                            title="Eliminar empleado">
+                                        <Button class="btn-eliminar" @click="eliminarUsuario(usuario.numero_empleado)"
+                                            title="Eliminar usuario">
                                             <i class="fa-solid fa-trash"></i>
                                         </Button>
                                     </div>
@@ -51,7 +52,7 @@
             </section>
             <Paginacion></Paginacion>
         </ContainerWhite>
-        <AgregarEmpleados v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarEmpleados>
+        <AgregarAdministrador v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarAdministrador>
     </LayoutPrincipal>
 </template>
 
@@ -60,7 +61,8 @@ import LayoutPrincipal from "../layouts/layoutPrincipal.vue";
 import ContainerWhite from "@/layouts/ContainerWhite.vue";
 import Button from "../components/Forms/Button.vue";
 import Paginacion from "../components/Forms/Paginacion.vue";
-import AgregarEmpleados from "../components/Empleados/AgregarEmpleados.vue";
+import AgregarAdministrador from "../components/Administrador/AgregarAdministrador.vue";
+import axios from 'axios';
 
 export default {
     components: {
@@ -68,55 +70,70 @@ export default {
         ContainerWhite,
         Button,
         Paginacion,
-        AgregarEmpleados
+        AgregarAdministrador
     },
     data() {
         return {
             searchText: "",
-            empleados: [
-                { idUsuario: 4955, nombre: "Carlos Andrés", apellPa: "Loaiza", apellMa: "López", rol: "Administrador", telefono: "(667) 247-63-16", correo: "carlos.loaiza@isssteesin.com" },
-                { idUsuario: 5001, nombre: "Ana María", apellPa: "Guerrero", apellMa: "Vidales", rol: "Diseñadora", telefono: "(667) 247-63-16", correo: "ana.garcia@isssteesin.com" },
-                { idUsuario: 4205, nombre: "Mario Antonio", apellPa: "Pérez", apellMa: "Solís", rol: "Gerente", telefono: "(667) 247-63-16", correo: "marco.perez@isssteesin.com" },
-                { idUsuario: 3665, nombre: "Maria Elena", apellPa: "Hernández", apellMa: "Rodríguez", rol: "Soporte Técnico", telefono: "(667) 247-63-16", correo: "maria.hernandez@isssteesin.com" },
-            ],
+            usuarios_admin: [],
             mostrarModal: false
         };
     },
     computed: {
         filteredList() {
             const searchTerm = this.searchText.toLowerCase();
-            return this.empleados.filter((empleado) =>
-                empleado.nombre.toLowerCase().includes(searchTerm) || empleado.idUsuario.toString().includes(searchTerm)
+            return this.usuarios_admin.filter((usuario) =>
+                usuario.nombre.toLowerCase().includes(searchTerm) || usuario.idUsuario.toString().includes(searchTerm)
             );
         }
     },
     methods: {
+        async obtenerAdministradores() {
+            try {
+                const response = await axios.get("http://localhost:5000/administradores"); // Asegúrate de que la URL sea correcta
+                console.log(response.data);
+                this.usuarios_admin = response.data;
+            } catch (error) {
+                console.error("Error al obtener administradores", error);
+            }
+        },
         mostrarAddService() {
             this.mostrarModal = true;
         },
         cancelar() {
             this.mostrarModal = false;
         },
-        registrarEmpleado() {
-            const nuevoEmpleado = {
-                idUsuario: Date.now(),
-                nombre: this.nombre,
-                apellPa: this.apellidoPaterno,
-                apellMa: this.apellidoMaterno,
-                rol: this.rol,
-                telefono: this.telefono,
-                correo: this.correo,
-            };
-            this.empleados.push(nuevoEmpleado);
-            this.cancelar();
-        },
+        /*         registrarUsuarioAdmin() {
+                    const nuevoUsuarioAdmin = {
+                        idUsuario: Date.now(),
+                        nombre: this.nombre,
+                        apellPa: this.apellidoPaterno,
+                        apellMa: this.apellidoMaterno,
+                        rol: this.rol,
+                        correo: this.correo,
+                    };
+                    this.usuarios_admin.push(nuevoUsuarioAdmin);
+                    this.cancelar();
+                }, */
         mostrarEditar(id) {
-            console.log("Editar empleado con ID: ", id);
+            console.log("Editar usuario con ID: ", id);
         },
-        eliminarEmpleado(id) {
-            this.empleados = this.empleados.filter((empleado) => empleado.idUsuario !== id);
-            console.log("Empleado eliminado con ID: ", id);
+        async eliminarUsuario(numeroEmpleado) {
+            try {
+                // Enviar la solicitud DELETE al backend usando el numero_empleado
+                const response = await axios.delete(`http://localhost:5000/administradores/${numeroEmpleado}`);
+                if (response.status === 200) {
+                    // Si la eliminación es exitosa, actualizamos la lista de usuarios
+                    this.usuarios_admin = this.usuarios_admin.filter((usuario) => usuario.numero_empleado !== numeroEmpleado);
+                    console.log("Administrador eliminado con éxito", numeroEmpleado);
+                }
+            } catch (error) {
+                console.error("Error al eliminar el administrador", error);
+            }
         }
+    },
+    mounted() {
+        this.obtenerAdministradores(); // Al montar el componente, obtener los administradores
     }
 };
 </script>
@@ -167,7 +184,7 @@ export default {
 .default th {
     border: none;
     padding: 15px 12px;
-/*     padding: 12px 15px; */
+    /*     padding: 12px 15px; */
     text-align: center;
 }
 

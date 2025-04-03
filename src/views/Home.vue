@@ -3,22 +3,25 @@
         <div class="form-container">
             <div class="left">
                 <div class="texto">Bienvenido/a</div>
-                <form>
+                <form @submit.prevent="login">
                     <label>Correo Institucional</label>
-                    <input type="email" placeholder="Ingresa tu correo institucional" v-model="email" />
+                    <input type="email" placeholder="Ingresa tu correo institucional" v-model="email" required />
                     <label>Contraseña</label>
-                    <input type="password" placeholder="********" v-model="password" />
+                    <input type="password" placeholder=" ● ● ● ● ● ● ● ● ● ● ● ● ● ●" v-model="password" required />
+                    <button type="submit">Iniciar sesión</button>
                 </form>
-                <button @click="login" type="submit">Iniciar sesión</button>
             </div>
             <div class="right">
-                <img class="logoRight" src="../assets/images/IsssteesinLogoVerticalBlanco.png" alt="">
+                <img class="logoRight" src="../assets/images/IsssteesinLogoVerticalBlanco.png" alt="Logo" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -27,8 +30,24 @@ export default {
         };
     },
     methods: {
-        login() {
-            this.$router.push('/dashboard');
+        async login() {
+            try {
+                // Enviar la solicitud POST al backend para verificar las credenciales
+                const response = await axios.post('http://localhost:5000/login', {
+                    correo: this.email,
+                    contrasena: this.password,
+                });
+
+                // Si el login es exitoso, guardar el token y redirigir
+                const token = response.data.token;
+                localStorage.setItem('token', token); // Guardar token en el localStorage
+
+                // Redirigir al dashboard
+                this.$router.push('/dashboard');
+            } catch (error) {
+                console.error('Error de inicio de sesión:', error);
+                alert('Credenciales inválidas, intenta nuevamente.');
+            }
         }
     }
 };
@@ -47,6 +66,7 @@ body {
 
 /* Contenedor principal */
 .container {
+    padding: 50px 0px;
     display: flex;
     align-items: center;
     justify-content: center;

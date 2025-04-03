@@ -1,11 +1,18 @@
 <template>
+    <LoadScreen v-if="mostrarLoader"></LoadScreen>
+    <ModalExito v-if="mostrarExito" :mostrarExito="mostrarExito"></ModalExito>
+    <ModalError v-if="mostrarError" :mostrarError="mostrarError"></ModalError>
     <ModalBase v-if="mostrarModal">
         <section class="contenedorPrincipal">
             <section>
                 <div class="titulo">{{ tituloHeader }}</div>
                 <div class="separador"></div>
             </section>
-
+            <div>
+                <div class="label">Número de empleado:</div>
+                <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="numeroEmpleado"
+                    placeholder="Ingrese el número de empleado" />
+            </div>
             <div>
                 <div class="label">Nombre:</div>
                 <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="nombre"
@@ -20,25 +27,9 @@
                 <div class="label">Apellido materno:</div>
                 <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="apellidoMaterno"
                     placeholder="Ingrese el apellido materno" />
-            </div> 
-            <!--             <div>
-                <div class="label">Genero:</div>
-                <div>
-                    <select class="buscadorSelect" name="" id="" v-model="sexo">
-                        <option value="" disabled selected>Seleccionar...</option>
-                        <option value="Masculino">Masculino</option>
-                        <option value="Femenino">Femenino</option>
-
-                    </select>
-                </div>
-            </div> -->
-<!--                         <div>
-                <div class="label">Fecha de nacimiento:</div>
-                <input class="inputEditar" type="date" v-model="fechaNacimiento" @change="formatoFecha" />
-
-            </div> -->
+            </div>
             <div>
-                <div class="label">Puesto:</div>
+                <div class="label">Rol:</div>
                 <div>
                     <select class="buscadorSelect" name="" id="" v-model="rol">
                         <option value="" disabled selected>Seleccionar...</option>
@@ -47,11 +38,6 @@
                         <option value="ROLE_REPARADOR">Jefe</option>
                     </select>
                 </div>
-            </div>
-            <div>
-                <div class="label">Teléfono:</div>
-                <input class="inputEditar" type="text" maxlength="10" name="" id="" v-model="telefono"
-                    placeholder="Ingrese un teléfono" />
             </div>
             <div>
                 <div class="label">Correo:</div>
@@ -65,7 +51,7 @@
             </div>
             <section class="contenedorBotones">
                 <Button class="btn-regresar" @click="cancelar">Regresar</Button>
-                <Button class="btn-guardar" @click="registrarEmpleado">Guardar</Button>
+                <Button class="btn-guardar" @click="registrarAdministrador">Guardar</Button>
             </section>
         </section>
     </ModalBase>
@@ -75,17 +61,24 @@
 
 import Button from "../Forms/Button.vue";
 import ModalBase from "../Modales/ModalBase.vue";
+import axios from 'axios'; // Importa axios
+import ModalExito from "../Modales/ModalExito.vue"; // Asegúrate de importar el modal de éxito
+import ModalError from "../Modales/ModalError.vue"; // Asegúrate de importar el modal de error
+import LoadScreen from '../Forms/LoadScreen.vue';
 
 export default {
     components: {
         Button,
         ModalBase,
+        ModalExito,
+        ModalError,
+        LoadScreen,
     },
     props: {
 
         tituloHeader: {
             type: String,
-            default: "Agregar empleado",
+            default: "Agregar Administrador",
         },
     },
     data() {
@@ -98,12 +91,10 @@ export default {
             nombre: '',
             apellidoPaterno: '',
             apellidoMaterno: '',
-            sexo: '',
-            fechaNacimiento: '',
-            rol: '',
-            telefono: '',
             correo: '',
-            clave: ''
+            clave: '',
+            rol: 'ROLE_ADMIN', // Por defecto el rol es Administrador
+            numeroEmpleado: '',
         };
     },
     emits: ["cancelar"],
@@ -115,29 +106,72 @@ export default {
             this.showAddProducto = false;
 
         },
-        formatoFecha() {
-            var partesFecha = this.fechaNacimiento.split('-'); // Divide la fecha en año, mes y día
-
-            // Formato deseado: AAAA-MM-DD
-            this.fechaNacimiento = partesFecha[0] + '-' + partesFecha[1] + '-' + partesFecha[2];
-
-            console.log(this.fechaNacimiento); // Muestra la fecha formateada en la consola
-
-
-        },
-
         cancelar() {
             this.$emit("cancelar");
         },
+        registrarAdministrador() {
+            this.mostrarModal = false;
+            // Verificamos que el número de empleado sea válido
+            if (!this.numeroEmpleado || isNaN(this.numeroEmpleado) || this.numeroEmpleado <= 0) {
+                this.mostrarError = true;
+                return;
+            }
+
+            // Mostrar el modal de carga
+            this.mostrarLoader = true;
+
+            // Preparar los datos para enviar al backend
+            const adminData = {
+                numeroEmpleado: this.numeroEmpleado, // Usamos el valor proporcionado por el usuario
+                nombre: this.nombre,
+                apellidoPaterno: this.apellidoPaterno || null,
+                apellidoMaterno: this.apellidoMaterno || null,
+                rol: this.rol,
+                correo: this.correo,
+                clave: this.clave,
+            };
+
+            // Enviar la solicitud al backend
+            axios.post('http://localhost:5000/api/usuarios_admin', adminData)
+                .then(response => {
+                    console.log('Administrador agregado con éxito', response);
+                    setTimeout(() => {
+                    this.mostrarLoader = false;  // Ocultar el loader
+                    this.mostrarExito = true;    // Mostrar el mensaje de éxito
+
+                    // Limpiar los campos
+                    this.numeroEmpleado = '';
+                    this.nombre = '';
+                    this.apellidoPaterno = '';
+                    this.apellidoMaterno = '';
+                    this.correo = '';
+                    this.clave = '';
+
+                    // Ocultar el modal después de guardar
+                    this.mostrarModal = false; // Cambia la propiedad que controla el modal
+
+                    // Esperar 2 segundos y luego ocultar el mensaje de éxito
+                    setTimeout(() => {
+                        this.mostrarExito = false;
+                        window.location.reload();
+                    }, 2000); // Duración de la notificación de éxito (2 segundos)
+                }, 1500);
+                })
+                .catch(error => {
+                    console.error('Error al agregar el administrador:', error);
+                    this.mostrarLoader = false;
+                    this.mostrarError = true;
+                });
+        },
+
     },
 };
 </script>
 
 <style scoped>
-
 .titulo {
     padding: 30px 0px 0px 0px;
-    font-size: 30px; 
+    font-size: 30px;
 }
 
 .separador {
