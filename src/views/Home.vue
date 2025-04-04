@@ -32,15 +32,15 @@ export default {
     methods: {
         async login() {
             try {
-                // Enviar la solicitud POST al backend para verificar las credenciales
-                const response = await axios.post('http://localhost:5000/login', {
+                const response = await axios.post('http://localhost:5000/api/auth/login', {
                     correo: this.email,
-                    contrasena: this.password,
+                    contrasena: this.password, // Asegurar que el nombre coincida con el backend
                 });
 
-                // Si el login es exitoso, guardar el token y redirigir
+                // Guardar token y usuario en localStorage
                 const token = response.data.token;
-                localStorage.setItem('token', token); // Guardar token en el localStorage
+                localStorage.setItem('token', token);
+                localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
 
                 // Redirigir al dashboard
                 this.$router.push('/dashboard');
