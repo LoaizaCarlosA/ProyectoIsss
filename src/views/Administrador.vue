@@ -26,13 +26,14 @@
                         </thead>
                         <tbody>
                             <tr v-for="usuario in filteredList" :key="usuario.idUsuario">
-                                <td>{{ usuario.numero_empleado }}</td>
+                                <td>{{ usuario.numero_empleado.toString().padStart(4, '0') }}</td>
                                 <td>{{ usuario.nombre }}</td>
                                 <td>{{ usuario.apellido_paterno }}</td>
                                 <td>{{ usuario.apellido_materno }}</td>
-                                <td>{{ usuario.rol }}</td>
+                                <td>{{ formatearRol(usuario.rol) }}</td>
                                 <td>{{ usuario.correo }}</td>
-                                <td>{{ usuario.contrasena.slice(0, 2) + " ● ● ● ● ● " + usuario.contrasena.slice(-2) }}</td>
+                                <td>{{ usuario.contrasena.slice(0, 2) + " ● ● ● ● ● " + usuario.contrasena.slice(-2) }}
+                                </td>
                                 <td>
                                     <div class="botonesTabla">
                                         <Button class="btn-editar" @click="mostrarEditar(usuario.idUsuario)"
@@ -103,18 +104,18 @@ export default {
         cancelar() {
             this.mostrarModal = false;
         },
-        /*         registrarUsuarioAdmin() {
-                    const nuevoUsuarioAdmin = {
-                        idUsuario: Date.now(),
-                        nombre: this.nombre,
-                        apellPa: this.apellidoPaterno,
-                        apellMa: this.apellidoMaterno,
-                        rol: this.rol,
-                        correo: this.correo,
-                    };
-                    this.usuarios_admin.push(nuevoUsuarioAdmin);
-                    this.cancelar();
-                }, */
+        formatearRol(rol) {
+            switch (rol) {
+                case 'ROLE_ADMIN':
+                    return 'Administrador';
+                case 'ROLE_USER':
+                    return 'Usuario';
+                    case 'ROLE_AUXILIAR':
+                    return 'Auxiliar';
+                default:
+                    return rol;
+            }
+        },
         mostrarEditar(id) {
             console.log("Editar usuario con ID: ", id);
         },

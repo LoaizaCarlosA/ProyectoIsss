@@ -76,6 +76,9 @@ export default {
   box-shadow: 0px 3px 6px #00000029;
   font-weight: 700;
   margin: 0px 5px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .btn-editar:hover {
@@ -242,6 +245,24 @@ export default {
 
 .btn-confirmar-eliminar:hover {
   background: #CB0809 0% 0% no-repeat padding-box;
+  color: white;
+}
+
+.btn-reset {
+  background: white 0% 0% no-repeat padding-box;
+  border: 1px solid #000000;
+  border-radius: 18px;
+  opacity: 1;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  box-shadow: 0px 3px 6px #00000029;
+  font-weight: 700;
+  margin: 0px 5px;
+}
+
+.btn-reset:hover {
+  background: black 0% 0% no-repeat padding-box;
   color: white;
 }
 </style>

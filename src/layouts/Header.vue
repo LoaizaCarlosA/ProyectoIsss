@@ -4,13 +4,13 @@
             <img class="imagenLogo" src="../assets/images/ISSSTEESIN_HORIZONTAL_UNA_TINTA.png" alt="" />
             <div class="infoContainer">
                 <router-link to="/Perfil">
-                <button class="burgerMenu mostrar-movil">
-                     <img src="../assets/svg/icono-usuario.svg" alt="" /> 
-                </button>
-            </router-link>
+                    <button class="burgerMenu mostrar-movil">
+                        <img src="../assets/svg/icono-usuario.svg" alt="" />
+                    </button>
+                </router-link>
                 <div class="infoUsuario ocultar-movil">
-                    <div class="nombreUsuario">Carlos Andrés Loaiza López</div>
-                    <div class="locacionSistema">Administrador</div>
+                    <div class="nombreUsuario">{{ nombreUsuario }}</div>
+                    <div class="locacionSistema">{{ rolUsuario }}</div>
                 </div>
                 <router-link to="/Perfil">
                     <div class="contenedorIconoUsuario ocultar-movil">
@@ -25,8 +25,16 @@
 <script>
 
 export default {
-
-
+    data() {
+        return {
+            nombreUsuario: '',
+            rolUsuario: '',
+        };
+    },
+    mounted() {
+        this.nombreUsuario = localStorage.getItem("nombreUsuario") || "Nombre no disponible";
+        this.rolUsuario = localStorage.getItem("rolUsuario") || "Rol no disponible";
+    }
 };
 </script>
 
@@ -82,6 +90,7 @@ export default {
     margin-right: 19px;
     color: #d5d5d5;
     min-height: 18px;
+    text-align: center;
 }
 
 .contenedorIconoUsuario {
@@ -142,9 +151,10 @@ export default {
 }
 
 @media (max-width: 810px) {
-    .imagenLogo{
+    .imagenLogo {
         height: 45px;
     }
+
     .contenedorInformacion {
         padding: 0 20px;
     }

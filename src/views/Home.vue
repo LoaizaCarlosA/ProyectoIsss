@@ -32,24 +32,46 @@ export default {
     methods: {
         async login() {
             try {
+                // Limpiar localStorage antes de realizar el inicio de sesión
+                localStorage.clear();  // Elimina todos los elementos del localStorage
+                // O si prefieres eliminar solo elementos específicos:
+                // localStorage.removeItem('token');
+                // localStorage.removeItem('nombreUsuario');
+                // localStorage.removeItem('rolUsuario');
+
+                // Realizar el POST para el login
                 const response = await axios.post('http://localhost:5000/api/auth/login', {
                     correo: this.email,
-                    contrasena: this.password, // Asegurar que el nombre coincida con el backend
+                    contrasena: this.password,
                 });
 
-                // Guardar token y usuario en localStorage
-                const token = response.data.token;
-                localStorage.setItem('token', token);
-                localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
+                if (response.data && response.data.token) {
+                    const { nombre, apellido_paterno, apellido_materno, rol } = response.data.usuario;
 
-                // Redirigir al dashboard
-                this.$router.push('/dashboard');
+                    // Crear el nombre completo concatenando nombre y apellidos
+                    const nombreCompleto = `${nombre} ${apellido_paterno} ${apellido_materno}`;
+
+                    // Guardar en localStorage
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('nombreUsuario', nombreCompleto); // Guardamos el nombre completo
+                    localStorage.setItem('rolUsuario', rol);
+
+                    // Verificar si los valores fueron guardados correctamente
+                    console.log(localStorage.getItem('nombreUsuario'));  // Debería mostrar "Carlos Andres Lopez Loaiza"
+                    console.log(localStorage.getItem('rolUsuario'));     // Debería mostrar "ROLE_ADMIN"
+
+                    // Redirigir al dashboard
+                    this.$router.push('/dashboard');
+                } else {
+                    this.loginError = 'Credenciales inválidas.';
+                }
             } catch (error) {
                 console.error('Error de inicio de sesión:', error);
-                alert('Credenciales inválidas, intenta nuevamente.');
+                this.loginError = 'Hubo un problema con la conexión o las credenciales.';
             }
         }
     }
+
 };
 </script>
 
