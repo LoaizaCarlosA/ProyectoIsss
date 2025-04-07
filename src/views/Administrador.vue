@@ -110,7 +110,7 @@ export default {
                     return 'Administrador';
                 case 'ROLE_USER':
                     return 'Usuario';
-                    case 'ROLE_AUXILIAR':
+                case 'ROLE_AUXILIAR':
                     return 'Auxiliar';
                 default:
                     return rol;
