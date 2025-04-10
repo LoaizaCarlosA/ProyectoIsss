@@ -7,7 +7,7 @@
                     <label>Correo Institucional</label>
                     <input type="email" placeholder="Ingresa tu correo institucional" v-model="email" required />
                     <label>Contraseña</label>
-                    <input type="password" placeholder=" ● ● ● ● ● ● ● ● ● ● ● ● ● ●" v-model="password" required />
+                    <input type="password" placeholder=" ● ● ● ● ● ● ● ● " v-model="password" required />
                     <button type="submit">Iniciar sesión</button>
                 </form>
             </div>
