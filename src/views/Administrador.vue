@@ -25,18 +25,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="usuario in filteredList" :key="usuario.idUsuario">
+                            <tr v-for="usuario in filteredList" :key="usuario.id">
                                 <td>{{ usuario.numero_empleado.toString().padStart(4, '0') }}</td>
                                 <td>{{ usuario.nombre }}</td>
                                 <td>{{ usuario.apellido_paterno }}</td>
                                 <td>{{ usuario.apellido_materno }}</td>
                                 <td>{{ formatearRol(usuario.rol) }}</td>
                                 <td>{{ usuario.correo }}</td>
-                                <td>{{ usuario.contrasena.slice(0, 2) + " ● ● ● ● ● " + usuario.contrasena.slice(-2) }}
-                                </td>
+                                <td>{{ "● ● ● ● ● ● ●" }}</td>
                                 <td>
                                     <div class="botonesTabla">
-                                        <Button class="btn-editar" @click="mostrarEditar(usuario.idUsuario)"
+                                        <Button class="btn-editar" @click="mostrarEditar(usuario.id)"
                                             title="Editar usuario">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </Button>
@@ -54,6 +53,8 @@
             <Paginacion></Paginacion>
         </ContainerWhite>
         <AgregarAdministrador v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarAdministrador>
+        <EditarAdministrador v-if="mostrarModalEditar" :admin="adminSeleccionado"
+            @cancelar="mostrarModalEditar = false"></EditarAdministrador>
     </LayoutPrincipal>
 </template>
 
@@ -64,6 +65,7 @@ import Button from "../components/Forms/Button.vue";
 import Paginacion from "../components/Forms/Paginacion.vue";
 import AgregarAdministrador from "../components/Administrador/AgregarAdministrador.vue";
 import axios from 'axios';
+import EditarAdministrador from "@/components/Administrador/EditarAdministrador.vue";
 
 export default {
     components: {
@@ -71,25 +73,30 @@ export default {
         ContainerWhite,
         Button,
         Paginacion,
-        AgregarAdministrador
+        AgregarAdministrador,
+        EditarAdministrador
     },
     data() {
         return {
             searchText: "",
             usuarios_admin: [],
-            mostrarModal: false
+            mostrarModal: false,
+            mostrarModalEditar: false,
+            adminSeleccionado: null,
         };
     },
     computed: {
         filteredList() {
             const searchTerm = this.searchText.toLowerCase();
             return this.usuarios_admin.filter((usuario) =>
-                usuario.nombre.toLowerCase().includes(searchTerm) || usuario.idUsuario.toString().includes(searchTerm)
+                usuario.nombre.toLowerCase().includes(searchTerm) || usuario.id.toString().includes(searchTerm)
             );
         }
     },
     methods: {
         async obtenerAdministradores() {
+            console.log("Usuarios admin:", this.usuarios_admin);
+
             try {
                 const response = await axios.get("http://localhost:5000/administradores"); // Asegúrate de que la URL sea correcta
                 console.log(response.data);
@@ -117,7 +124,15 @@ export default {
             }
         },
         mostrarEditar(id) {
-            console.log("Editar usuario con ID: ", id);
+            console.log('ID seleccionado para editar:', id);
+            const admin = this.usuarios_admin.find(u => u.id === id);
+            if (admin) {
+                this.adminSeleccionado = { ...admin };
+                this.mostrarModalEditar = true;
+            }
+        },
+        cancelarEditar() {
+            this.mostrarModal = false;
         },
         async eliminarUsuario(numeroEmpleado) {
             try {
