@@ -60,12 +60,12 @@
 
 <script>
 import LayoutPrincipal from "../layouts/layoutPrincipal.vue";
-import ContainerWhite from "@/layouts/ContainerWhite.vue";
+import ContainerWhite from "../layouts/ContainerWhite.vue";
 import Button from "../components/Forms/Button.vue";
 import Paginacion from "../components/Forms/Paginacion.vue";
 import AgregarAdministrador from "../components/Administrador/AgregarAdministrador.vue";
 import axios from 'axios';
-import EditarAdministrador from "@/components/Administrador/EditarAdministrador.vue";
+import EditarAdministrador from "../components/Administrador/EditarAdministrador.vue";
 
 export default {
     components: {
