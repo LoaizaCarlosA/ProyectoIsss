@@ -132,7 +132,7 @@ export default {
             };
 
             // Enviar la solicitud al backend
-            axios.post('http://localhost:5000/api/usuarios_admin', adminData)
+            axios.post('http://192.168.21.18:5000/api/usuarios_admin', adminData)
                 .then(response => {
                     console.log('Administrador agregado con éxito', response);
                     setTimeout(() => {

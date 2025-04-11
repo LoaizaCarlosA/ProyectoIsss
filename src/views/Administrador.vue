@@ -98,7 +98,7 @@ export default {
             console.log("Usuarios admin:", this.usuarios_admin);
 
             try {
-                const response = await axios.get("http://localhost:5000/administradores"); // Asegúrate de que la URL sea correcta
+                const response = await axios.get("http://192.168.21.18:5000/administradores"); // Asegúrate de que la URL sea correcta
                 console.log(response.data);
                 this.usuarios_admin = response.data;
             } catch (error) {
@@ -137,7 +137,7 @@ export default {
         async eliminarUsuario(numeroEmpleado) {
             try {
                 // Enviar la solicitud DELETE al backend usando el numero_empleado
-                const response = await axios.delete(`http://localhost:5000/administradores/${numeroEmpleado}`);
+                const response = await axios.delete(`http://192.168.21.18:5000/administradores/${numeroEmpleado}`);
                 if (response.status === 200) {
                     // Si la eliminación es exitosa, actualizamos la lista de usuarios
                     this.usuarios_admin = this.usuarios_admin.filter((usuario) => usuario.numero_empleado !== numeroEmpleado);
