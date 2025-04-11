@@ -10,23 +10,20 @@
             </section>
             <div>
                 <div class="label">Número de empleado:</div>
-                <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="numeroEmpleado"
-                    placeholder="Ingrese el número de empleado" />
+                <input class="inputEditarNumEmp" type="text" maxlength="20" name="" id="numeroEmpleado"
+                    :value="numeroEmpleado.toString().padStart(4, '0')" readonly />
             </div>
             <div>
                 <div class="label">Nombre:</div>
-                <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="nombre"
-                    placeholder="Ingrese el nombre" />
+                <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="nombre" />
             </div>
             <div>
                 <div class="label">Apellido paterno:</div>
-                <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="apellidoPaterno"
-                    placeholder="Ingrese el apellido paterno" />
+                <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="apellidoPaterno" />
             </div>
             <div>
                 <div class="label">Apellido materno:</div>
-                <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="apellidoMaterno"
-                    placeholder="Ingrese el apellido materno" />
+                <input class="inputEditar" type="text" maxlength="20" name="" id="" v-model="apellidoMaterno" />
             </div>
             <div>
                 <div class="label">Rol:</div>
@@ -41,13 +38,11 @@
             </div>
             <div>
                 <div class="label">Correo:</div>
-                <input class="inputEditar" type="text" maxlength="40" name="" id="" v-model="correo"
-                    placeholder="Ingrese un correo electrónico" />
+                <input class="inputEditar" type="text" maxlength="40" name="" id="" v-model="correo" />
             </div>
-            <div>
-                <div class="label">Contraseña:</div>
-                <input class="inputEditar" type="password" name="" id="clave" v-model="clave"
-                    placeholder="Ingrese una contraseña" />
+            <div class="contrasenaInput">
+                <div class="">Contraseña:</div>
+                <Button class="btn-GenNewPass" @click="cancelar">Generar una nueva contraseña</Button>
             </div>
             <section class="contenedorBotones">
                 <Button class="btn-regresar" @click="cancelar">Regresar</Button>
@@ -75,11 +70,14 @@ export default {
         LoadScreen,
     },
     props: {
-
         tituloHeader: {
             type: String,
-            default: "Agregar Administrador",
+            default: "Editar Administrador",
         },
+        admin: {
+            type: Object,
+            required: true
+        }
     },
     data() {
         return {
@@ -88,7 +86,7 @@ export default {
             mostrarModal: true,
             mostrarExito: false,
             mostrarError: false,
-            nombre: '',
+            nombre: this.admin.nombre || '',
             apellidoPaterno: '',
             apellidoMaterno: '',
             correo: '',
@@ -114,6 +112,10 @@ export default {
             // Verificamos que el número de empleado sea válido
             if (!this.numeroEmpleado || isNaN(this.numeroEmpleado) || this.numeroEmpleado <= 0) {
                 this.mostrarError = true;
+                // Cerrar el modal de error después de 2 segundos
+                setTimeout(() => {
+                    this.mostrarError = false;
+                }, 2000); // Duración del modal de error (2 segundos)
                 return;
             }
 
@@ -136,26 +138,26 @@ export default {
                 .then(response => {
                     console.log('Administrador agregado con éxito', response);
                     setTimeout(() => {
-                    this.mostrarLoader = false;  // Ocultar el loader
-                    this.mostrarExito = true;    // Mostrar el mensaje de éxito
+                        this.mostrarLoader = false;  // Ocultar el loader
+                        this.mostrarExito = true;    // Mostrar el mensaje de éxito
 
-                    // Limpiar los campos
-                    this.numeroEmpleado = '';
-                    this.nombre = '';
-                    this.apellidoPaterno = '';
-                    this.apellidoMaterno = '';
-                    this.correo = '';
-                    this.clave = '';
+                        // Limpiar los campos
+                        this.numeroEmpleado = '';
+                        this.nombre = '';
+                        this.apellidoPaterno = '';
+                        this.apellidoMaterno = '';
+                        this.correo = '';
+                        this.clave = '';
 
-                    // Ocultar el modal después de guardar
-                    this.mostrarModal = false; // Cambia la propiedad que controla el modal
+                        // Ocultar el modal después de guardar
+                        this.mostrarModal = false; // Cambia la propiedad que controla el modal
 
-                    // Esperar 2 segundos y luego ocultar el mensaje de éxito
-                    setTimeout(() => {
-                        this.mostrarExito = false;
-                        window.location.reload();
-                    }, 2000); // Duración de la notificación de éxito (2 segundos)
-                }, 1500);
+                        // Esperar 2 segundos y luego ocultar el mensaje de éxito
+                        setTimeout(() => {
+                            this.mostrarExito = false;
+                            window.location.reload();
+                        }, 2000); // Duración de la notificación de éxito (2 segundos)
+                    }, 1500);
                 })
                 .catch(error => {
                     console.error('Error al agregar el administrador:', error);
@@ -164,6 +166,22 @@ export default {
                 });
         },
 
+    },
+    watch: {
+        admin: {
+            immediate: true,
+            handler(nuevo) {
+                if (nuevo) {
+                    this.numeroEmpleado = nuevo.numero_empleado || '';
+                    this.nombre = nuevo.nombre || '';
+                    this.apellidoPaterno = nuevo.apellido_paterno || '';
+                    this.apellidoMaterno = nuevo.apellido_materno || '';
+                    this.rol = nuevo.rol || 'ROLE_ADMIN';
+                    this.correo = nuevo.correo || '';
+                    this.clave = nuevo.contrasena || ''; // si no quieres mostrarla, déjalo vacío
+                }
+            }
+        }
     },
 };
 </script>
@@ -193,6 +211,12 @@ export default {
     margin: 17px 0px 5px;
 }
 
+.contrasenaInput{
+    display: flex;
+    align-items: center;
+    margin: 25px 0px 5px;
+}
+
 .inputEditar {
     width: 300px;
     height: 32px;
@@ -202,6 +226,19 @@ export default {
     color: #000000;
     padding: 0px 7px;
     border-radius: 10px;
+}
+
+.inputEditarNumEmp {
+    width: 300px;
+    height: 32px;
+    border: 0px solid #000000;
+    box-shadow: 0px 3px 6px #00000029;
+    outline: none;
+    color: #000000;
+    padding: 0px 7px;
+    border-radius: 10px;
+    user-select: none;
+    background-color: #e8e5e5;
 }
 
 .buscadorSelect {
@@ -219,6 +256,6 @@ export default {
     justify-content: space-between;
     max-width: 80%;
     margin: auto;
-    padding: 30px 0px 20px;
+    padding: 20px 0px 20px;
 }
 </style>

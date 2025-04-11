@@ -265,4 +265,22 @@ export default {
   background: black 0% 0% no-repeat padding-box;
   color: white;
 }
+
+.btn-GenNewPass {
+  background: white 0% 0% no-repeat padding-box;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  opacity: 1;
+  width: 100%;
+  height: 32px;
+  cursor: pointer;
+  box-shadow: 0px 3px 6px #00000029;
+  font-weight: 700;
+  margin: 0px 0px 0px 5px;
+}
+
+.btn-GenNewPass:hover {
+  background: black 0% 0% no-repeat padding-box;
+  color: white;
+}
 </style>

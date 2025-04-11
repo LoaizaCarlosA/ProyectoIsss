@@ -104,6 +104,7 @@ export default {
 }
 
 .contenido-modal {
+  user-select: none;
   position: relative;
   background-color: #ffffff;
   margin: auto;

@@ -182,7 +182,7 @@
 
 <script>
 
-import Header from '@/layouts/Header.vue';
+import Header from '../layouts/Header.vue';
 import Button from '../components/Forms/Button.vue'
 
 export default {

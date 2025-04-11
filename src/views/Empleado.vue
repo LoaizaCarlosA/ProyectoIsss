@@ -50,7 +50,7 @@
 
 <script>
 import LayoutPrincipal from "../layouts/layoutPrincipal.vue";
-import ContainerWhite from "@/layouts/ContainerWhite.vue";
+import ContainerWhite from "../layouts/ContainerWhite.vue";
 import Button from "../components/Forms/Button.vue";
 import Paginacion from "../components/Forms/Paginacion.vue";
 

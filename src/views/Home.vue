@@ -40,7 +40,7 @@ export default {
                 // localStorage.removeItem('rolUsuario');
 
                 // Realizar el POST para el login
-                const response = await axios.post('http://localhost:5000/api/auth/login', {
+                const response = await axios.post('http://192.168.21.18:5000/api/auth/login', {
                     correo: this.email,
                     contrasena: this.password,
                 });
