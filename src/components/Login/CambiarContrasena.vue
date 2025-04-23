@@ -1,101 +1,95 @@
 <template>
     <ModalBaseConfirmacion>
-      <section class="contenedorPrincipal">
-        <section>
-          <div class="contenedorLogo">
-            <img class="imgLogo" src="@/assets/images/ISSSTEESIN_HORIZONTAL.png" alt="" />
-          </div>
-          <div class="separador"></div>
+        <section class="contenedorPrincipal">
+            <section>
+                <div class="contenedorLogo">
+                    <img class="imgLogo" src="@/assets/images/ISSSTEESIN_HORIZONTAL.png" alt="" />
+                </div>
+                <div class="separador"></div>
+            </section>
+            <div class="titulo">
+                <div class="mensajeEliminar">{{ mensajeExito }}</div>
+                <div class="NombreUsuario">
+                    <input v-model="nuevaContrasena" type="password" placeholder="Nueva contraseña"
+                        class="inputEditar" />
+                </div>
+                <div class="NombreUsuario">
+                    <input v-model="confirmarContrasena" type="password" placeholder="Confirmar nueva contraseña"
+                        class="inputEditar" />
+                </div>
+                <div v-if="error" class="error">{{ error }}</div>
+            </div>
+            <section class="contenedorBotones">
+                <Button class="btn-continuar" @click="cambiarContrasena">Confirmar</Button>
+            </section>
         </section>
-        <div class="titulo">
-          <div class="mensajeEliminar">{{ mensajeExito }}</div>
-          <div class="NombreUsuario">
-            <input 
-              v-model="nuevaContrasena" 
-              type="password" 
-              placeholder="Nueva contraseña" 
-              class="inputEditar"
-            />
-          </div>
-          <div class="NombreUsuario">
-            <input 
-              v-model="confirmarContrasena" 
-              type="password" 
-              placeholder="Confirmar nueva contraseña" 
-              class="inputEditar"
-            />
-          </div>
-          <div v-if="error" class="error">{{ error }}</div>
-        </div>
-        <section class="contenedorBotones">
-          <Button class="btn-confirmar-eliminar" @click="cambiarContrasena">Confirmar</Button>
-        </section>
-      </section>
-      <LoadScreen v-if="cargando" />
+        <LoadScreen v-if="cargando" />
     </ModalBaseConfirmacion>
-  </template>
-  
-  <script>
-  import ModalBaseConfirmacion from "../Modales/ModalBaseConfirmacion.vue";
-  import LoadScreen from "../Forms/LoadScreen.vue";
-  import Button from "../Forms/Button.vue";
-  
-  export default {
+</template>
+
+<script>
+import axios from 'axios';
+import ModalBaseConfirmacion from "../Modales/ModalBaseConfirmacion.vue";
+import LoadScreen from "../Forms/LoadScreen.vue";
+import Button from "../Forms/Button.vue";
+
+export default {
     components: {
-      ModalBaseConfirmacion,
-      LoadScreen,
-      Button,
+        ModalBaseConfirmacion,
+        LoadScreen,
+        Button,
     },
     props: {
-      mensajeExito: {
-        type: String,
-        default: "Ingresar nueva contraseña:",
-      },
+        mensajeExito: {
+            type: String,
+            default: "Ingresar nueva contraseña:",
+        },
     },
     data() {
-      return {
-        nuevaContrasena: "",
-        confirmarContrasena: "",
-        cargando: false,
-        error: "",
-      };
+        return {
+            nuevaContrasena: "",
+            confirmarContrasena: "",
+            cargando: false,
+            error: "",
+        };
     },
     methods: {
-      async cambiarContrasena() {
-        this.error = "";
-  
-        // Validar contraseñas
-        if (!this.nuevaContrasena || !this.confirmarContrasena) {
-          this.error = "Por favor, llena todos los campos.";
-          return;
-        }
-        if (this.nuevaContrasena !== this.confirmarContrasena) {
-          this.error = "Las contraseñas no coinciden.";
-          return;
-        }
-        if (this.nuevaContrasena.length < 8) {
-          this.error = "La contraseña debe tener al menos 8 caracteres.";
-          return;
-        }
-  
-        // Enviar nueva contraseña al backend
-        this.cargando = true;
-        try {
-          const token = localStorage.getItem("token");
-          const response = await this.$axios.post(
-            "http://192.168.21.18:5000/api/auth/change-password",
-            { nuevaContrasena: this.nuevaContrasena },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          alert(response.data.message || "Contraseña actualizada exitosamente.");
-          this.$emit("cerrarModal"); // Cerrar el modal tras el éxito
-        } catch (error) {
-          console.error("Error al cambiar contraseña:", error);
-          this.error = "Hubo un problema al cambiar la contraseña. Intenta de nuevo.";
-        } finally {
-          this.cargando = false;
-        }
+        async cambiarContrasena() {
+            this.error = "";
+
+            // Validar contraseñas
+            if (!this.nuevaContrasena || !this.confirmarContrasena) {
+                this.error = "Por favor, llena todos los campos.";
+                return;
+            }
+            if (this.nuevaContrasena !== this.confirmarContrasena) {
+                this.error = "Las contraseñas no coinciden.";
+                return;
+            }
+            if (this.nuevaContrasena.length < 8) {
+                this.error = "La contraseña debe tener al menos 8 caracteres.";
+                return;
+            }
+
+            // Enviar nueva contraseña al backend
+            this.cargando = true;
+            try {
+                const token = localStorage.getItem("token");
+                const response = await axios.post(
+                    "http://192.168.21.18:5000/api/auth/change-password",
+                    { nuevaContrasena: this.nuevaContrasena },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                alert(response.data.message || "Contraseña actualizada exitosamente.");
+                this.$emit("cerrarModal"); // Cerrar el modal tras el éxito
+            } catch (error) {
+                console.error("Error al cambiar contraseña:", error);
+                this.error = "Hubo un problema al cambiar la contraseña. Intenta de nuevo.";
+            } finally {
+                this.cargando = false;
+            }
       },
+      
     },
   };
   </script>
@@ -160,8 +154,9 @@
     box-shadow: 0px 3px 6px #00000029;
     outline: none;
     color: #000000;
-    padding: 0px 7px;
+    padding: 8px;
     border-radius: 10px;
+    font-size: 14px;
 }
 
 .buscadorSelect {
@@ -179,17 +174,24 @@
     justify-content: space-evenly;
     max-width: 80%;
     margin: auto;
-    padding: 30px 0px 30px;
+    padding: 20px 0px 30px;
 }
 
 .NombreUsuario {
     font-style: italic;
     color: #691c32;
+    margin: 12px 0px 10px;
 }
 
 .signoInt {
     color: #000000;
     font-style: normal;
     font-weight: 100;
+}
+
+.error{
+    font-size: 16px;
+    padding: 20px 0px 0px 0px;
+    color: #CB0809;
 }
 </style>
