@@ -23,16 +23,14 @@
                     <div class="link" @click="toggleForgotPassword">Volver al login</div>
                     <button type="submit">Enviar nueva contraseña</button>
                 </form>
-
             </div>
             <div class="right">
                 <img class="logoRight" src="../assets/images/IsssteesinLogoVerticalBlanco.png" alt="Logo" />
             </div>
         </div>
+
+        <CambiarContrasena v-if="mostrarModalCambioContrasena" @cerrarModal="mostrarModalCambioContrasena = false" />
     </div>
-    <CambiarContrasena v-if="mostrarModalCambioContrasena" :usuario="JSON.parse(localStorage.getItem('usuario'))"
-        @cerrar="mostrarModalCambioContrasena = false"
-        @confirmar="mostrarModalCambioContrasena = false; this.$router.push('/dashboard')" />
 </template>
 
 <script>
@@ -49,10 +47,12 @@ export default {
             password: '',
             recoveryEmail: '',
             showForgotPassword: false,
-            emailError: false,  // Error para el campo de email
-            passwordError: false, // Error para el campo de password
-            recoveryEmailError: false, // Error para el campo de recoveryEmail
+            emailError: false,
+            passwordError: false,
+            recoveryEmailError: false,
             mostrarModalCambioContrasena: false,
+            token: '',
+            usuario: null,
         };
     },
     methods: {
@@ -73,6 +73,8 @@ export default {
                     contrasena: this.password,
                 });
 
+                console.log('📥 Respuesta del backend:', response.data);
+
                 if (response.data && response.data.token) {
                     const usuario = response.data.usuario;
                     const token = response.data.token;
@@ -82,10 +84,12 @@ export default {
                     localStorage.setItem('token', token);
                     localStorage.setItem('nombreUsuario', nombreCompleto);
                     localStorage.setItem('rolUsuario', rol);
-                    localStorage.setItem('usuario', JSON.stringify(usuario)); // ✅ Guarda todo el usuario
+                    localStorage.setItem('usuario', JSON.stringify(usuario));
 
+                    // Verificar si la contraseña es temporal
                     if (usuario.temporal === 1) {
-                        this.mostrarModalCambioContrasena = true; // 👈 Levanta el modal
+                        console.log('Modal debe mostrarse ahora');
+                        this.mostrarModalCambioContrasena = true;
                     } else {
                         this.$router.push('/dashboard');
                     }
@@ -95,8 +99,12 @@ export default {
                 }
             } catch (error) {
                 console.error('Error de inicio de sesión:', error);
-                this.emailError = true;
-                this.passwordError = true;
+                if (error.response && error.response.data && error.response.data.error === 'Has iniciado sesión con una contraseña temporal. Por favor, cámbiala.') {
+                    this.mostrarModalCambioContrasena = true; // Mostrar el modal si la contraseña es temporal
+                } else {
+                    this.emailError = true;
+                    this.passwordError = true;
+                }
             }
         },
         async sendRecoveryEmail() {
@@ -114,23 +122,22 @@ export default {
                 console.error('Error al enviar el correo de recuperación:', error);
                 alert('Ocurrió un error. Intenta nuevamente más tarde.');
             }
-        }
+        },
+
     }
 };
 </script>
 
 <style scoped>
-/* Asegúrate de que el html y body ocupen el 100% de la altura y no se desborden */
+/* Todo tu CSS original queda igual */
 html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    /* Esto evitará el scroll */
 }
 
-/* Contenedor principal */
 .container {
     padding: 50px 0px;
     display: flex;
@@ -142,7 +149,6 @@ body {
     background: white;
 }
 
-/* Formulario contenedor */
 .form-container {
     display: flex;
     flex-direction: row;
@@ -154,10 +160,8 @@ body {
     box-shadow: 0px 15px 30px rgb(0 0 0 / 39%);
     user-select: none;
     overflow: hidden;
-    /* Asegura que no haya scroll dentro del formulario */
 }
 
-/* Sección izquierda (formulario) */
 .left {
     width: 50%;
     background: #b9b9b969;
@@ -169,40 +173,33 @@ body {
     padding: 30px;
 }
 
-/* Estilo de los textos */
 .texto {
     font-size: 36px;
     margin-top: 30px;
 }
 
-/* Formulario de entrada */
 .left form {
     width: 80%;
     display: flex;
     flex-direction: column;
 }
 
-/* Estilo de etiquetas */
 .left form label {
     font-size: 20px;
     margin-top: 20px;
 }
 
-/* Estilo de los inputs */
 .left form input {
     padding: 8px;
     margin-top: 5px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 14px;
     background: white;
     color: black;
     height: 30px;
-    border-radius: 10px;
-
 }
 
-/* Botón de login */
 button {
     width: 100%;
     background: #691c32;
@@ -221,7 +218,6 @@ button:hover {
     background: #e55050;
 }
 
-/* Sección derecha (logo) */
 .right {
     width: 50%;
     background: #691c32;
@@ -283,7 +279,7 @@ button:hover {
     }
 
     .left form label {
-        margin-top: 40px
+        margin-top: 40px;
     }
 }
 </style>
