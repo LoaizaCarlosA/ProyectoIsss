@@ -3,75 +3,119 @@
         <div class="form-container">
             <div class="left">
                 <div class="texto">Bienvenido/a</div>
-                <form @submit.prevent="login">
+                <!-- Login Form -->
+                <form v-if="!showForgotPassword" @submit.prevent="login">
                     <label>Correo Institucional</label>
-                    <input type="email" placeholder="Ingresa tu correo institucional" v-model="email" required />
+                    <input type="email" placeholder="Ingresa tu correo institucional" v-model="email"
+                        :class="{ 'input-error': emailError }" required />
                     <label>Contraseña</label>
-                    <input type="password" placeholder=" ● ● ● ● ● ● ● ● " v-model="password" required />
+                    <input type="password" placeholder=" ● ● ● ● ● ● ● ● " v-model="password"
+                        :class="{ 'input-error': passwordError }" required />
+                    <div class="link" @click="toggleForgotPassword">Olvidé mi contraseña</div>
                     <button type="submit">Iniciar sesión</button>
                 </form>
+
+                <!-- Forgot Password Form -->
+                <form v-else @submit.prevent="sendRecoveryEmail">
+                    <label>Correo para recuperación</label>
+                    <input type="email" placeholder="Ingresa tu correo institucional" v-model="recoveryEmail"
+                        :class="{ 'input-error': recoveryEmailError }" />
+                    <div class="link" @click="toggleForgotPassword">Volver al login</div>
+                    <button type="submit">Enviar nueva contraseña</button>
+                </form>
+
             </div>
             <div class="right">
                 <img class="logoRight" src="../assets/images/IsssteesinLogoVerticalBlanco.png" alt="Logo" />
             </div>
         </div>
     </div>
+    <CambiarContrasena v-if="mostrarModalCambioContrasena" :usuario="JSON.parse(localStorage.getItem('usuario'))"
+        @cerrar="mostrarModalCambioContrasena = false"
+        @confirmar="mostrarModalCambioContrasena = false; this.$router.push('/dashboard')" />
 </template>
 
 <script>
-
 import axios from 'axios';
+import CambiarContrasena from '../components/Login/CambiarContrasena.vue';
 
 export default {
+    components: {
+        CambiarContrasena,
+    },
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            recoveryEmail: '',
+            showForgotPassword: false,
+            emailError: false,  // Error para el campo de email
+            passwordError: false, // Error para el campo de password
+            recoveryEmailError: false, // Error para el campo de recoveryEmail
+            mostrarModalCambioContrasena: false,
         };
     },
     methods: {
+        toggleForgotPassword() {
+            this.showForgotPassword = !this.showForgotPassword;
+        },
         async login() {
-            try {
-                // Limpiar localStorage antes de realizar el inicio de sesión
-                localStorage.clear();  // Elimina todos los elementos del localStorage
-                // O si prefieres eliminar solo elementos específicos:
-                // localStorage.removeItem('token');
-                // localStorage.removeItem('nombreUsuario');
-                // localStorage.removeItem('rolUsuario');
+            this.emailError = false;
+            this.passwordError = false;
 
-                // Realizar el POST para el login
+            if (!this.email) this.emailError = true;
+            if (!this.password) this.passwordError = true;
+            if (this.emailError || this.passwordError) return;
+
+            try {
                 const response = await axios.post('http://192.168.21.18:5000/api/auth/login', {
                     correo: this.email,
                     contrasena: this.password,
                 });
 
                 if (response.data && response.data.token) {
-                    const { nombre, apellido_paterno, apellido_materno, rol } = response.data.usuario;
-
-                    // Crear el nombre completo concatenando nombre y apellidos
+                    const usuario = response.data.usuario;
+                    const token = response.data.token;
+                    const { nombre, apellido_paterno, apellido_materno, rol } = usuario;
                     const nombreCompleto = `${nombre} ${apellido_paterno} ${apellido_materno}`;
 
-                    // Guardar en localStorage
-                    localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('nombreUsuario', nombreCompleto); // Guardamos el nombre completo
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('nombreUsuario', nombreCompleto);
                     localStorage.setItem('rolUsuario', rol);
+                    localStorage.setItem('usuario', JSON.stringify(usuario)); // ✅ Guarda todo el usuario
 
-                    // Verificar si los valores fueron guardados correctamente
-                    console.log(localStorage.getItem('nombreUsuario'));  // Debería mostrar "Carlos Andres Lopez Loaiza"
-                    console.log(localStorage.getItem('rolUsuario'));     // Debería mostrar "ROLE_ADMIN"
-
-                    // Redirigir al dashboard
-                    this.$router.push('/dashboard');
+                    if (usuario.temporal === 1) {
+                        this.mostrarModalCambioContrasena = true; // 👈 Levanta el modal
+                    } else {
+                        this.$router.push('/dashboard');
+                    }
                 } else {
-                    this.loginError = 'Credenciales inválidas.';
+                    this.emailError = true;
+                    this.passwordError = true;
                 }
             } catch (error) {
                 console.error('Error de inicio de sesión:', error);
-                this.loginError = 'Hubo un problema con la conexión o las credenciales.';
+                this.emailError = true;
+                this.passwordError = true;
+            }
+        },
+        async sendRecoveryEmail() {
+            try {
+                const response = await axios.post('http://192.168.21.18:5000/api/auth/forgot-password', {
+                    correo: this.recoveryEmail,
+                });
+
+                if (response.data && response.data.success) {
+                    alert('Se ha enviado una nueva contraseña a tu correo institucional.');
+                } else {
+                    alert('Hubo un problema al intentar enviar el correo.');
+                }
+            } catch (error) {
+                console.error('Error al enviar el correo de recuperación:', error);
+                alert('Ocurrió un error. Intenta nuevamente más tarde.');
             }
         }
     }
-
 };
 </script>
 
@@ -146,7 +190,7 @@ body {
 
 /* Estilo de los inputs */
 .left form input {
-    padding: 10px;
+    padding: 8px;
     margin-top: 5px;
     border: none;
     border-radius: 5px;
@@ -154,16 +198,18 @@ body {
     background: white;
     color: black;
     height: 30px;
+    border-radius: 10px;
+
 }
 
 /* Botón de login */
 button {
-    width: 80%;
+    width: 100%;
     background: #691c32;
     color: white;
     border: none;
     padding: 12px;
-    margin-top: 30px;
+    margin-top: 65px;
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
@@ -189,6 +235,19 @@ button:hover {
 
 .logoRight {
     width: 70%;
+}
+
+.link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #0056b3;
+    cursor: pointer;
+    text-decoration: underline;
+    align-self: flex-start;
+}
+
+.input-error {
+    border: 2px solid red;
 }
 
 @media (max-width: 820px) {
