@@ -1,4 +1,9 @@
 <template>
+    <LoadScreen v-if="mostrarLoader"></LoadScreen>
+    <ModalExito v-show="mostrarExito" :mostrarExito="mostrarExito"></ModalExito>
+    <ModalConfirmacion v-if="mostrarModalConfirmacion" @confirmar="eliminarUsuario" @cancelar="cancelarEliminacion"
+        :nombreAdmin="adminSeleccionado ? adminSeleccionado.nombre : ''">
+    </ModalConfirmacion>
     <LayoutPrincipal>
         <ContainerWhite>
             <section class="filtrosEmpleados">
@@ -39,7 +44,7 @@
                                             title="Editar usuario">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </Button>
-                                        <Button class="btn-eliminar" @click="eliminarUsuario(usuario.numero_empleado)"
+                                        <Button class="btn-eliminar" @click="eliminarAdmin(usuario.numero_empleado)"
                                             title="Eliminar usuario">
                                             <i class="fa-solid fa-trash"></i>
                                         </Button>
@@ -66,6 +71,9 @@ import Paginacion from "../components/Forms/Paginacion.vue";
 import AgregarAdministrador from "../components/Administrador/AgregarAdministrador.vue";
 import axios from 'axios';
 import EditarAdministrador from "../components/Administrador/EditarAdministrador.vue";
+import ModalExito from '../components/Modales/ModalExito.vue';
+import ModalConfirmacion from '../components/Modales/ModalConfirmacion.vue';
+import LoadScreen from "@/components/Forms/LoadScreen.vue";
 
 export default {
     components: {
@@ -74,7 +82,10 @@ export default {
         Button,
         Paginacion,
         AgregarAdministrador,
-        EditarAdministrador
+        EditarAdministrador,
+        ModalExito,
+        ModalConfirmacion,
+        LoadScreen,
     },
     data() {
         return {
@@ -83,6 +94,10 @@ export default {
             mostrarModal: false,
             mostrarModalEditar: false,
             adminSeleccionado: null,
+            mostrarModalConfirmacion: false,
+            mostrarLoader: false,
+            mostrarExito: false,
+            numeroEmpleado: "",
         };
     },
     computed: {
@@ -134,19 +149,34 @@ export default {
         cancelarEditar() {
             this.mostrarModal = false;
         },
-        async eliminarUsuario(numeroEmpleado) {
+        SeleccionarAdmin(usuario) {
+            this.adminSeleccionado = JSON.parse(JSON.stringify(usuario));
+        },
+        eliminarAdmin(NumeroEmpleado) {
+            console.log("ID seleccionado para eliminar: ", NumeroEmpleado);
+            this.adminSeleccionado = this.usuarios_admin.find(usu => usu.numero_empleado == NumeroEmpleado);
+            this.mostrarModalConfirmacion = true;
+            this.numeroEmpleado = NumeroEmpleado;
+        },
+        async eliminarUsuario() {
             try {
                 // Enviar la solicitud DELETE al backend usando el numero_empleado
-                const response = await axios.delete(`http://192.168.21.18:5000/administradores/${numeroEmpleado}`);
+                console.log("Dato: ", this.numeroEmpleado);
+                const response = await axios.delete(`http://192.168.21.18:5000/administradores/${this.numeroEmpleado}`);
+                this.mostrarModalConfirmacion = false;
                 if (response.status === 200) {
                     // Si la eliminación es exitosa, actualizamos la lista de usuarios
-                    this.usuarios_admin = this.usuarios_admin.filter((usuario) => usuario.numero_empleado !== numeroEmpleado);
-                    console.log("Administrador eliminado con éxito", numeroEmpleado);
+                    this.usuarios_admin = this.usuarios_admin.filter((usuario) => usuario.numero_empleado !== this.numeroEmpleado);
+                    console.log("Administrador eliminado con éxito", this.numeroEmpleado);
                 }
             } catch (error) {
                 console.error("Error al eliminar el administrador", error);
             }
-        }
+        },
+        cancelarEliminacion() {
+            this.adminSeleccionado = null;
+            this.mostrarModalConfirmacion = false;
+        },
     },
     mounted() {
         this.obtenerAdministradores(); // Al montar el componente, obtener los administradores
