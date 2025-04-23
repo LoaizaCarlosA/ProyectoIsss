@@ -8,9 +8,15 @@
                     <label>Correo Institucional</label>
                     <input type="email" placeholder="Ingresa tu correo institucional" v-model="email"
                         :class="{ 'input-error': emailError }" required />
+                    <!-- Mensaje de error para el correo -->
+                    <p v-if="emailError" class="error-message">Por favor ingresa un correo válido.</p>
+
                     <label>Contraseña</label>
                     <input type="password" placeholder=" ● ● ● ● ● ● ● ● " v-model="password"
                         :class="{ 'input-error': passwordError }" required />
+                    <!-- Mensaje de error para la contraseña -->
+                    <p v-if="passwordError" class="error-message">Por favor ingresa tu contraseña.</p>
+
                     <div class="link" @click="toggleForgotPassword">Olvidé mi contraseña</div>
                     <button type="submit">Iniciar sesión</button>
                 </form>
@@ -63,8 +69,15 @@ export default {
             this.emailError = false;
             this.passwordError = false;
 
-            if (!this.email) this.emailError = true;
-            if (!this.password) this.passwordError = true;
+            // Validar que el correo y la contraseña estén completos
+            if (!this.email) {
+                this.emailError = true;
+            }
+            if (!this.password) {
+                this.passwordError = true;
+            }
+
+            // Si hay error en el correo o la contraseña, no continuar
             if (this.emailError || this.passwordError) return;
 
             try {
@@ -123,10 +136,10 @@ export default {
                 alert('Ocurrió un error. Intenta nuevamente más tarde.');
             }
         },
-
     }
 };
 </script>
+
 
 <style scoped>
 /* Todo tu CSS original queda igual */
@@ -244,6 +257,12 @@ button:hover {
 
 .input-error {
     border: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 @media (max-width: 820px) {
