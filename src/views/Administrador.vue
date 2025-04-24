@@ -161,7 +161,16 @@ export default {
         async eliminarUsuario() {
             try {
                 // Enviar la solicitud DELETE al backend usando el numero_empleado
+                this.mostrarLoader = true;
                 console.log("Dato: ", this.numeroEmpleado);
+                setTimeout(()=>{
+                    this.adminSeleccionado = null;
+                    this.mostrarLoader = false;
+                    this.mostrarExito = true;
+                    setTimeout(()=>{
+                        this.mostrarExito = false;
+                    },1500);
+                }, 2000);                
                 const response = await axios.delete(`http://192.168.21.18:5000/administradores/${this.numeroEmpleado}`);
                 this.mostrarModalConfirmacion = false;
                 if (response.status === 200) {
