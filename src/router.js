@@ -8,6 +8,7 @@ import Perfil from "./views/Perfil.vue";
 import Dashboard from "./views/DashBoard.vue";
 import Administrador from "./views/Administrador.vue";
 import PruebaG from "./views/PruebaG.vue";
+import Kiosko from "./views/Kiosko.vue";
 
 const routes = [
   {
@@ -49,6 +50,11 @@ const routes = [
     path: "/PruebaG",
     name: "PruebaG",
     component: PruebaG,
+  },
+  {
+    path: "/Kiosko",
+    name: "Kiosko",
+    component: Kiosko,
   },
 ];
 

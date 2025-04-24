@@ -33,7 +33,20 @@ export default {
     },
     mounted() {
         this.nombreUsuario = localStorage.getItem("nombreUsuario") || "Nombre no disponible";
-        this.rolUsuario = localStorage.getItem("rolUsuario") || "Rol no disponible";
+
+        const rolRaw = localStorage.getItem("rolUsuario") || "ROL NO DISPONIBLE";
+        this.rolUsuario = this.formatearRolUsuario(rolRaw);
+    },
+    methods: {
+        formatearRolUsuario(rol) {
+            const mapaRoles = {
+                "ROLE_ADMIN": "ADMIN",
+                "ROLE_KIOSKO": "KIOSKO",
+                "ROLE_USER": "USUARIO",
+                // Puedes añadir más roles aquí
+            };
+            return mapaRoles[rol] || rol.replace("ROLE_", "").toUpperCase();
+        }
     }
 };
 </script>

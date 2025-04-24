@@ -99,12 +99,23 @@ export default {
                     localStorage.setItem('rolUsuario', rol);
                     localStorage.setItem('usuario', JSON.stringify(usuario));
 
+                    console.log('Datos guardados en localStorage:', {
+                        token,
+                        nombreUsuario: nombreCompleto,
+                        rolUsuario: rol,
+                        usuario: JSON.stringify(usuario),
+                    });
+
                     // Verificar si la contraseña es temporal
                     if (usuario.temporal === 1) {
                         console.log('Modal debe mostrarse ahora');
                         this.mostrarModalCambioContrasena = true;
                     } else {
-                        this.$router.push('/dashboard');
+                        if (rol === 'ROLE_KIOSKO') {
+                            this.$router.push('/kiosko');
+                        } else {
+                            this.$router.push('/dashboard');
+                        }
                     }
                 } else {
                     this.emailError = true;

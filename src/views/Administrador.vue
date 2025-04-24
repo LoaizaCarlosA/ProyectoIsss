@@ -130,10 +130,16 @@ export default {
             switch (rol) {
                 case 'ROLE_ADMIN':
                     return 'Administrador';
-                case 'ROLE_USER':
-                    return 'Usuario';
-                case 'ROLE_AUXILIAR':
-                    return 'Auxiliar';
+                case 'ROLE_JEFE':
+                    return 'Jefe';
+                case 'ROLE_KIOSKO':
+                    return 'Kiosko';
+                case 'ROLE_DESARROLLADOR':
+                    return 'Desarrollador';
+                case 'ROLE_TESTER':
+                    return 'Tester';
+                case 'ROLE_RESIDENTE':
+                    return 'Residente';
                 default:
                     return rol;
             }
@@ -163,14 +169,14 @@ export default {
                 // Enviar la solicitud DELETE al backend usando el numero_empleado
                 this.mostrarLoader = true;
                 console.log("Dato: ", this.numeroEmpleado);
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.adminSeleccionado = null;
                     this.mostrarLoader = false;
                     this.mostrarExito = true;
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         this.mostrarExito = false;
-                    },1500);
-                }, 2000);                
+                    }, 1500);
+                }, 2000);
                 const response = await axios.delete(`http://192.168.21.18:5000/administradores/${this.numeroEmpleado}`);
                 this.mostrarModalConfirmacion = false;
                 if (response.status === 200) {
