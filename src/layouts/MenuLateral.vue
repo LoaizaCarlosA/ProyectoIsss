@@ -20,6 +20,10 @@
           <i class="fa-solid fa-ghost" aria-hidden="true"></i>
           <span v-if="collapsedMenu">PruebaG</span>
         </router-link>
+        <router-link v-if="isAllowed('/Kiosko')" to="/Kiosko" class="menu-item" active-class="active">
+          <i class="fa-solid fa-circle-user" aria-hidden="true"></i>
+          <span v-if="collapsedMenu">Kiosko</span>
+        </router-link>
       </div>
       <a class="cerrar-sesion" @click="cerrarSesion" active-class="active">
         <i class="fa-solid fa-right-from-bracket" aria-hidden="true" style="transform: scaleX(-1);"></i>
@@ -36,22 +40,76 @@
 <script>
 export default {
   name: 'MenuLateral',
+  data() {
+    return {
+      rolUsuario: null, // Inicializamos como null
+    };
+  },
   computed: {
     collapsedMenu() {
       return this.$store.state.collapsedMenu;
     },
   },
+  mounted() {
+    // Accedemos al localStorage después de que el componente se haya montado
+    if (typeof window !== 'undefined') {
+      const rolUsuario = localStorage.getItem('rolUsuario');
+      if (rolUsuario) {
+        console.log('Rol de usuario:', rolUsuario);  // Debería mostrar 'ROLE_KIOSKO' o el rol correcto
+        this.rolUsuario = rolUsuario;
+      } else {
+        console.log('No se encontró rolUsuario en el localStorage');
+        // Redirigir si no hay rol, por ejemplo a login
+        this.$router.push('/');
+      }
+    }
+  },
   methods: {
     isAllowed(route) {
-      const allowedRoutes = ['/Dashboard', '/Administrador', '/Cobaes','/PruebaG'];
-      return allowedRoutes.includes(route);
+      // Verifica si el rol es null o no está definido
+      if (!this.rolUsuario) {
+        return false; // Si el rol es nulo, no permitir acceso
+      }
+
+      console.log('Verificando acceso para:', route, 'con rol:', this.rolUsuario);
+
+      if (this.rolUsuario === 'ROLE_KIOSKO') {
+        // Si el rol es ROLE_KIOSKO, solo se debe permitir la ruta /Kiosko
+        return route === '/Kiosko';
+      } else if (this.rolUsuario === 'ROLE_ADMIN') {
+        // Si el rol es ROLE_ADMIN, se permite acceder a todas las rutas
+        return true;
+      }
+      return false; // Si no es un rol válido, no se permite el acceso
     },
     collapseMenu() {
       this.$store.commit('toggleMenu');
     },
     cerrarSesion() {
+      // Limpia el localStorage y redirige a la página de inicio
+      localStorage.removeItem('user');
+      localStorage.removeItem('rolUsuario');
       this.$router.push('/');
     },
+    login() {
+      // Suponiendo que tienes una función para manejar la autenticación
+      const usuario = this.authService.login(this.email, this.password);
+
+      if (usuario) {
+        // Guarda el rol del usuario en localStorage
+        localStorage.setItem('rolUsuario', usuario.rol);
+
+        // Si el rol es 'ROLE_KIOSKO', redirige al /Kiosko
+        if (usuario.rol === 'ROLE_KIOSKO') {
+          this.$router.push('/Kiosko');
+        } else {
+          this.$router.push('/Dashboard');
+        }
+      } else {
+        // Manejar error de login
+        console.error('Error de login');
+      }
+    }
   },
 };
 </script>
@@ -129,8 +187,6 @@ export default {
 
 .menu-item.active {
   background-color: #d2d2d2;
-  /*   transform: scale(0.9);
-  border-radius: 6px; */
 }
 
 .container-menu {
@@ -167,7 +223,6 @@ export default {
   justify-content: center;
   align-items: center;
   transition: 0.15s all ease-in-out;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .collapse-menu-lateral:hover {
@@ -194,8 +249,6 @@ export default {
 
 .cerrar-sesion:active {
   background-color: #d2d2d2;
-  /*   transform: scale(0.9);
-  border-radius: 6px; */
 }
 
 .cerrar-sesion img {
@@ -243,11 +296,11 @@ export default {
 }
 
 @media (max-width: 810px) {
-
-  .sidebar{
+  .sidebar {
     min-width: 60px;
     width: 60px;
   }
+
   .sidebar.active {
     width: 125px;
   }
@@ -256,7 +309,7 @@ export default {
     font-size: 13px;
   }
 
-  .container-menu{
+  .container-menu {
     min-width: 60px;
     width: 60px;
   }
@@ -268,7 +321,8 @@ export default {
   .menu-item i {
     font-size: 22px;
   }
-  .cerrar-txt{
+
+  .cerrar-txt {
     margin-left: 6px;
     font-size: 13px;
   }

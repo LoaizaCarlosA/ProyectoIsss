@@ -34,8 +34,12 @@
                     <select class="buscadorSelect" name="" id="" v-model="rol">
                         <option value="" disabled selected>Seleccionar...</option>
                         <option value="ROLE_ADMIN">Administrador</option>
-                        <option value="ROLE_AUXILIAR">Analista</option>
-                        <option value="ROLE_REPARADOR">Jefe</option>
+                        <option value="ROLE_JEFE">Jefe</option>
+                        <option value="ROLE_KIOSKO">Kiosko</option>
+                        <option value="ROLE_DESARROLLADOR">Desarrollador</option>
+                        <option value="ROLE_TESTER">Tester</option>
+                        <option value="ROLE_RESIDENTE">Residente</option>
+                        <option value="ROLE_AUXILIAR">Auxiliar</option>
                     </select>
                 </div>
             </div>
@@ -136,26 +140,26 @@ export default {
                 .then(response => {
                     console.log('Administrador agregado con éxito', response);
                     setTimeout(() => {
-                    this.mostrarLoader = false;  // Ocultar el loader
-                    this.mostrarExito = true;    // Mostrar el mensaje de éxito
+                        this.mostrarLoader = false;  // Ocultar el loader
+                        this.mostrarExito = true;    // Mostrar el mensaje de éxito
 
-                    // Limpiar los campos
-                    this.numeroEmpleado = '';
-                    this.nombre = '';
-                    this.apellidoPaterno = '';
-                    this.apellidoMaterno = '';
-                    this.correo = '';
-                    this.clave = '';
+                        // Limpiar los campos
+                        this.numeroEmpleado = '';
+                        this.nombre = '';
+                        this.apellidoPaterno = '';
+                        this.apellidoMaterno = '';
+                        this.correo = '';
+                        this.clave = '';
 
-                    // Ocultar el modal después de guardar
-                    this.mostrarModal = false; // Cambia la propiedad que controla el modal
+                        // Ocultar el modal después de guardar
+                        this.mostrarModal = false; // Cambia la propiedad que controla el modal
 
-                    // Esperar 2 segundos y luego ocultar el mensaje de éxito
-                    setTimeout(() => {
-                        this.mostrarExito = false;
-                        window.location.reload();
-                    }, 2000); // Duración de la notificación de éxito (2 segundos)
-                }, 1500);
+                        // Esperar 2 segundos y luego ocultar el mensaje de éxito
+                        setTimeout(() => {
+                            this.mostrarExito = false;
+                            window.location.reload();
+                        }, 2000); // Duración de la notificación de éxito (2 segundos)
+                    }, 1500);
                 })
                 .catch(error => {
                     console.error('Error al agregar el administrador:', error);
