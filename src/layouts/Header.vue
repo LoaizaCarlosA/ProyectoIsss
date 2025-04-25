@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <section class="contenedorInformacion">
-            <img class="imagenLogo" src="../assets/images/ISSSTEESIN_HORIZONTAL_UNA_TINTA.png" alt="" />
+            <img class="imagenLogo" src="../assets/images/ISSSTEESIN_HORIZONTAL_UNA_TINTA.png" @click="Dash" alt="" />
             <div class="infoContainer">
                 <router-link to="/Perfil">
                     <button class="burgerMenu mostrar-movil">
@@ -54,6 +54,9 @@ export default {
         this.rolUsuario = this.formatearRolUsuario(rolRaw);
     },
     methods: {
+        Dash() {
+      this.$router.push('./DashBoard');
+    },
         formatearRolUsuario(rol) {
             const mapaRoles = {
                 "ROLE_ADMIN": "ADMINISTRADOR",
@@ -150,6 +153,12 @@ export default {
 .imagenLogo {
     width: auto;
     height: 50px;
+    cursor: pointer; 
+    transition: all 0.3s;  
+}
+.imagenLogo:hover{
+    opacity: 0.8;
+    transform: scale(1.02);
 }
 
 .burgerMenu {
@@ -185,6 +194,7 @@ export default {
 .mostrar-movil {
     display: none;
 }
+
 
 @media (max-width: 810px) {
     .imagenLogo {
