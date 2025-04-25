@@ -16,20 +16,19 @@
                     <div>
                         <div class="contenedorInputs">
                             <label>Nombre:</label>
-                            <input type="text" maxlength="20" name="" id="nombre" v-model="nombre"
-                                placeholder="Ingrese el nombre" />
+                            <input type="text" maxlength="20" name="" id="nombre" :value="usuario.nombre" readonly /> 
                         </div>
 
                         <div class="contenedorInputs">
                             <label for="apellidos">Apellido paterno:</label>
-                            <input type="text" maxlength="20" name="" id="apellidoPaterno" v-model="apellidoPaterno"
-                                placeholder="Ingrese el apellido paterno" />
+                            <input type="text" maxlength="20" name="" id="apellid_paterno" :value="usuario.apellido_paterno"
+                                placeholder="Ingrese el apellido paterno" readonly/>
                         </div>
 
                         <div class="contenedorInputs">
                             <label for="apellidos">Apellido materno:</label>
-                            <input type="text" maxlength="20" name="" id="apellidoMaterno" v-model="apellidoMaterno"
-                                placeholder="Ingrese el apellido materno" />
+                            <input type="text" maxlength="20" name="" id="apellido_materno" :value="usuario.apellido_materno"
+                                placeholder="Ingrese el apellido materno" readonly/>
                         </div>
 
                         <!-- <div class="contenedorInputs">
@@ -43,16 +42,16 @@
                 />
               </div> -->
 
-                        <div class="contenedorInputs">
+                     <!--    <div class="contenedorInputs">
                             <label for="telefono">Teléfono:</label>
-                            <input type="tel" maxlength="10" name="" id="telefono" v-model="telefono"
-                                placeholder="Ingrese un teléfono" />
-                        </div>
+                            <input type="tel" maxlength="10" name="" id="telefono" 
+                                placeholder="Ingrese un teléfono" readonly/>
+                        </div> -->
 
                         <div class="contenedorInputs">
                             <label for="telefono">Correo:</label>
-                            <input type="text" maxlength="40" name="" id="correo" v-model="correo"
-                                placeholder="Ingrese un correo electrónico" />
+                            <input type="text" maxlength="40" name="" id="correo" :value="usuario.correo"
+                                placeholder="Ingrese un correo electrónico" readonly/>
                         </div>
 
                         <div class="contendorBotones">
@@ -190,7 +189,28 @@ export default {
         Header,
         Button,
     },
+    data(){
+        return{
+            usuario: {
+            id: null,
+            nombre:'',
+            apellido_paterno: '',
+            apellido_materno: '',
+            correo:'',
+            rol:'',
+            temportal: null
+        }
+        };
+    },
+    mounted() {
+    const savedUser = localStorage.getItem('usuario');
+    if (savedUser) {
+      this.usuario = JSON.parse(savedUser);
+    }
+
 }
+}
+
 </script>
 
 <style scoped>
