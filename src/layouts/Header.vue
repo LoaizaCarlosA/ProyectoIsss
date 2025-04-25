@@ -9,7 +9,7 @@
                     </button>
                 </router-link>
                 <div class="infoUsuario ocultar-movil">
-                    <div class="nombreUsuario">{{ nombreUsuario }}</div>
+                    <div class="nombreUsuario">{{ nombreCompletoUsuario }}</div>
                     <div class="locacionSistema">{{ rolUsuario }}</div>
                 </div>
                 <router-link to="/Perfil">
@@ -32,7 +32,23 @@ export default {
         };
     },
     mounted() {
-        this.nombreUsuario = localStorage.getItem("nombreUsuario") || "Nombre no disponible";
+        let nombre = localStorage.getItem("nombreUsuario") || "";
+
+        const partesInvalidas = [
+            "no apellido paterno",
+            "no apellido materno",
+            "no apellido",
+            "null",
+            "undefined"
+        ];
+
+        partesInvalidas.forEach(parte => {
+            const regex = new RegExp(parte, 'i');
+            nombre = nombre.replace(regex, "").trim();
+        });
+
+        // Reemplaza espacios múltiples con uno solo
+        this.nombreCompletoUsuario = nombre.replace(/\s\s+/g, ' ');
 
         const rolRaw = localStorage.getItem("rolUsuario") || "ROL NO DISPONIBLE";
         this.rolUsuario = this.formatearRolUsuario(rolRaw);
@@ -40,9 +56,13 @@ export default {
     methods: {
         formatearRolUsuario(rol) {
             const mapaRoles = {
-                "ROLE_ADMIN": "ADMIN",
+                "ROLE_ADMIN": "ADMINISTRADOR",
                 "ROLE_KIOSKO": "KIOSKO",
                 "ROLE_USER": "USUARIO",
+                "ROLE_JEFE": "JEFE",
+                "ROLE_DESARROLLADOR": "DESARROLLADOR",
+                "ROLE_TESTER": "TESTER",
+                "ROLE_RESIDENTE": "RESIDENTE",
                 // Puedes añadir más roles aquí
             };
             return mapaRoles[rol] || rol.replace("ROLE_", "").toUpperCase();
@@ -94,13 +114,16 @@ export default {
 }
 
 .nombreUsuario {
-    margin-right: 19px;
+    font-size: 17px;
+    text-align: center;
+    margin-right: 20px;
     color: #ffffff;
     min-height: 18px;
 }
 
 .locacionSistema {
-    margin-right: 19px;
+    font-size: 14px;
+    margin-right: 20px;
     color: #d5d5d5;
     min-height: 18px;
     text-align: center;

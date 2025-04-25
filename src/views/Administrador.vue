@@ -33,8 +33,11 @@
                             <tr v-for="usuario in filteredList" :key="usuario.id">
                                 <td>{{ usuario.numero_empleado.toString().padStart(4, '0') }}</td>
                                 <td>{{ usuario.nombre }}</td>
-                                <td>{{ usuario.apellido_paterno }}</td>
-                                <td>{{ usuario.apellido_materno }}</td>
+                                <td>{{ usuario.apellido_paterno === 'No Apellido Paterno' ? '-' :
+                                    usuario.apellido_paterno }}</td>
+                                <td>{{ usuario.apellido_materno === 'No Apellido Materno' ? '-' :
+                                    usuario.apellido_materno }}</td>
+
                                 <td>{{ formatearRol(usuario.rol) }}</td>
                                 <td>{{ usuario.correo }}</td>
                                 <td>{{ "● ● ● ● ● ● ●" }}</td>
@@ -103,9 +106,12 @@ export default {
     computed: {
         filteredList() {
             const searchTerm = this.searchText.toLowerCase();
-            return this.usuarios_admin.filter((usuario) =>
-                usuario.nombre.toLowerCase().includes(searchTerm) || usuario.id.toString().includes(searchTerm)
-            );
+            return this.usuarios_admin
+                .filter((usuario) =>
+                    usuario.nombre.toLowerCase().includes(searchTerm) ||
+                    usuario.id.toString().includes(searchTerm)
+                )
+                .sort((a, b) => a.numero_empleado - b.numero_empleado); // Aquí ordenas de menor a mayor
         }
     },
     methods: {
