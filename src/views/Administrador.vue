@@ -2,7 +2,7 @@
     <LoadScreen v-if="mostrarLoader"></LoadScreen>
     <ModalExito v-show="mostrarExito" :mostrarExito="mostrarExito"></ModalExito>
     <ModalConfirmacion v-if="mostrarModalConfirmacion" @confirmar="eliminarUsuario" @cancelar="cancelarEliminacion"
-        :nombreAdmin="adminSeleccionado ? adminSeleccionado.nombre : ''">
+        :nombreUsuario="nombreAdmin">
     </ModalConfirmacion>
     <LayoutPrincipal>
         <ContainerWhite>
@@ -101,6 +101,7 @@ export default {
             mostrarLoader: false,
             mostrarExito: false,
             numeroEmpleado: "",
+            nombreAdmin: "",
         };
     },
     computed: {
@@ -169,29 +170,48 @@ export default {
             this.adminSeleccionado = this.usuarios_admin.find(usu => usu.numero_empleado == NumeroEmpleado);
             this.mostrarModalConfirmacion = true;
             this.numeroEmpleado = NumeroEmpleado;
+
+            // Verificar si los apellidos son "No Apellido Paterno" o "No Apellido Materno"
+            const apellidoPaterno = this.adminSeleccionado.apellido_paterno !== 'No Apellido Paterno' ? this.adminSeleccionado.apellido_paterno : '';
+            const apellidoMaterno = this.adminSeleccionado.apellido_materno !== 'No Apellido Materno' ? this.adminSeleccionado.apellido_materno : '';
+
+            // Concatenar solo el nombre y los apellidos válidos
+            const nombreCompleto = `${this.adminSeleccionado.nombre} ${apellidoPaterno} ${apellidoMaterno}`.trim();
+
+            // Asignamos directamente a la propiedad nombreAdmin
+            this.nombreAdmin = nombreCompleto;
+            console.log("Nombre del administrador seleccionado: ", nombreCompleto);
         },
         async eliminarUsuario() {
             try {
-                // Enviar la solicitud DELETE al backend usando el numero_empleado
-                this.mostrarLoader = true;
-                console.log("Dato: ", this.numeroEmpleado);
-                setTimeout(() => {
-                    this.adminSeleccionado = null;
-                    this.mostrarLoader = false;
-                    this.mostrarExito = true;
-                    setTimeout(() => {
-                        this.mostrarExito = false;
-                    }, 1500);
-                }, 2000);
-                const response = await axios.delete(`http://192.168.21.18:5000/administradores/${this.numeroEmpleado}`);
                 this.mostrarModalConfirmacion = false;
-                if (response.status === 200) {
-                    // Si la eliminación es exitosa, actualizamos la lista de usuarios
-                    this.usuarios_admin = this.usuarios_admin.filter((usuario) => usuario.numero_empleado !== this.numeroEmpleado);
-                    console.log("Administrador eliminado con éxito", this.numeroEmpleado);
-                }
+
+                this.$nextTick(() => {
+                    this.mostrarLoader = true;
+                });
+
+                setTimeout(async () => {
+                    const response = await axios.delete(`http://192.168.21.18:5000/administradores/${this.numeroEmpleado}`);
+
+                    if (response.status === 200) {
+                        this.usuarios_admin = this.usuarios_admin.filter((usuario) => usuario.numero_empleado !== this.numeroEmpleado);
+
+                        this.mostrarLoader = false; // Apagar el loader antes de mostrar el éxito
+                        this.mostrarExito = true;
+
+                        // Ocultar el mensaje de éxito luego de 1.5 segundos
+                        setTimeout(() => {
+                            this.mostrarExito = false;
+                        }, 1500);
+                    } else {
+                        this.mostrarLoader = false;
+                    }
+
+                }, 1500);
+
             } catch (error) {
                 console.error("Error al eliminar el administrador", error);
+                this.mostrarLoader = false;
             }
         },
         cancelarEliminacion() {
