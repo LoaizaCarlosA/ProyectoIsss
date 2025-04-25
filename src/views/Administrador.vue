@@ -120,7 +120,7 @@ export default {
             console.log("Usuarios admin:", this.usuarios_admin);
 
             try {
-                const response = await axios.get("http://192.168.21.18:5000/administradores"); // Asegúrate de que la URL sea correcta
+                const response = await axios.get("http://localhost:5000/administradores"); // Asegúrate de que la URL sea correcta
                 console.log(response.data);
                 this.usuarios_admin = response.data;
             } catch (error) {
@@ -191,7 +191,7 @@ export default {
                 });
 
                 setTimeout(async () => {
-                    const response = await axios.delete(`http://192.168.21.18:5000/administradores/${this.numeroEmpleado}`);
+                    const response = await axios.delete(`http://localhost:5000/administradores/${this.numeroEmpleado}`);
 
                     if (response.status === 200) {
                         this.usuarios_admin = this.usuarios_admin.filter((usuario) => usuario.numero_empleado !== this.numeroEmpleado);

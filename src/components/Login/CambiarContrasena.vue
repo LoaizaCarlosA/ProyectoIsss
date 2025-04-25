@@ -76,7 +76,7 @@ export default {
             try {
                 const token = localStorage.getItem("token");
                 const response = await axios.post(
-                    "http://192.168.21.18:5000/api/auth/change-password",
+                    "http://localhost:5000/api/auth/change-password",
                     { nuevaContrasena: this.nuevaContrasena },
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
