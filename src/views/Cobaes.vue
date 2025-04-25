@@ -126,7 +126,7 @@ export default {
     };
   },
   mounted() {
-    axios.get('http://192.168.21.18:5000/empleados')
+    axios.get('http://localhost:5000/empleados')
       .then(response => {
         this.data = response.data;
         console.log("Datos recibidos del backend:", this.data);

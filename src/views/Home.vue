@@ -81,7 +81,7 @@ export default {
             if (this.emailError || this.passwordError) return;
 
             try {
-                const response = await axios.post('http://192.168.21.18:5000/api/auth/login', {
+                const response = await axios.post('http://localhost:5000/api/auth/login', {
                     correo: this.email,
                     contrasena: this.password,
                 });
@@ -133,7 +133,7 @@ export default {
         },
         async sendRecoveryEmail() {
             try {
-                const response = await axios.post('http://192.168.21.18:5000/api/auth/forgot-password', {
+                const response = await axios.post('http://localhost:5000/api/auth/forgot-password', {
                     correo: this.recoveryEmail,
                 });
 
