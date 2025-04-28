@@ -56,7 +56,7 @@
 
                         <div class="contendorBotones">
                             <router-link to="/Dashboard">
-                                <Button class="btn-regresar" id="return-to-top">← Regresar</Button>
+                                <Button class="btn-regresar" id="return-to-top">Regresar</Button>
                             </router-link>
 
                             <div class="buttons">
