@@ -29,7 +29,7 @@
 
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="tbody">
                             <tr v-for="usuario in filteredList" :key="usuario.id">
                                 <td>{{ usuario.numero_empleado.toString().padStart(4, '0') }}</td>
                                 <td>{{ usuario.nombre }}</td>
@@ -39,8 +39,10 @@
                                     usuario.apellido_materno }}</td>
 
                                 <td>{{ formatearRol(usuario.rol) }}</td>
-                                <td>{{ usuario.correo }}</td>
-                                <td>{{ "● ● ● ● ● ● ●" }}</td>
+                                <td @click="toggleCorreo(usuario)" style="cursor: pointer;">
+                                    {{ usuario.mostrarCorreo ? usuario.correo : '● ● ●@● ●' }}
+                                </td>
+                                <td>{{ "● ● ● ●" }}</td>
                                 <td>
                                     <div class="botonesTabla">
                                         <Button class="btn-editar" @click="mostrarEditar(usuario.id)"
@@ -117,12 +119,14 @@ export default {
     },
     methods: {
         async obtenerAdministradores() {
-            console.log("Usuarios admin:", this.usuarios_admin);
-
             try {
-                const response = await axios.get("http://localhost:5000/administradores"); // Asegúrate de que la URL sea correcta
+                const response = await axios.get("http://192.168.21.18:5000/administradores");
                 console.log(response.data);
-                this.usuarios_admin = response.data;
+
+                this.usuarios_admin = response.data.map(usuario => ({
+                    ...usuario,
+                    mostrarCorreo: false, // añadimos la propiedad a cada usuario
+                }));
             } catch (error) {
                 console.error("Error al obtener administradores", error);
             }
@@ -136,7 +140,7 @@ export default {
         formatearRol(rol) {
             switch (rol) {
                 case 'ROLE_ADMIN':
-                    return 'Administrador';
+                    return 'Admin';
                 case 'ROLE_JEFE':
                     return 'Jefe';
                 case 'ROLE_KIOSKO':
@@ -218,6 +222,9 @@ export default {
             this.adminSeleccionado = null;
             this.mostrarModalConfirmacion = false;
         },
+        toggleCorreo(usuario) {
+            usuario.mostrarCorreo = !usuario.mostrarCorreo;
+        },
     },
     mounted() {
         this.obtenerAdministradores(); // Al montar el componente, obtener los administradores
@@ -244,15 +251,22 @@ export default {
     border: 0px solid #000000;
     box-shadow: 0px 3px 6px #00000029;
     outline: none;
-    padding: 0px 7px;
+    padding: 0px 10px;
     border-radius: 10px;
     margin-right: 20px;
+    position: relative;
+    /* Asegura que el shadow se vea correctamente */
+    z-index: 10;
+    /* Coloca el input por encima de otros elementos si es necesario */
 }
 
 .tablaPrincipal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+    overflow-x: hidden;
+    /*   display: flex;
+  justify-content: center;
+  align-items: center; */
 }
 
 .default {
@@ -260,6 +274,10 @@ export default {
     border-radius: 10px;
     width: 100%;
     box-shadow: 0px 3px 6px #00000029;
+    table-layout: fixed;
+    /* Muy importante: fuerza a las columnas a respetar el ancho */
+
+
 }
 
 .cabecera {
@@ -271,7 +289,6 @@ export default {
 .default th {
     border: none;
     padding: 15px 12px;
-    /*     padding: 12px 15px; */
     text-align: center;
 }
 
@@ -286,7 +303,123 @@ export default {
     letter-spacing: 1px;
 }
 
-@media (max-width: 768px) {
+.tbody {
+    font-size: 14.5px;
+}
+
+.mensajeNoResultados {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #691c32;
+    padding: 20px 0;
+}
+
+
+@media (max-width: 810px) {
+    .default {
+        border-collapse: collapse;
+        border-radius: 10px;
+        width: 100%;
+        box-shadow: 0px 3px 6px #00000029;
+        table-layout: auto;
+        /* o 'fixed' si quieres uniformidad */
+        max-width: 100%;
+        /*         word-wrap: break-word; */
+        /*         word-break: break-word; */
+    }
+
+    /*   .default td,
+  .default th {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  } */
+
+    .default td {
+        padding: 10px 5px;
+    }
+
+    .default th {
+        font-size: 13px;
+        letter-spacing: 0px;
+    }
+
+    .tbody {
+        font-size: 11px;
+    }
+
+    .tituloModulo {
+        font-size: 20px;
+    }
+
+    .filtrosEmpleados {
+        padding: 20px 20px 20px 20px;
+    }
+
+    .inputBuscador {
+        width: 150px;
+        margin-right: 10px;
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+        /* Sombra más visible */
+        z-index: 10;
+        /* Asegura que el shadow esté visible */
+        border: 0.5px solid #000000;
+        border-radius: 18px;
+
+        /*     border: 1px solid #000000;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 10px; */
+    }
+
+    .btn-agregar-cobaes {
+        width: 23px;
+        height: 23px;
+        font-size: 10px;
+        color: black;
+        justify-content: center;
+        text-align: center;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-editar {
+        width: 23px;
+        height: 23px;
+        font-size: 10px;
+        color: black;
+        justify-content: center;
+        text-align: center;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-eliminar {
+        width: 23px;
+        height: 23px;
+        font-size: 10px;
+        justify-content: center;
+        text-align: center;
+        display: flex;
+        align-items: center;
+    }
+
+    .botonesTabla {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .inputMovil {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/* @media (max-width: 768px) {
     .menu-item span {
         font-size: 13px;
     }
@@ -319,5 +452,5 @@ export default {
     .btn-agregar {
         width: 90px;
     }
-}
+} */
 </style>
