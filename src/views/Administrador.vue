@@ -13,7 +13,7 @@
                     <Button class="btn-agregar" @click="mostrarAddService">Agregar</Button>
                 </div>
             </section>
-            <section>
+            <section style="box-shadow: 0px 3px 6px #00000029;">
                 <section class="tablaPrincipal">
                     <table class="default">
                         <thead>
@@ -30,17 +30,19 @@
                             </tr>
                         </thead>
                         <tbody class="tbody">
-                            <tr v-for="usuario in filteredList" :key="usuario.id">
+                            <tr v-if="filteredList.length === 0">
+                                <td colspan="8" class="mensajeNoResultados">No se encontraron resultados</td>
+                            </tr>
+                            <tr v-else v-for="usuario in filteredList" :key="usuario.id">
                                 <td>{{ usuario.numero_empleado.toString().padStart(4, '0') }}</td>
                                 <td>{{ usuario.nombre }}</td>
                                 <td>{{ usuario.apellido_paterno === 'No Apellido Paterno' ? '-' :
                                     usuario.apellido_paterno }}</td>
                                 <td>{{ usuario.apellido_materno === 'No Apellido Materno' ? '-' :
                                     usuario.apellido_materno }}</td>
-
                                 <td>{{ formatearRol(usuario.rol) }}</td>
                                 <td @click="toggleCorreo(usuario)" style="cursor: pointer;">
-                                    {{ usuario.mostrarCorreo ? usuario.correo : '● ● ●@● ●' }}
+                                    {{ usuario.mostrarCorreo ? usuario.correo : '● ● ● @ ● ●' }}
                                 </td>
                                 <td>{{ "● ● ● ●" }}</td>
                                 <td>
@@ -271,10 +273,10 @@ export default {
 
 .default {
     border-collapse: collapse;
-    border-radius: 10px;
+/*     border-radius: 10px; */
     width: 100%;
     box-shadow: 0px 3px 6px #00000029;
-    table-layout: fixed;
+    /*     table-layout: fixed; */
     /* Muy importante: fuerza a las columnas a respetar el ancho */
 
 
