@@ -267,7 +267,7 @@ export default {
 
 .default {
   border-collapse: collapse;
-  border-radius: 10px;
+/*   border-radius: 10px; */
   width: 100%;
   box-shadow: 0px 3px 6px #00000029;
 
