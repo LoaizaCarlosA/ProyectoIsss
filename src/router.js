@@ -9,6 +9,7 @@ import Dashboard from "./views/DashBoard.vue";
 import Administrador from "./views/Administrador.vue";
 import PruebaG from "./views/PruebaG.vue";
 import Kiosko from "./views/Kiosko.vue";
+import KioskoInicio from "./views/KioskoInicio.vue";
 
 const routes = [
   {
@@ -55,6 +56,11 @@ const routes = [
     path: "/Kiosko",
     name: "Kiosko",
     component: Kiosko,
+  },
+  {
+    path: "/KioskoInicio",
+    name: "KioskoInicio",
+    component: KioskoInicio,
   },
 ];
 

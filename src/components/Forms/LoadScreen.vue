@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="bounce-loader">
         <div class="circulo-load"></div>
         <p class="info" v-if="info != ''">{{ info }}</p>
@@ -70,5 +70,91 @@ export default {
     to {
         transform: rotate(360deg);
     }
+}
+</style> -->
+
+<template>
+    <div class="spinner-overlay">
+        <svg class="spinner" viewBox="0 0 50 50">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="#691c32" stroke-width="5" />
+        </svg>
+        <p class="info">Cargando... Espere un momento</p>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'SvgLoader',
+    props: {
+        info: {
+            type: String,
+            default: ''
+        }
+    }
+};
+</script>
+
+<style scoped>
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    user-select: none;
+}
+
+.spinner {
+    animation: rotate 1s linear infinite;
+    width: 110px;
+    height: 110px;
+}
+
+.path {
+    stroke-linecap: round;
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+.info {
+    color: #691c32;
+    padding: 14px;
+    max-width: 400px;
+    text-align: center;
+    font-size: 20px;  /* Tamaño de fuente aumentado */
+    font-style: italic;
+    font-weight: bold;
+
 }
 </style>

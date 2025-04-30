@@ -27,8 +27,9 @@
                 <Button class="btn-confirmar-eliminar" @click="confirmarNIP">Confirmar</Button>
             </section>
         </section>
-        <LoadScreen v-if="showAddProducto" @cerrar="ocultarAddProd"></LoadScreen>
+
     </ModalBaseConfirmacion>
+    <LoadScreen v-if="showAddProducto" @cerrar="ocultarAddProd"></LoadScreen>
 </template>
 
 <script>
@@ -106,13 +107,27 @@ export default {
         confirmarNIP() {
             if (this.nip.every(n => n !== "")) {
                 const nip = this.nip.join("");
-                console.log("NIP ingresado:", nip); // Verificar el valor del NIP
-                if (!this.modalConfirmado) {
-                    this.$emit("confirmar-nip", nip);  // Emitir solo si no se ha confirmado antes
-                    this.modalConfirmado = true;  // Marcar como confirmado
-                }
+                console.log("✅ NIP completo ingresado:", nip);
+
+                this.modalConfirmado = true;
+                this.$emit("confirmar-nip", nip);
                 this.resetInputs();
+
+                console.log("🔄 Activando loader...");
+                this.showAddProducto = true;
+
+                this.$nextTick(() => {
+                    console.log("🕐 Loader debería estar visible ahora");
+
+                    setTimeout(() => {
+                        console.log("✅ Espera terminada, redirigiendo...");
+                        this.showAddProducto = false;
+                        this.$emit("cancelar"); // Cierra el modal
+                        this.$router.push({ name: 'KioskoInicio' });
+                    }, 2300);
+                });
             } else {
+                console.warn("⚠️ NIP incompleto, no se puede confirmar");
                 alert("Por favor ingrese un NIP de 4 dígitos.");
             }
         },
