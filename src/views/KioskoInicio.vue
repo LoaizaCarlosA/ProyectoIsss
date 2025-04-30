@@ -41,6 +41,9 @@
                         </button>
                     </div>
                 </div>
+                <Button @click="cerrarSesion" class="btn-cerrar-sesion-kiosko">
+                    Cerrar sesión
+                </Button>
             </div>
         </ContainerWhite>
     </LayoutPrincipal>
@@ -49,16 +52,24 @@
 <script>
 import ContainerWhite from '../layouts/ContainerWhite.vue';
 import LayoutPrincipal from '../layouts/layoutPrincipal.vue';
+import Button from '@/components/Forms/Button.vue';
 
 export default {
     components: {
         LayoutPrincipal,
-        ContainerWhite
+        ContainerWhite,
+        Button
     },
     methods: {
         descargar(tipo) {
             alert(`Descargando ${tipo}...`);
             // Aquí podrías usar window.open(url) o un fetch para iniciar la descarga real
+        },
+        cerrarSesion() {
+            // Aquí puedes usar Vue Router para redirigir a la página de inicio o login
+            this.$router.push({ name: 'Kiosko' }); // Cambia 'login' al nombre de la ruta de tu página de login
+            // O si no usas Vue Router, puedes usar algo como:
+            // window.location.href = '/login'; // Redirige a la página de login
         }
     }
 }
@@ -87,13 +98,15 @@ export default {
     border: none;
 }
 
-.iconos button:hover{
-    transform: scale(1.08) rotate(-1deg);
-    opacity: 0.9;
-/*     transform: scale(1.02);
-    transition: all 0.3s; */
+.iconos button:hover {
+    transform: scale(1.08);
+    opacity: 1;
+    transition: all 0.3s;
+    /*     transform: scale(1.02);
+     */
 }
-.contenedorIconos{
+
+.contenedorIconos {
     display: flex;
     justify-content: center;
 }

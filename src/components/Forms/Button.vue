@@ -283,4 +283,22 @@ export default {
   background: black 0% 0% no-repeat padding-box;
   color: white;
 }
+
+.btn-cerrar-sesion-kiosko {
+  background-color: #691c32;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+  width: 200px;
+  height: 50px;
+}
+
+.btn-cerrar-sesion-kiosko:hover {
+  background-color: #9b3b55;
+}
 </style>
