@@ -66,7 +66,6 @@
             </table>
           </section>
         </section>
-        <ExcelEditor />
         <Paginacion :total="totalPaginas" :paginaActualEntrada="paginaActual" @changePagina="cambiarPagina" />
 
 
@@ -83,7 +82,6 @@
 <script>
 import axios from 'axios';
 import ContainerWhite from "../layouts/ContainerWhite.vue";
-import ExcelEditor from '../views/ExcelEditor.vue';
 import LayoutPrincipal from "../layouts/layoutPrincipal.vue";
 import Button from "../components/Forms/Button.vue";
 import Paginacion from "../components/Forms/Paginacion.vue";
@@ -96,7 +94,6 @@ import ModalConfirmacion from '../components/Modales/ModalConfirmacion.vue';
 export default {
   components: {
     ContainerWhite,
-    ExcelEditor,
     Paginacion,
     LayoutPrincipal,
     Button,

@@ -62,7 +62,7 @@
                     </table>
                 </section>
             </section>
-            <Paginacion></Paginacion>
+            <Paginacion class="paginacion-fija"></Paginacion>
         </ContainerWhite>
         <AgregarAdministrador v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarAdministrador>
         <EditarAdministrador v-if="mostrarModalEditar" :admin="adminSeleccionado"
@@ -317,6 +317,21 @@ export default {
     padding: 20px 0;
 }
 
+.contenedor-principal {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 120px); /* Ajusta según el alto de tus menús */
+}
+
+.contenido-flex {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.paginacion-fija {
+  margin-top: auto;
+}
 
 @media (max-width: 810px) {
     .default {
