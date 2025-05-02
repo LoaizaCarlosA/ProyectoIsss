@@ -231,11 +231,7 @@ export default {
         },
     },
     mounted() {
-        if (!sessionStorage.getItem("administradores")) {
-            this.obtenerAdministradores();
-        } else {
-            this.usuarios_admin = JSON.parse(sessionStorage.getItem("administradores"));
-        }
+        this.obtenerAdministradores();
     }
 };
 </script>
