@@ -130,9 +130,9 @@
                             </div>
                         </div>
                     </section> -->
-                    <section class="sombraInputNoti">
-                        <div class="contenedorNotificaciones" v-for="(notificacion, index) in notificacion"
-                            :key="index">
+                    <section class="sombraInputNoti" v-for="(notificacion, index) in notificacion"
+                    :key="index">
+                        <div class="contenedorNotificaciones" >
                             <div class="contenedorImgNoti">
                                 <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
                             </div>
@@ -145,6 +145,7 @@
                             </div>
                         </div>
                     </section>
+                    
                     <section>
                         <div class="contendorBotones">
                             <button @click="agregarNotificacion"> Agregar notificacion</button>
@@ -173,7 +174,7 @@ export default {
     },
     data() {
         return {
-            notificacion: Array(6).fill({}),
+            notificacion: Array(10).fill({}),
             limite: 6,
             notificacionesMostradas: [],
             usuario: {
@@ -205,9 +206,9 @@ export default {
             this.notificacion.splice(index, 1);
         },
         agregarNotificacion() {
-            if (this.notificacion.length >= this.limite) return false;
+           // if (this.notificacion.length >= this.limite) return false;
             this.notificacion.push({});
-            return true;
+            //return true;
 
         },
     },
