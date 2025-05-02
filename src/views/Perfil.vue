@@ -2,7 +2,6 @@
     <Header></Header>
 
     <body>
-
         <main>
             <div class="profile-info">
                 <section class="perfil">
@@ -31,17 +30,6 @@
                                 :value="usuario.apellido_materno" placeholder="Ingrese el apellido materno" readonly />
                         </div>
 
-                        <!-- <div class="contenedorInputs">
-                <label for="direccion">Dirección:</label>
-                <input
-                  type="text"
-                  maxlength="50"
-                  id="direccion"
-                  name="direccion"
-                  value="Calle 123, Ciudad"
-                />
-              </div> -->
-
                         <div class="contenedorInputs">
                             <label for="Rol">Rol:</label>
                             <input type="tel" maxlength="10" name="" id="rol" :value="FormatoRol(usuario.rol)"
@@ -68,36 +56,36 @@
             <div class="edit-form">
                 <section class="informacion2">
                     <h2 class="notititulo">Notificaciones</h2>
-                        <section class="sombraInputNoti">
-                            <div class="contenedorNotificaciones" v-if="mostrarNotificacion1">
-                                <div class="contenedorImgNoti">
-                                    <img class="imgNoti" src="../assets/images/notificacion.png" alt="Notificación" />
-                                </div>
-                                <div class="infoNotificacion">
-                                    <div class="tituloNoti">Notificación</div>
-                                    <div>Esta es una prueba de notificación</div>
-                                </div>
-                                <div class="tachitaNoti">
-                                    <div @click="mostrarNotificacion1=false"><span>X</span></div>
-                                </div>
+                    <!--       <section class="sombraInputNoti">
+                        <div class="contenedorNotificaciones" v-if="mostrarNotificacion1">
+                            <div class="contenedorImgNoti">
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="Notificación" />
                             </div>
-                        </section>
-                        <br />
-                        <section class="sombraInputNoti">
-                            <div class="contenedorNotificaciones" v-if="mostrarNotificacion2">
-                                <div class="contenedorImgNoti">
-                                    <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
-                                </div>
-                                <div class="infoNotificacion">
-                                    <div class="tituloNoti">Notificación</div>
-                                    <div>Esta es una prueba de notificación</div>
-                                </div>
-                                <div class="tachitaNoti" @click="mostrarNotificacion2=false">
-                                    <span>X</span>
-                                </div>
+                            <div class="infoNotificacion">
+                                <div class="tituloNoti">Notificación</div>
+                                <div>Esta es una prueba de notificación</div>
                             </div>
-                        </section>
+                            <div class="tachitaNoti">
+                                <div @click="mostrarNotificacion1 = false"><span>X</span></div>
+                            </div>
+                        </div>
+                    </section>
                     <br />
+                    <section class="sombraInputNoti">
+                        <div class="contenedorNotificaciones" v-if="mostrarNotificacion2">
+                            <div class="contenedorImgNoti">
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
+                            </div>
+                            <div class="infoNotificacion">
+                                <div class="tituloNoti">Notificación</div>
+                                <div>Esta es una prueba de notificación</div>
+                            </div>
+                            <div class="tachitaNoti" @click="mostrarNotificacion2 = false">
+                                <span>X</span>
+                            </div>
+                        </div>
+                    </section> -->
+                    <!--     <br />
                     <section class="sombraInputNoti">
                         <div class="contenedorNotificaciones" v-if="mostrarNotificacion3">
                             <div class="contenedorImgNoti">
@@ -107,7 +95,7 @@
                                 <div class="tituloNoti">Notificación</div>
                                 <div>Esta es una prueba de notificación</div>
                             </div>
-                            <div class="tachitaNoti" @click="mostrarNotificacion3=false">
+                            <div class="tachitaNoti" @click="mostrarNotificacion3 = false">
                                 <div>X</div>
                             </div>
                         </div>
@@ -122,7 +110,7 @@
                                 <div class="tituloNoti">Notificación</div>
                                 <div>Esta es una prueba de notificación</div>
                             </div>
-                            <div class="tachitaNoti" @click="mostrarNotificacion4=false">
+                            <div class="tachitaNoti" @click="mostrarNotificacion4 = false">
                                 <div>X</div>
                             </div>
                         </div>
@@ -137,54 +125,32 @@
                                 <div class="tituloNoti">Notificación</div>
                                 <div>Esta es una prueba de notificación</div>
                             </div>
-                            <div class="tachitaNoti" @click="mostrarNotificacion5=false">
-                                <div>X</div>
-                            </div>
-                        </div>
-                    </section>
-                    <br />
-                    <section class="sombraInputNoti">
-                        <div class="contenedorNotificaciones" v-if="mostrarNotificacion6">
-                            <div class="contenedorImgNoti">
-                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
-                            </div>
-                            <div class="infoNotificacion">
-                                <div class="tituloNoti">Notificación</div>
-                                <div>Esta es una prueba de notificación</div>
-                            </div>
-                            <div class="tachitaNoti" @click="mostrarNotificacion6=false">
-                                <div>X</div>
-                            </div>
-                        </div>
-                    </section>
-                    <br />
-<!--                     <section class="sombraInputNoti">
-                        <div class="contenedorNotificaciones" v-if="mostrarNotificacion7">
-                            <div class="contenedorImgNoti">
-                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
-                            </div>
-                            <div class="infoNotificacion">
-                                <div class="tituloNoti">Notificación</div>
-                                <div>Esta es una prueba de notificación</div>
-                            </div>
-                            <div class="tachitaNoti" @click="mostrarNotificacion7=false">
+                            <div class="tachitaNoti" @click="mostrarNotificacion5 = false">
                                 <div>X</div>
                             </div>
                         </div>
                     </section> -->
-
-                      <!--   <div class="contenedorNotificaciones">
-                            <button @click="agregarNotificacion"> Agregar notificacion</button>
-                            <div v-for="(notificacion, index) in notificacion" :key="index" class="notificacion">
-                                <div>
-                                    <img src="../assets/images/notificacion.png" alt="Icono">
-                                    <div class="texto">
-                                        <h3>Notificación {{ index  +1 }}</h3>
-
-                                    </div>
-                                </div>
+                    <section class="sombraInputNoti">
+                        <div class="contenedorNotificaciones" v-for="(notificacion, index) in notificacion"
+                            :key="index">
+                            <div class="contenedorImgNoti">
+                                <img class="imgNoti" src="../assets/images/notificacion.png" alt="" />
                             </div>
-                        </div> -->
+                            <div class="infoNotificacion">
+                                <div class="tituloNoti">Notificación {{ index + 1 }}</div>
+                                <div>Esta es una prueba de notificación</div>
+                            </div>
+                            <div class="tachitaNoti" @click="eliminarNotificacion(index)">
+                                <div>X</div>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="contendorBotones">
+                            <button @click="agregarNotificacion"> Agregar notificacion</button>
+                        </div>
+                    </section>
+
 
                 </section>
 
@@ -194,6 +160,7 @@
 </template>
 
 <script>
+// let idCounter;
 
 import Header from '../layouts/Header.vue';
 import Button from '../components/Forms/Button.vue'
@@ -202,17 +169,13 @@ export default {
     components: {
         Header,
         Button,
-        
+
     },
     data() {
         return {
-            mostrarNotificacion1: true,
-            mostrarNotificacion2: true,
-            mostrarNotificacion3: true,
-            mostrarNotificacion4: true,
-            mostrarNotificacion5: true,
-            mostrarNotificacion6: true,
-            mostrarNotificacion7: true,
+            notificacion: Array(6).fill({}),
+            limite: 6,
+            notificacionesMostradas: [],
             usuario: {
                 id: null,
                 nombre: '',
@@ -221,7 +184,7 @@ export default {
                 correo: '',
                 rol: '',
                 temportal: null,
-                
+
             },
             rolOpciones: {
                 "ROLE_ADMIN": "Administrador",
@@ -237,15 +200,38 @@ export default {
     methods: {
         FormatoRol(rol) {
             return this.rolOpciones[rol] || rol;
-        }
+        },
+        eliminarNotificacion(index) {
+            this.notificacion.splice(index, 1);
+        },
+        agregarNotificacion() {
+            if (this.notificacion.length >= this.limite) return false;
+            this.notificacion.push({});
+            return true;
+
+        },
     },
     mounted() {
         const savedUser = localStorage.getItem('usuario');
         if (savedUser) {
             this.usuario = JSON.parse(savedUser);
         }
+    },
+    computed: {
+        notificacionesVisibles() {
+            return this.notificacion.slice(0, this.limite);
+        },
+        notificacionesPendientes() {
+            return this.notificacion.filter(notif =>
+                !this.notificacionesVisibles.some(v => v.id === notif.id)
+            )
+        }
     }
+
 }
+
+
+
 
 </script>
 
@@ -301,6 +287,8 @@ main {
     justify-content: space-evenly;
     align-items: center;
     margin-top: 18px;
+    text-align: center;
+    position: sticky;
 }
 
 .informacion {
@@ -308,7 +296,7 @@ main {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    height: 525px;
+    height: 550px;
 }
 
 .informacion2 {
@@ -316,8 +304,12 @@ main {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    height: 525px;
+    height: 550px;
     margin-left: 30px;
+    overflow-y: auto;
+    /* Scroll vertical */
+    overflow-x: hidden;
+    /* Evita scroll horizontal */
 }
 
 .notititulo {
@@ -328,14 +320,31 @@ main {
     box-shadow: 0px 3px 6px #00000029;
     background-color: #ffffff;
     border-radius: 10px;
+    gap: 15px;
+}
+
+.contenedor-boton-fijo {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    /* Fondo para que las notificaciones no se vean detrás */
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra opcional */
+    justify-content: center;
+    align-items: center;
 }
 
 .contenedorNotificaciones {
-    width: 100%;
-    height: 50px;
-    background: #e3e3e3;
+    position: sticky;
+    top: 0;
+    background: #f8f9fa;
+    padding: 10px;
     display: flex;
-    justify-content: space-between;
+    gap: 10px;
+    z-index: 100;
+    margin-bottom: 15px;
 }
 
 .contenedorImgNoti {
