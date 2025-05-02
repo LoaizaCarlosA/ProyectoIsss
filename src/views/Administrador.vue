@@ -62,11 +62,12 @@
                     </table>
                 </section>
             </section>
-            <Paginacion class="paginacion-fija"></Paginacion>
         </ContainerWhite>
         <AgregarAdministrador v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarAdministrador>
         <EditarAdministrador v-if="mostrarModalEditar" :admin="adminSeleccionado"
             @cancelar="mostrarModalEditar = false"></EditarAdministrador>
+        <Paginacion class="paginacion-fija"></Paginacion>
+
     </LayoutPrincipal>
 </template>
 
@@ -123,12 +124,13 @@ export default {
         async obtenerAdministradores() {
             try {
                 const response = await axios.get("http://192.168.21.18:5000/administradores");
-                console.log(response.data);
-
-                this.usuarios_admin = response.data.map(usuario => ({
+                const data = response.data.map(usuario => ({
                     ...usuario,
-                    mostrarCorreo: false, // añadimos la propiedad a cada usuario
+                    mostrarCorreo: false,
                 }));
+
+                this.usuarios_admin = data;
+                sessionStorage.setItem("administradores", JSON.stringify(data));
             } catch (error) {
                 console.error("Error al obtener administradores", error);
             }
@@ -229,7 +231,11 @@ export default {
         },
     },
     mounted() {
-        this.obtenerAdministradores(); // Al montar el componente, obtener los administradores
+        if (!sessionStorage.getItem("administradores")) {
+            this.obtenerAdministradores();
+        } else {
+            this.usuarios_admin = JSON.parse(sessionStorage.getItem("administradores"));
+        }
     }
 };
 </script>
@@ -273,7 +279,7 @@ export default {
 
 .default {
     border-collapse: collapse;
-/*     border-radius: 10px; */
+    /*     border-radius: 10px; */
     width: 100%;
     box-shadow: 0px 3px 6px #00000029;
     /*     table-layout: fixed; */
@@ -318,19 +324,24 @@ export default {
 }
 
 .contenedor-principal {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 120px); /* Ajusta según el alto de tus menús */
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 120px);
+    /* Ajusta según el alto de tus menús */
 }
 
 .contenido-flex {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .paginacion-fija {
-  margin-top: auto;
+    margin-top: auto;
+}
+
+.container-white {
+    height: calc(90vh - 100px);
 }
 
 @media (max-width: 810px) {

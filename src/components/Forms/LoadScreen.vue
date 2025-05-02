@@ -3,7 +3,7 @@
         <svg class="spinner" viewBox="0 0 50 50">
             <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="#691c32" stroke-width="5" />
         </svg>
-        <p class="info">Cargando... Espere un momento</p>
+        <p class="info">Cargando, Espere un momento...</p>
     </div>
 </template>
 

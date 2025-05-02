@@ -27,7 +27,7 @@ body {
   /* Resta el alto del header */
   overflow-y: auto;
   /* Para scroll interno si el contenido lo necesita */
-  margin-bottom: 20px;
+/*   margin-bottom: 20px; */
 }
 
 /* .container-white {

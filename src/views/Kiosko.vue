@@ -69,7 +69,7 @@ export default {
     color: #444;
     display: flex;
     flex-direction: column;
-    height: 85vh;
+    height: 80vh;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -118,4 +118,7 @@ span {
     font-size: 18px;
     margin-right: 10px;
 }
+/* .container-white{
+    height: calc(95vh - 100px);
+} */
 </style>
