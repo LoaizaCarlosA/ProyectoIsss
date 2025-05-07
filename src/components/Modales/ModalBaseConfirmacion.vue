@@ -89,7 +89,7 @@ export default {
   display: flex;
   padding-bottom: 10px;
   padding-top: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
