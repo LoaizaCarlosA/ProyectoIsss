@@ -1,73 +1,80 @@
 <template>
-    <LoadScreen v-if="mostrarLoader"></LoadScreen>
-    <ModalExito v-show="mostrarExito" :mostrarExito="mostrarExito"></ModalExito>
+    <ModalExito v-show="mostrarExito" :mostrarExito="mostrarExito" />
     <ModalConfirmacion v-if="mostrarModalConfirmacion" @confirmar="eliminarUsuario" @cancelar="cancelarEliminacion"
-        :nombreUsuario="nombreAdmin">
-    </ModalConfirmacion>
+        :nombreUsuario="nombreAdmin" />
     <LayoutPrincipal>
         <ContainerWhite>
-            <section class="filtrosEmpleados">
-                <div class="tituloModulo">Módulo Administrador</div>
-                <div>
-                    <input class="inputBuscador" type="text" v-model="searchText" placeholder="Inserte nombre o ID" />
-                    <Button class="btn-agregar" @click="mostrarAddService">Agregar</Button>
-                </div>
-            </section>
-            <section style="box-shadow: 0px 3px 6px #00000029;">
-                <section class="tablaPrincipal">
-                    <table class="default">
-                        <thead>
-                            <tr class="cabecera">
-                                <th>No. Empleado</th>
-                                <th>Nombre</th>
-                                <th>Apellido Paterno</th>
-                                <th>Apellido Materno</th>
-                                <th>Rol</th>
-                                <th>Correo</th>
-                                <th>Contraseña</th>
-                                <th>Acciones</th>
-
-                            </tr>
-                        </thead>
-                        <tbody class="tbody">
-                            <tr v-if="filteredList.length === 0">
-                                <td colspan="8" class="mensajeNoResultados">No se encontraron resultados</td>
-                            </tr>
-                            <tr v-else v-for="usuario in filteredList" :key="usuario.id">
-                                <td>{{ usuario.numero_empleado.toString().padStart(4, '0') }}</td>
-                                <td>{{ usuario.nombre }}</td>
-                                <td>{{ usuario.apellido_paterno === 'No Apellido Paterno' ? '-' :
-                                    usuario.apellido_paterno }}</td>
-                                <td>{{ usuario.apellido_materno === 'No Apellido Materno' ? '-' :
-                                    usuario.apellido_materno }}</td>
-                                <td>{{ formatearRol(usuario.rol) }}</td>
-                                <td @click="toggleCorreo(usuario)" style="cursor: pointer;">
-                                    {{ usuario.mostrarCorreo ? usuario.correo : '● ● ● @ ● ●' }}
-                                </td>
-                                <td>{{ "● ● ● ●" }}</td>
-                                <td>
-                                    <div class="botonesTabla">
-                                        <Button class="btn-editar" @click="mostrarEditar(usuario.id)"
-                                            title="Editar usuario">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </Button>
-                                        <Button class="btn-eliminar" @click="eliminarAdmin(usuario.numero_empleado)"
-                                            title="Eliminar usuario">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </Button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div style="height: 100%;">
+                <section class="filtrosEmpleados">
+                    <div class="tituloModulo">Módulo Administrador</div>
+                    <div>
+                        <input class="inputBuscador" type="text" v-model="searchText"
+                            placeholder="Inserte nombre o ID" />
+                        <Button class="btn-agregar" @click="mostrarAddService">Agregar</Button>
+                    </div>
                 </section>
-            </section>
-        </ContainerWhite>
-        <AgregarAdministrador v-if="mostrarModal" @cancelar="mostrarModal = false"></AgregarAdministrador>
-        <EditarAdministrador v-if="mostrarModalEditar" :admin="adminSeleccionado"
-            @cancelar="mostrarModalEditar = false"></EditarAdministrador>
-        <Paginacion class="paginacion-fija"></Paginacion>
 
+                <section class="tabla-con-loader">
+                    <LoadScreenModal v-if="mostrarLoader" class="overlay-loader-tabla" />
+                    <section class="tablaPrincipal" v-show="!mostrarLoader">
+                        <table class="default">
+                            <thead>
+                                <tr class="cabecera">
+                                    <th>No. Empleado</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
+                                    <th>Rol</th>
+                                    <th>Correo</th>
+                                    <th>Contraseña</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbody">
+                                <tr v-if="mostrarLoader">
+                                    <td colspan="8" style="text-align: center;">
+                                        <LoadScreenModal />
+                                    </td>
+                                </tr>
+                                <tr v-else-if="filteredList.length === 0">
+                                    <td colspan="8" class="mensajeNoResultados">No se encontraron resultados</td>
+                                </tr>
+                                <tr v-else v-for="usuario in filteredList" :key="usuario.id">
+                                    <td>{{ usuario.numero_empleado.toString().padStart(4, '0') }}</td>
+                                    <td>{{ usuario.nombre }}</td>
+                                    <td>{{ usuario.apellido_paterno === 'No Apellido Paterno' ? '-' :
+                                        usuario.apellido_paterno }}</td>
+                                    <td>{{ usuario.apellido_materno === 'No Apellido Materno' ? '-' :
+                                        usuario.apellido_materno }}</td>
+                                    <td>{{ formatearRol(usuario.rol) }}</td>
+                                    <td @click="toggleCorreo(usuario)" style="cursor: pointer;">
+                                        {{ usuario.mostrarCorreo ? usuario.correo : '● ● ● @ ● ●' }}
+                                    </td>
+                                    <td>{{ '● ● ● ●' }}</td>
+                                    <td>
+                                        <div class="botonesTabla">
+                                            <Button class="btn-editar" @click="mostrarEditar(usuario.id)"
+                                                title="Editar usuario">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </Button>
+                                            <Button class="btn-eliminar" @click="eliminarAdmin(usuario.numero_empleado)"
+                                                title="Eliminar usuario">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </Button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </section>
+            </div>
+        </ContainerWhite>
+
+        <AgregarAdministrador v-if="mostrarModal" @cancelar="mostrarModal = false" />
+        <EditarAdministrador v-if="mostrarModalEditar" :admin="adminSeleccionado"
+            @cancelar="mostrarModalEditar = false" />
+        <Paginacion class="paginacion-fija" />
     </LayoutPrincipal>
 </template>
 
@@ -81,7 +88,7 @@ import axios from 'axios';
 import EditarAdministrador from "../components/Administrador/EditarAdministrador.vue";
 import ModalExito from '../components/Modales/ModalExito.vue';
 import ModalConfirmacion from '../components/Modales/ModalConfirmacion.vue';
-import LoadScreen from "@/components/Forms/LoadScreen.vue";
+import LoadScreenModal from "../components/Forms/LoadScreenModal.vue";
 
 export default {
     components: {
@@ -93,7 +100,7 @@ export default {
         EditarAdministrador,
         ModalExito,
         ModalConfirmacion,
-        LoadScreen,
+        LoadScreenModal,
     },
     data() {
         return {
@@ -122,7 +129,11 @@ export default {
     },
     methods: {
         async obtenerAdministradores() {
+            this.mostrarLoader = true; // Mostrar el loader al inicio
+
             try {
+                const start = Date.now(); // Marca el tiempo de inicio
+
                 const response = await axios.get("http://192.168.21.18:5000/administradores");
                 const data = response.data.map(usuario => ({
                     ...usuario,
@@ -131,8 +142,16 @@ export default {
 
                 this.usuarios_admin = data;
                 sessionStorage.setItem("administradores", JSON.stringify(data));
+
+                const elapsed = Date.now() - start;
+                const delay = Math.max(1300 - elapsed, 0); // Calcula cuánto falta para llegar a 2s
+
+                setTimeout(() => {
+                    this.mostrarLoader = false; // Oculta el loader después del tiempo necesario
+                }, delay);
             } catch (error) {
                 console.error("Error al obtener administradores", error);
+                this.mostrarLoader = false;
             }
         },
         mostrarAddService() {
@@ -247,6 +266,8 @@ export default {
 .tituloModulo {
     font-size: 25px;
     color: #691c32;
+    font-weight: bolder;
+    font-style: italic;
 }
 
 .inputBuscador {
@@ -338,6 +359,25 @@ export default {
 
 .container-white {
     height: calc(90vh - 100px);
+}
+
+.tabla-con-loader {
+    position: relative;
+    min-height: 200px;
+    /* asegúrate de tener altura para que se note el overlay */
+}
+
+.overlay-loader-tabla {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
 }
 
 @media (max-width: 810px) {
