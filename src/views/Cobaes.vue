@@ -66,7 +66,6 @@
             </table>
           </section>
         </section>
-        <Paginacion :total="totalPaginas" :paginaActualEntrada="paginaActual" @changePagina="cambiarPagina" />
 
 
       </ContainerWhite>
@@ -74,6 +73,8 @@
       <TablaAgregarEmpleadosCobaes v-show="mostrarModalTabla" @cancelar="mostrarModalTabla = false"
         :empleado="empleado">
       </TablaAgregarEmpleadosCobaes>
+      <Paginacion :total="totalPaginas" :paginaActualEntrada="paginaActual" @changePagina="cambiarPagina" />
+
     </LayoutPrincipal>
 
   </div>
@@ -235,6 +236,10 @@ export default {
   align-items: center;
 }
 
+.container-white {
+  height: calc(90vh - 100px);
+}
+
 .tituloModulo {
   font-size: 25px;
   color: #691c32;
@@ -264,7 +269,7 @@ export default {
 
 .default {
   border-collapse: collapse;
-/*   border-radius: 10px; */
+  /*   border-radius: 10px; */
   width: 100%;
   box-shadow: 0px 3px 6px #00000029;
 
