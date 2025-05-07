@@ -16,18 +16,18 @@
           <i class="fa fa-c" aria-hidden="true"></i>
           <span v-if="collapsedMenu">COBAES</span>
         </router-link>
-        <router-link v-if="isAllowed('/PruebaG')" to="/PruebaG" class="menu-item" active-class="active">
+<!--         <router-link v-if="isAllowed('/PruebaG')" to="/PruebaG" class="menu-item" active-class="active">
           <i class="fa-solid fa-ghost" aria-hidden="true"></i>
           <span v-if="collapsedMenu">PruebaG</span>
-        </router-link>
+        </router-link> -->
         <router-link v-if="isAllowed('/Kiosko')" to="/Kiosko" class="menu-item" active-class="active">
           <i class="fa-solid fa-circle-user" aria-hidden="true"></i>
           <span v-if="collapsedMenu">Kiosko</span>
         </router-link>
-        <router-link v-if="isAllowed('/Prueba')" to="/Prueba" class="menu-item" active-class="active">
+<!--         <router-link v-if="isAllowed('/Prueba')" to="/Prueba" class="menu-item" active-class="active">
           <i class="fa-solid fa-circle-user" aria-hidden="true"></i>
           <span v-if="collapsedMenu">Prueba</span>
-        </router-link>
+        </router-link> -->
       </div>
       <a class="cerrar-sesion" @click="cerrarSesion" active-class="active">
         <i class="fa-solid fa-right-from-bracket" aria-hidden="true" style="transform: scaleX(-1);"></i>

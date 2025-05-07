@@ -124,7 +124,7 @@ export default {
                         this.showAddProducto = false;
                         this.$emit("cancelar"); // Cierra el modal
                         this.$router.push({ name: 'KioskoInicio' });
-                    }, 2300);
+                    }, 1300);
                 });
             } else {
                 console.warn("⚠️ NIP incompleto, no se puede confirmar");
