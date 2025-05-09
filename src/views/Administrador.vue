@@ -13,8 +13,9 @@
                         <Button class="btn-agregar" @click="mostrarAddService">Agregar</Button>
                     </div>
                 </section>
+
                 <section class="tabla-con-loader">
-                    <section class="tablaPrincipal">
+                    <div class="tabla-scrollable">
                         <table class="default">
                             <thead>
                                 <tr class="cabecera">
@@ -40,10 +41,8 @@
                                 <tr v-else v-for="usuario in filteredList" :key="usuario.id">
                                     <td>{{ usuario.numero_empleado.toString().padStart(4, '0') }}</td>
                                     <td>{{ usuario.nombre }}</td>
-                                    <td>{{ usuario.apellido_paterno === 'No Apellido Paterno' ? '-' :
-                                        usuario.apellido_paterno }}</td>
-                                    <td>{{ usuario.apellido_materno === 'No Apellido Materno' ? '-' :
-                                        usuario.apellido_materno }}</td>
+                                    <td>{{ usuario.apellido_paterno === 'No Apellido Paterno' ? '-' : usuario.apellido_paterno }}</td>
+                                    <td>{{ usuario.apellido_materno === 'No Apellido Materno' ? '-' : usuario.apellido_materno }}</td>
                                     <td>{{ formatearRol(usuario.rol) }}</td>
                                     <td @click="toggleCorreo(usuario)" style="cursor: pointer;">
                                         {{ usuario.mostrarCorreo ? usuario.correo : '● ● ● @ ● ●' }}
@@ -51,12 +50,10 @@
                                     <td>{{ '● ● ● ●' }}</td>
                                     <td>
                                         <div class="botonesTabla">
-                                            <Button class="btn-editar" @click="mostrarEditar(usuario.id)"
-                                                title="Editar usuario">
+                                            <Button class="btn-editar" @click="mostrarEditar(usuario.id)" title="Editar usuario">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </Button>
-                                            <Button class="btn-eliminar" @click="eliminarAdmin(usuario.numero_empleado)"
-                                                title="Eliminar usuario">
+                                            <Button class="btn-eliminar" @click="eliminarAdmin(usuario.numero_empleado)" title="Eliminar usuario">
                                                 <i class="fa-solid fa-trash"></i>
                                             </Button>
                                         </div>
@@ -64,14 +61,13 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </section>
+                    </div>
                 </section>
             </div>
         </ContainerWhite>
 
         <AgregarAdministrador v-if="mostrarModal" @cancelar="mostrarModal = false" />
-        <EditarAdministrador v-if="mostrarModalEditar" :admin="adminSeleccionado"
-            @cancelar="mostrarModalEditar = false" />
+        <EditarAdministrador v-if="mostrarModalEditar" :admin="adminSeleccionado" @cancelar="mostrarModalEditar = false" />
         <Paginacion class="paginacion-fija" />
     </LayoutPrincipal>
 </template>
@@ -345,6 +341,34 @@ export default {
 .fila-loader {
     position: relative;
     height: 58vh;
+}
+
+.tabla-scrollable {
+    max-height: 60vh;
+    overflow-y: auto;
+    border-radius: 5px;
+    background: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #000; /* O el color de fondo del encabezado */
+    color: white;
+    z-index: 10;
+}
+
+/* Opcional: para mantener el thead fijo si quieres */
+.tabla-scrollable table thead {
+    position: sticky;
+    top: 0;
+    background-color: black;
+    z-index: 1;
 }
 
 @media (max-width: 810px) {
