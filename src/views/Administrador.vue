@@ -13,10 +13,8 @@
                         <Button class="btn-agregar" @click="mostrarAddService">Agregar</Button>
                     </div>
                 </section>
-
                 <section class="tabla-con-loader">
-                    <LoadScreenModal v-if="mostrarLoader" class="overlay-loader-tabla" />
-                    <section class="tablaPrincipal" v-show="!mostrarLoader">
+                    <section class="tablaPrincipal">
                         <table class="default">
                             <thead>
                                 <tr class="cabecera">
@@ -31,9 +29,9 @@
                                 </tr>
                             </thead>
                             <tbody class="tbody">
-                                <tr v-if="mostrarLoader">
-                                    <td colspan="8" style="text-align: center;">
-                                        <LoadScreenModal />
+                                <tr v-if="mostrarLoader" class="fila-loader">
+                                    <td colspan="8" class="loader-wrapper">
+                                        <LoadScreenModal class="loader-solo" />
                                     </td>
                                 </tr>
                                 <tr v-else-if="filteredList.length === 0">
@@ -124,30 +122,25 @@ export default {
                     usuario.nombre.toLowerCase().includes(searchTerm) ||
                     usuario.id.toString().includes(searchTerm)
                 )
-                .sort((a, b) => a.numero_empleado - b.numero_empleado); // Aquí ordenas de menor a mayor
+                .sort((a, b) => a.numero_empleado - b.numero_empleado);
         }
     },
     methods: {
         async obtenerAdministradores() {
-            this.mostrarLoader = true; // Mostrar el loader al inicio
-
+            this.mostrarLoader = true;
             try {
-                const start = Date.now(); // Marca el tiempo de inicio
-
+                const start = Date.now();
                 const response = await axios.get("http://192.168.21.18:5000/administradores");
                 const data = response.data.map(usuario => ({
                     ...usuario,
                     mostrarCorreo: false,
                 }));
-
                 this.usuarios_admin = data;
                 sessionStorage.setItem("administradores", JSON.stringify(data));
-
                 const elapsed = Date.now() - start;
-                const delay = Math.max(1300 - elapsed, 0); // Calcula cuánto falta para llegar a 2s
-
+                const delay = Math.max(1300 - elapsed, 0);
                 setTimeout(() => {
-                    this.mostrarLoader = false; // Oculta el loader después del tiempo necesario
+                    this.mostrarLoader = false;
                 }, delay);
             } catch (error) {
                 console.error("Error al obtener administradores", error);
@@ -198,14 +191,11 @@ export default {
             this.mostrarModalConfirmacion = true;
             this.numeroEmpleado = NumeroEmpleado;
 
-            // Verificar si los apellidos son "No Apellido Paterno" o "No Apellido Materno"
             const apellidoPaterno = this.adminSeleccionado.apellido_paterno !== 'No Apellido Paterno' ? this.adminSeleccionado.apellido_paterno : '';
             const apellidoMaterno = this.adminSeleccionado.apellido_materno !== 'No Apellido Materno' ? this.adminSeleccionado.apellido_materno : '';
 
-            // Concatenar solo el nombre y los apellidos válidos
             const nombreCompleto = `${this.adminSeleccionado.nombre} ${apellidoPaterno} ${apellidoMaterno}`.trim();
 
-            // Asignamos directamente a la propiedad nombreAdmin
             this.nombreAdmin = nombreCompleto;
             console.log("Nombre del administrador seleccionado: ", nombreCompleto);
         },
@@ -223,17 +213,15 @@ export default {
                     if (response.status === 200) {
                         this.usuarios_admin = this.usuarios_admin.filter((usuario) => usuario.numero_empleado !== this.numeroEmpleado);
 
-                        this.mostrarLoader = false; // Apagar el loader antes de mostrar el éxito
+                        this.mostrarLoader = false;
                         this.mostrarExito = true;
 
-                        // Ocultar el mensaje de éxito luego de 1.5 segundos
                         setTimeout(() => {
                             this.mostrarExito = false;
                         }, 1500);
                     } else {
                         this.mostrarLoader = false;
                     }
-
                 }, 1500);
 
             } catch (error) {
@@ -280,29 +268,19 @@ export default {
     border-radius: 10px;
     margin-right: 20px;
     position: relative;
-    /* Asegura que el shadow se vea correctamente */
     z-index: 10;
-    /* Coloca el input por encima de otros elementos si es necesario */
 }
 
 .tablaPrincipal {
     width: 100%;
     overflow-x: auto;
     overflow-x: hidden;
-    /*   display: flex;
-  justify-content: center;
-  align-items: center; */
 }
 
 .default {
     border-collapse: collapse;
-    /*     border-radius: 10px; */
     width: 100%;
     box-shadow: 0px 3px 6px #00000029;
-    /*     table-layout: fixed; */
-    /* Muy importante: fuerza a las columnas a respetar el ancho */
-
-
 }
 
 .cabecera {
@@ -344,7 +322,6 @@ export default {
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 120px);
-    /* Ajusta según el alto de tus menús */
 }
 
 .contenido-flex {
@@ -363,21 +340,11 @@ export default {
 
 .tabla-con-loader {
     position: relative;
-    min-height: 200px;
-    /* asegúrate de tener altura para que se note el overlay */
 }
 
-.overlay-loader-tabla {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
+.fila-loader {
+    position: relative;
+    height: 58vh;
 }
 
 @media (max-width: 810px) {
@@ -387,18 +354,8 @@ export default {
         width: 100%;
         box-shadow: 0px 3px 6px #00000029;
         table-layout: auto;
-        /* o 'fixed' si quieres uniformidad */
         max-width: 100%;
-        /*         word-wrap: break-word; */
-        /*         word-break: break-word; */
     }
-
-    /*   .default td,
-  .default th {
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  } */
 
     .default td {
         padding: 10px 5px;
@@ -425,15 +382,9 @@ export default {
         width: 150px;
         margin-right: 10px;
         box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
-        /* Sombra más visible */
         z-index: 10;
-        /* Asegura que el shadow esté visible */
         border: 0.5px solid #000000;
         border-radius: 18px;
-
-        /*     border: 1px solid #000000;
-    box-shadow: 0px 3px 6px #00000029;
-    border-radius: 10px; */
     }
 
     .btn-agregar-cobaes {
@@ -482,39 +433,4 @@ export default {
         align-items: center;
     }
 }
-
-/* @media (max-width: 768px) {
-    .menu-item span {
-        font-size: 13px;
-    }
-
-    .container-menu.active {
-        width: 135px;
-    }
-
-    .filtrosEmpleados {
-        padding: 20px;
-    }
-
-    .inputBuscador {
-        width: 180px;
-    }
-
-    .tablaPrincipal {
-        justify-content: normal;
-    }
-
-    .tituloModulo {
-        font-size: 20px;
-    }
-
-    .inputBuscador {
-        width: 145px;
-        margin-right: 12px;
-    }
-
-    .btn-agregar {
-        width: 90px;
-    }
-} */
 </style>
